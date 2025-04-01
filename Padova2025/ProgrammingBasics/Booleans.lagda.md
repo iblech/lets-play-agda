@@ -1,3 +1,5 @@
+# Booleans
+
 ```
 module Padova2025.ProgrammingBasics.Booleans where
 ```
@@ -11,12 +13,18 @@ data Bool : Set where
 ```
 
 
-# Exercise: Negation
+## Exercise: Negation
 
 Implement the negation function. It should map `false` to `true` and vice
 versa:
 
-```
+```agda/hide
 not : Bool → Bool
-not = {--}?{--}
+not false = true
+not true  = false
+```
+
+```
+foo : Bool
+foo = {--}false{--}
 ```
