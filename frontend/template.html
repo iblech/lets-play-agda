@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <title>Let's play Agda</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="initial-scale=1">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐔</text></svg>">
+
+  <link rel="stylesheet" href="Agda.css">
+  <style>
+    body {
+      font-family: "Inria Sans", "Trebuchet MS", sans-serif;
+      font-size: 1.3rem;
+      margin-top: 0;
+      display: grid;
+      grid-template-areas: "main" "nav";
+    }
+
+    nav { grid-area: "nav"; }
+    main { grid-area: "main"; }
+
+    @media (min-width: 768px) { 
+      body {
+        grid-template-columns: 20em 1fr;
+        grid-template-areas: "nav main";
+      }
+    }
+
+    iframe { width: 100%; height: 15em; border: 0; }
+
+    pre, code {
+      font-family: "Julia Mono";
+    }
+    .Background { font-family: "Inria Sans", "Trebuchet MS", sans-serif; }
+    .Markup     { display: none; }
+
+    a:not([.banner]) { text-decoration: none; background-image: linear-gradient(#eeebee 0%, #eeebee 100%); background-repeat: repeat-x; background-position: 0 100%; background-size: 1px 1px; }
+    a:not([.banner]):hover { background-image: linear-gradient(rgba(114, 83, 237, 0.45) 0%, rgba(114, 83, 237, 0.45) 100%); background-size: 1px 1px; }
+
+    * { line-height: 1.5em; box-sizing: border-box; }
+
+    h1 { line-height: 1.2em; }
+    h2 { padding: 0.2em; }
+
+    main { padding: 0.5em; }
+
+    footer, footer a { color: gray; }
+
+    nav li { list-style-type: none; }
+
+    nav { position: sticky; overflow-y: auto; top: 0; align-self: start; }
+
+    .wide li span { color: gray; }
+
+    /*
+    .status-0 { color: red; }
+    .status-1 { color: yellow; }
+    .status-2 { color: green; }
+    */
+
+    .status-0 { list-style-type: "❌ "; }
+    .status-1 { list-style-type: "⏳ "; }
+    .status-2 { list-style-type: "✅ "; }
+
+    .logo { text-align: center; font-weight: bold; }
+    .logo span { font-size: 400%; }
+
+    @font-face {
+      font-display: swap;
+      font-family: "Julia Mono";
+      font-style: normal;
+      font-weight: 400;
+      src: url("./JuliaMono-Regular.woff2") format("woff2");
+    }
+  </style>
+</head><body>
+
+<nav>
+  <div class="logo"><span>🐔</span><br>Let's play Agda</div>
+
+  <ol>
+    <li class="status-0">
+      <strong>Agda as a programming language</strong>
+      <ol>
+        <li class="status-1">Booleans</li>
+        <li class="status-2">Natural numbers</li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+
+<main>
+<pre class="Agda"><a id="5" class="Keyword">module</a> <a id="12" href="Padova2025.ProgrammingBasics.Booleans.html" class="Module">Padova2025.ProgrammingBasics.Booleans</a> <a id="50" class="Keyword">where</a>
+</pre>
+<p>The type <code>Bool</code> contains precisely two values,
+<code>false</code> and <code>true</code>:</p>
+<pre class="Agda"><a id="133" class="Keyword">data</a> <a id="Bool"></a><a id="138" href="Padova2025.ProgrammingBasics.Booleans.html#138" class="Datatype">Bool</a> <a id="143" class="Symbol">:</a> <a id="145" href="Agda.Primitive.html#388" class="Primitive">Set</a> <a id="149" class="Keyword">where</a>
+  <a id="Bool.false"></a><a id="157" href="Padova2025.ProgrammingBasics.Booleans.html#157" class="InductiveConstructor">false</a> <a id="163" class="Symbol">:</a> <a id="165" href="Padova2025.ProgrammingBasics.Booleans.html#138" class="Datatype">Bool</a>
+  <a id="Bool.true"></a><a id="172" href="Padova2025.ProgrammingBasics.Booleans.html#172" class="InductiveConstructor">true</a>  <a id="178" class="Symbol">:</a> <a id="180" href="Padova2025.ProgrammingBasics.Booleans.html#138" class="Datatype">Bool</a>
+</pre>
+<iframe src="/__ttyd/" onload="
+  (function (iframe) {
+    let sheet = iframe.contentWindow.document.styleSheets[0];
+    sheet.insertRule('.xterm-viewport { overflow-y: hidden !important; }', sheet.cssRules.length);
+    new FontFace('Julia Mono', 'url(JuliaMono-Regular.woff2)').load().then(function (f) {
+      iframe.contentDocument.fonts.add(f);
+    });
+    iframe.contentWindow.document.addEventListener('keydown', function (e) {
+      if(e.altKey && e.keyCode == 13) {
+        if(document.fullscreenElement) {
+          document.exitFullscreen();
+        } else {
+          iframe.requestFullscreen();
+        }
+      }
+    }, true);
+  })(this);
+"></iframe>
+<h1 id="exercise-negation">Exercise: Negation</h1>
+<p>Implement the negation function. It should map <code>false</code> to
+<code>true</code> and vice versa:</p>
+<pre class="Agda"><a id="not"></a><a id="299" href="Padova2025.ProgrammingBasics.Booleans.html#299" class="Function">not</a> <a id="303" class="Symbol">:</a> <a id="305" href="Padova2025.ProgrammingBasics.Booleans.html#138" class="Datatype">Bool</a> <a id="310" class="Symbol">→</a> <a id="312" href="Padova2025.ProgrammingBasics.Booleans.html#138" class="Datatype">Bool</a>
+<a id="317" href="Padova2025.ProgrammingBasics.Booleans.html#299" class="Function">not</a> <a id="321" class="Symbol">=</a> <a id="323" class="Hole">?</a>
+</pre>
+<pre class="Agda"><a id="5" class="Keyword">module</a> <a id="12" href="Padova2025.ProgrammingBasics.Booleans.html" class="Module">Padova2025.ProgrammingBasics.Booleans</a> <a id="50" class="Keyword">where</a>
+</pre>
+<p>The type <code>Bool</code> contains precisely two values,
+<code>false</code> and <code>true</code>:</p>
+<pre class="Agda"><a id="133" class="Keyword">data</a> <a id="Bool"></a><a id="138" href="Padova2025.ProgrammingBasics.Booleans.html#138" class="Datatype">Bool</a> <a id="143" class="Symbol">:</a> <a id="145" href="Agda.Primitive.html#388" class="Primitive">Set</a> <a id="149" class="Keyword">where</a>
+  <a id="Bool.false"></a><a id="157" href="Padova2025.ProgrammingBasics.Booleans.html#157" class="InductiveConstructor">false</a> <a id="163" class="Symbol">:</a> <a id="165" href="Padova2025.ProgrammingBasics.Booleans.html#138" class="Datatype">Bool</a>
+  <a id="Bool.true"></a><a id="172" href="Padova2025.ProgrammingBasics.Booleans.html#172" class="InductiveConstructor">true</a>  <a id="178" class="Symbol">:</a> <a id="180" href="Padova2025.ProgrammingBasics.Booleans.html#138" class="Datatype">Bool</a>
+</pre>
+<h1 id="exercise-negation">Exercise: Negation</h1>
+<p>Implement the negation function. It should map <code>false</code> to
+<code>true</code> and vice versa:</p>
+<pre class="Agda"><a id="not"></a><a id="299" href="Padova2025.ProgrammingBasics.Booleans.html#299" class="Function">not</a> <a id="303" class="Symbol">:</a> <a id="305" href="Padova2025.ProgrammingBasics.Booleans.html#138" class="Datatype">Bool</a> <a id="310" class="Symbol">→</a> <a id="312" href="Padova2025.ProgrammingBasics.Booleans.html#138" class="Datatype">Bool</a>
+<a id="317" href="Padova2025.ProgrammingBasics.Booleans.html#299" class="Function">not</a> <a id="321" class="Symbol">=</a> <a id="323" class="Hole">?</a>
+</pre>
+<pre class="Agda"><a id="5" class="Keyword">module</a> <a id="12" href="Padova2025.ProgrammingBasics.Booleans.html" class="Module">Padova2025.ProgrammingBasics.Booleans</a> <a id="50" class="Keyword">where</a>
+</pre>
+<p>The type <code>Bool</code> contains precisely two values,
+<code>false</code> and <code>true</code>:</p>
+<pre class="Agda"><a id="133" class="Keyword">data</a> <a id="Bool"></a><a id="138" href="Padova2025.ProgrammingBasics.Booleans.html#138" class="Datatype">Bool</a> <a id="143" class="Symbol">:</a> <a id="145" href="Agda.Primitive.html#388" class="Primitive">Set</a> <a id="149" class="Keyword">where</a>
+  <a id="Bool.false"></a><a id="157" href="Padova2025.ProgrammingBasics.Booleans.html#157" class="InductiveConstructor">false</a> <a id="163" class="Symbol">:</a> <a id="165" href="Padova2025.ProgrammingBasics.Booleans.html#138" class="Datatype">Bool</a>
+  <a id="Bool.true"></a><a id="172" href="Padova2025.ProgrammingBasics.Booleans.html#172" class="InductiveConstructor">true</a>  <a id="178" class="Symbol">:</a> <a id="180" href="Padova2025.ProgrammingBasics.Booleans.html#138" class="Datatype">Bool</a>
+</pre>
+<h1 id="exercise-negation">Exercise: Negation</h1>
+<p>Implement the negation function. It should map <code>false</code> to
+<code>true</code> and vice versa:</p>
+<pre class="Agda"><a id="not"></a><a id="299" href="Padova2025.ProgrammingBasics.Booleans.html#299" class="Function">not</a> <a id="303" class="Symbol">:</a> <a id="305" href="Padova2025.ProgrammingBasics.Booleans.html#138" class="Datatype">Bool</a> <a id="310" class="Symbol">→</a> <a id="312" href="Padova2025.ProgrammingBasics.Booleans.html#138" class="Datatype">Bool</a>
+<a id="317" href="Padova2025.ProgrammingBasics.Booleans.html#299" class="Function">not</a> <a id="321" class="Symbol">=</a> <a id="323" class="Hole">?</a>
+</pre>
+</main>
+
+</body>
+</html>

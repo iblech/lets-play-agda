@@ -1,0 +1,26 @@
+# Minimal
+
+Frontend:
+- agda --allow-unsolved-metas --html --html-highlight=code Padova2025/Index.lagda.md
+- pandoc
+- strip {--}.*?{--}
+- inline Agda.css
+- clicking opens emacs with preconfigured fold
+
+Backend:
+- patch bubblewrap for SIGWINCH
+- provide container with emacs, files, fold
+- detect success
+
+
+# Advanced
+
+Frontend:
+- provide option to submit solution
+- view submitted solutions (and reference solution)
+- store successes in local storage
+- track streak
+
+Backend:
+- accept solution submissions
+- detect success
