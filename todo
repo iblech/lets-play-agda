@@ -3,20 +3,9 @@
 Frontend:
 - add toc
 - inline Agda.css
-- clicking opens emacs with preconfigured fold:
-  (defun narrow-to-line-range (start-line end-line)
-    "Narrow buffer to lines START-LINE to END-LINE."
-    (save-excursion
-      (goto-line start-line)
-      (beginning-of-line)
-      (let ((start (point)))
-        (goto-line end-line)
-        (end-of-line)
-        (narrow-to-region start (point)))))
 
 Backend:
 - patch bubblewrap for SIGWINCH
-- provide container with emacs, files, fold
 - detect success
 
 

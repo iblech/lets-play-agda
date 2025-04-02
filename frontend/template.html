@@ -25,7 +25,7 @@
       }
     }
 
-    iframe { width: 100%; height: 15em; border: 0; }
+    iframe { width: 100%; height: 30em; border: 0; background-color: orange; display: none; }
 
     pre, code {
       font-family: "JuliaMono", monospace;
@@ -33,8 +33,8 @@
     .Background { font-family: "Inria Sans", "Trebuchet MS", sans-serif; }
     .Markup     { display: none; }
 
-    a:not([.banner]) { text-decoration: none; background-image: linear-gradient(#eeebee 0%, #eeebee 100%); background-repeat: repeat-x; background-position: 0 100%; background-size: 1px 1px; }
-    a:not([.banner]):hover { background-image: linear-gradient(rgba(114, 83, 237, 0.45) 0%, rgba(114, 83, 237, 0.45) 100%); background-size: 1px 1px; }
+    a { text-decoration: none; background-image: linear-gradient(#eeebee 0%, #eeebee 100%); background-repeat: repeat-x; background-position: 0 100%; background-size: 1px 1px; }
+    a:hover { background-image: linear-gradient(rgba(114, 83, 237, 0.45) 0%, rgba(114, 83, 237, 0.45) 100%); background-size: 1px 1px; }
 
     * { line-height: 1.5em; box-sizing: border-box; }
 
@@ -42,7 +42,25 @@
 
     main { padding: 0.5em; }
 
+    .exercise:hover {
+      outline: 2px solid orange;
+      outline-offset: 4px;
+    }
+
     footer, footer a { color: gray; }
+
+    .exercise button { height: 100%; margin-left: 1em; }
+
+    .exercise .edit { font-family: "Inria Sans"; color: white;
+    font-weight: bold; cursor: pointer; margin-left: 1em; background-color:
+    orange; padding: 4px; border: 1px solid transparent; border-radius:
+    0.25rem; background-image: none; }
+
+    .exercise .edit:hover { background-color: darkorange; }
+
+    .spinning {
+      filter: blur(0.1rem);
+    }
 
     nav li { list-style-type: none; }
 
@@ -90,25 +108,55 @@
 <main>
 __BODY__
 
-<iframe src="/__ttyd/" onload="
-  (function (iframe) {
-    let sheet = iframe.contentWindow.document.styleSheets[0];
-    sheet.insertRule('.xterm-viewport { overflow-y: hidden !important; }', sheet.cssRules.length);
-    new FontFace('Julia Mono', 'url(JuliaMono-Regular.woff2)').load().then(function (f) {
-      iframe.contentDocument.fonts.add(f);
-    });
-    iframe.contentWindow.document.addEventListener('keydown', function (e) {
-      if(e.altKey && e.keyCode == 13) {
-        if(document.fullscreenElement) {
-          document.exitFullscreen();
-        } else {
-          iframe.requestFullscreen();
+<script>
+  function createIframe(block, id) {
+    const iframe = document.createElement("iframe");
+    iframe.onload = function () {
+      let sheet = iframe.contentWindow.document.styleSheets[0];
+      sheet.insertRule('.xterm-viewport { overflow-y: hidden !important; }', sheet.cssRules.length);
+      new FontFace('JuliaMono', 'url(JuliaMono-Regular.woff2)').load().then(function (f) {
+        iframe.contentDocument.fonts.add(f);
+      });
+      iframe.contentWindow.document.addEventListener('keydown', function (e) {
+        if(e.altKey && e.keyCode == 13) {
+          if(document.fullscreenElement) {
+            document.exitFullscreen();
+          } else {
+            iframe.requestFullscreen();
+          }
         }
-      }
-    }, true);
-  })(this);
-"></iframe>
-</main>
+      }, true);
+      window.setTimeout(function () {
+        iframe.style.display = "block";
+        block.remove();
+        iframe.focus();
+      }, 4000);
+    };
+    iframe.src = "/__ttyd/?arg=" + (new URL(location.href).pathname.split(".html")[0].split("/").pop()) + "&arg=" + id;
+    return iframe;
+  }
+
+  function attachEditor(block) {
+    block.classList.add("exercise");
+    const id = block.innerText.split(/\s+/)[0];
+    for(const holeMarker of block.getElementsByClassName("Hole")) {
+      const editButton = document.createElement("a");
+      editButton.className = "edit";
+      editButton.innerHTML = "Edit hole…";
+      editButton.onclick = function () {
+        block.classList.add("spinning");
+        block.insertAdjacentElement("afterend", createIframe(block, id));
+      };
+      holeMarker.insertAdjacentElement("afterend", editButton);
+    }
+  }
+
+  for(const block of document.getElementsByTagName("pre")) {
+    if(block.innerHTML.indexOf("{!!}") >= 0) {
+      attachEditor(block);
+    }
+  }
+</script>
 
 </body>
 </html>

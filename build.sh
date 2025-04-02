@@ -12,7 +12,7 @@ cd out
 find Padova2025 -name '*agda*' | grep -v "#" | xargs perl -i -pwe '
   BEGIN { $/ = undef }
   s/\{--\}.*?\{--\}/{!!}/gs;
-  s#```agda/hide\n([^ ]*) (.*?)\1.*?```#```\n$1 $2$1 = {!!}\n```#gs;
+  s#```agda/hole\n([^ ]*) (.*?)\1.*?```#```\n$1 $2$1 = {!!}\n```#gs;
 '
 
 agda --allow-unsolved-metas --html --html-highlight=code Padova2025/Index.lagda.md
@@ -44,3 +44,5 @@ for i in *.md; do
     s/__BODY__/slurp($ENV{bodyfile})/eg;
   ' > "${i%.md}.html"
 done
+
+cp ../frontend/*.woff2 .

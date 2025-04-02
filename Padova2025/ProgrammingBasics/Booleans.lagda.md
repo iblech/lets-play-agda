@@ -18,13 +18,16 @@ data Bool : Set where
 Implement the negation function. It should map `false` to `true` and vice
 versa:
 
-```agda/hide
+```agda/hole
 not : Bool → Bool
 not false = true
 not true  = false
 ```
 
+
+## Exercise: Identity function
+
 ```
-foo : Bool
-foo = {--}false{--}
+id : Bool → Bool
+id = {!!}
 ```
