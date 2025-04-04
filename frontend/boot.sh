@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-exec nginx -c $PWD/frontend/nginx.conf
+exec nginx -p . -c ./frontend/nginx.conf
