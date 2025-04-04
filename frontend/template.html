@@ -5,7 +5,6 @@
   <meta name="viewport" content="initial-scale=1">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐔</text></svg>">
 
-  <link rel="stylesheet" href="Agda.css">
   <style>
     body {
       font-family: "Inria Sans", "Trebuchet MS", sans-serif;
@@ -25,7 +24,7 @@
       }
     }
 
-    iframe { width: 100%; height: 30em; border: 0; background-color: orange; display: none; }
+    iframe { width: 100%; height: 30em; border: 0; display: none; }
 
     pre, code {
       font-family: "JuliaMono", monospace;
@@ -33,14 +32,19 @@
     .Background { font-family: "Inria Sans", "Trebuchet MS", sans-serif; }
     .Markup     { display: none; }
 
-    a { text-decoration: none; background-image: linear-gradient(#eeebee 0%, #eeebee 100%); background-repeat: repeat-x; background-position: 0 100%; background-size: 1px 1px; }
-    a:hover { background-image: linear-gradient(rgba(114, 83, 237, 0.45) 0%, rgba(114, 83, 237, 0.45) 100%); background-size: 1px 1px; }
+    a { text-decoration: none; }
+    footer a { background-image: linear-gradient(#eeebee
+    0%, #eeebee 100%); background-repeat: repeat-x; background-position: 0
+    100%; background-size: 1px 1px; }
+    a:hover { background-image: linear-gradient(rgba(114, 83, 237, 0.45) 0%,
+    rgba(114, 83, 237, 0.45) 100%); background-size: 1px 1px;
+    background-repeat: repeat-x; background-position: 0 100%; }
 
     * { line-height: 1.5em; box-sizing: border-box; }
 
     h1 { line-height: 1.2em; }
 
-    main { padding: 0.5em; }
+    main, footer { padding: 0.5em; }
 
     .exercise:hover {
       outline: 2px solid orange;
@@ -51,34 +55,45 @@
 
     .exercise button { height: 100%; margin-left: 1em; }
 
-    .exercise .edit { font-family: "Inria Sans"; color: white;
-    font-weight: bold; cursor: pointer; margin-left: 1em; background-color:
-    orange; padding: 4px; border: 1px solid transparent; border-radius:
-    0.25rem; background-image: none; }
+    .edit {
+      font-family: "Inria Sans";
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      margin-left: 1em;
+      padding: 4px;
+      background-color: orange;
+      border: 1px solid transparent;
+      border-radius: 0.25rem;
+    }
 
-    .exercise .edit:hover { background-color: darkorange; }
+    .edit a { color: white; }
+    .edit a:hover { background-image: none; }
+
+    .edit:hover { background-color: darkorange; }
 
     .spinning {
       filter: blur(0.1rem);
     }
 
-    nav li { list-style-type: none; }
-
     nav { position: sticky; overflow-y: auto; top: 0; align-self: start; }
 
     .wide li span { color: gray; }
 
-    /*
-    .status-0 { color: red; }
-    .status-1 { color: yellow; }
-    .status-2 { color: green; }
-    */
-
-    .status-0 { list-style-type: "❌ "; }
-    .status-1 { list-style-type: "⏳ "; }
+    .status-0 { list-style-type: "⬜ "; }
+    .status-1 { list-style-type: "☑️ "; }
     .status-2 { list-style-type: "✅ "; }
+    nav li { list-style-type: "⬜ "; }
 
-    .logo { text-align: center; font-weight: bold; }
+    nav li:has(> ol) > a { font-weight: bold; }
+
+    .list-style-type-none li { list-style-type: none; }
+
+    nav .logo { text-align: center; font-weight: bold; }
+    nav .logo a { color: black; }
+    nav .logo a:hover { background-image: none; }
+    main .logo { display: inline-block; text-align: center; padding-left: 1em;
+    padding-right: 1em; max-width: 10em; vertical-align: top; }
     .logo span { font-size: 400%; }
 
     @font-face {
@@ -92,21 +107,27 @@
 </head><body>
 
 <nav>
-  <div class="logo"><span>🐔</span><br>Let's play Agda</div>
+  <div class="logo"><a href="."><span>🐔</span><br>Let's play Agda</a></div>
 
-  <ol>
-    <li class="status-0">
-      <strong>Agda as a programming language</strong>
-      <ol>
-        <li class="status-1">Booleans</li>
-        <li class="status-2">Natural numbers</li>
-      </ol>
-    </li>
-  </ol>
+  __TOC__
 </nav>
 
 <main>
 __BODY__
+</main>
+
+<div></div>
+<footer>
+<p>Want to contribute?
+<a
+href="https://github.com/iblech/lets-play-agda/blob/main/__MODULENAME__.lagda.md">Visit
+this file on GitHub.</a><br>
+Let's play Agda was created by <a href="https://www.ingo-blechschmidt.eu/">Ingo
+Blechschmidt</a> for a 2025 course at the <a
+href="https://www.unipd.it/en/dm">University of Padova</a>.
+Contact:
+<a href="tel:+4917695110311">+49 176 95110311</a> (Signal, Telegram, SMS)</p>
+</footer>
 
 <script>
   function createIframe(block, id) {
@@ -126,11 +147,10 @@ __BODY__
           }
         }
       }, true);
-      window.setTimeout(function () {
-        iframe.style.display = "block";
-        block.remove();
-        iframe.focus();
-      }, 4000);
+      iframe.style.display = "block";
+      block.remove();
+      iframe.focus();
+      iframe.scrollIntoView();
     };
     iframe.src = "/__ttyd/?arg=" + (new URL(location.href).pathname.split(".html")[0].split("/").pop()) + "&arg=" + id;
     return iframe;
@@ -142,7 +162,7 @@ __BODY__
     for(const holeMarker of block.getElementsByClassName("Hole")) {
       const editButton = document.createElement("a");
       editButton.className = "edit";
-      editButton.innerHTML = "Edit hole…";
+      editButton.innerHTML = "🐔 Edit hole…";
       editButton.onclick = function () {
         block.classList.add("spinning");
         block.insertAdjacentElement("afterend", createIframe(block, id));
@@ -157,6 +177,8 @@ __BODY__
     }
   }
 </script>
+
+<link rel="stylesheet" href="Agda.css">
 
 </body>
 </html>

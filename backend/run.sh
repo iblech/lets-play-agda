@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+echo Spawning container...
+
 # XXX: --new-session?
 exec bwrap \
   --clearenv \
@@ -54,6 +56,10 @@ exec bwrap \
     AGDA_FIRSTLINE=$(< "$AGDA_FILENAME" sed -ne "/^$AGDA_BLOCKNAME/,/\`\`\`/ =" | head -1)
     AGDA_LASTLINE=$(< "$AGDA_FILENAME" sed -ne "/^$AGDA_BLOCKNAME/,/\`\`\`/ =" | tail -2 | head -1)
     mv "$AGDA_FILENAME" "${AGDA_MODULENAME//\./\/}".agda
-    emacs "${AGDA_MODULENAME//\./\/}".agda --eval "(narrow-to-line-range $AGDA_FIRSTLINE $AGDA_LASTLINE)"
-    bash
+    exec tmux \
+      set -g status off \; \
+      set-option -g default-terminal screen-256color \; \
+      new-session -A -s fun \
+      -- \
+      emacs "${AGDA_MODULENAME//\./\/}".agda --eval "(narrow-to-line-range $AGDA_FIRSTLINE $AGDA_LASTLINE)"
   '

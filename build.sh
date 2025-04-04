@@ -1,6 +1,22 @@
 #!/usr/bin/env bash
 
-set -ex
+set -e
+
+mkdir -p cache
+if [ ! -e cache/juliamono.woff2 ]; then
+  curl https://github.com/cormullion/juliamono/releases/download/v0.059/JuliaMono-webfonts.tar.gz | \
+    tar -xvzO webfonts/JuliaMono-Regular.woff2 > \
+    cache/juliamono.woff2
+fi
+if [ ! -e cache/inria-sans.woff2 ]; then
+  curl https://aff.quasicoherent.io/inria-sans.woff2 > \
+    cache/inria-sans.woff2
+fi
+
+sha256sum -c <<EOF
+f47be20f9140e3e7f56fe1e552704084b713434377f6f2bad74d5d6ea358278e  cache/inria-sans.woff2
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855  cache/juliamono.woff2
+EOF
 
 rm -rf out
 mkdir out
@@ -25,13 +41,15 @@ for i in *.html; do
   sed -i -e '1 s/^/<pre class="Agda">/' -e '$ s/$/<\/pre>/' "$i"
 done
 
-for i in *.md; do
-  pandoc -o "${i%.md}.body.html" "$i"
-  title="$(head -n1 "$i" | sed -e 's+^#\s*++')"
-  echo "$title"
+(cd ..; ./frontend/generate-toc.pl Padova2025.Index) > toc.html
 
-  title="$(head -n1 "$i" | sed -e 's+^#\s*++')" \
-  bodyfile="${i%.md}.body.html" \
+for i in *.md; do
+  export bodyfile="${i%.md}.body.html"
+  export title="$(head -n1 "$i" | sed -e 's+^#\s*++')"
+  export modulename="${i%.md}"
+
+  pandoc -o "$bodyfile" "$i"
+
   < ../frontend/template.html \
   perl -pwe '
     sub slurp {
@@ -42,7 +60,15 @@ for i in *.md; do
 
     s/__TITLE__/$ENV{title}/g;
     s/__BODY__/slurp($ENV{bodyfile})/eg;
+    s/__TOC__/slurp("toc.html")/eg;
+    s/__MODULENAME__/$ENV{modulename}/g;
   ' > "${i%.md}.html"
+
+  rm "$bodyfile"
 done
 
-cp ../frontend/*.woff2 .
+cp ../cache/*.woff2 .
+
+ln -s Padova2025.Welcome.html index.html
+
+rm toc.html

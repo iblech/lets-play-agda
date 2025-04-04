@@ -1,9 +1,5 @@
 # Minimal
 
-Frontend:
-- add toc
-- inline Agda.css
-
 Backend:
 - patch bubblewrap for SIGWINCH
 - detect success
