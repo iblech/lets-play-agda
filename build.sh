@@ -4,7 +4,7 @@ set -e
 
 mkdir -p cache
 if [ ! -e cache/juliamono.woff2 ]; then
-  curl https://github.com/cormullion/juliamono/releases/download/v0.059/JuliaMono-webfonts.tar.gz | \
+  curl -L https://github.com/cormullion/juliamono/releases/download/v0.059/JuliaMono-webfonts.tar.gz | \
     tar -xvzO webfonts/JuliaMono-Regular.woff2 > \
     cache/juliamono.woff2
 fi
@@ -15,7 +15,7 @@ fi
 
 sha256sum -c <<EOF
 f47be20f9140e3e7f56fe1e552704084b713434377f6f2bad74d5d6ea358278e  cache/inria-sans.woff2
-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855  cache/juliamono.woff2
+978ac8f14acd3559329ea14fa72d1eba924bdb4cad236ab434f7804c2def1bf5  cache/juliamono.woff2
 EOF
 
 rm -rf out
