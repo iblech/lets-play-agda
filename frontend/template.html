@@ -63,6 +63,7 @@
     }
 
     .edit {
+      font-family: "JuliaMono", monospace;
       color: white;
       font-weight: bold;
       cursor: pointer;
@@ -102,6 +103,11 @@
       max-width: 10em;
       vertical-align: top;
     }
+
+    .daybox   { width: 1em; height: 1em;   display: inline-block; border: 1px solid white; }
+    .active   { background-color: #44a340; }
+    .resting  { background-color: #77c770; }
+    .inactive { background-color: #eeeeee; }
   </style>
 </head><body>
 
@@ -109,6 +115,8 @@
 <div class="logo"><a href="."><span>🐔</span><br>Let's play Agda</a></div>
 
 __TOC__
+
+<div id="activity"></div>
 </nav>
 
 <main>
@@ -119,62 +127,17 @@ __BODY__
 <footer>
   <p>Want to contribute?
   <a href="https://github.com/iblech/lets-play-agda/blob/main/__SOURCE__">Visit this file on GitHub.</a><br>
-  Let's play Agda was created by
+  <a href=".">Let's play Agda</a> was created by
   <a href="https://www.ingo-blechschmidt.eu/">Ingo Blechschmidt</a>
   for a 2025 course at the <a href="https://www.unipd.it/en/dm">University of Padova</a>.<br>
+  Your Agda code, along with your level progress and
+  streak information, is stored purely in your browser's local
+  storage. Only solutions which you specifically submit for sharing are persistently
+  stored on the server. <br>
   Contact: <a href="tel:+4917695110311">+49 176 95110311</a> (Signal, Telegram, SMS)</p>
 </footer>
 
-<script>
-  function createIframe(block, id) {
-    const iframe = document.createElement("iframe");
-    iframe.onload = function () {
-      let sheet = iframe.contentWindow.document.styleSheets[0];
-      sheet.insertRule('.xterm-viewport { overflow-y: hidden !important; }', sheet.cssRules.length);
-      // XXX: This font loading will likely come too late
-      new FontFace('JuliaMono', 'local("JuliaMono"), local("JuliaMono Regular"), url(./juliamono.woff2)').load().then(function (f) {
-        iframe.contentDocument.fonts.add(f);
-      });
-      iframe.contentWindow.document.addEventListener('keydown', function (e) {
-        if(e.altKey && e.keyCode == 13) {
-          if(document.fullscreenElement) {
-            document.exitFullscreen();
-          } else {
-            iframe.requestFullscreen();
-          }
-        }
-      }, true);
-      iframe.style.display = "block";
-      block.remove();
-      iframe.focus();
-      iframe.scrollIntoView();
-    };
-    iframe.src = "/__ttyd/?arg=" + (new URL(location.href).pathname.split(".html")[0].split("/").pop()) + "&arg=" + id;
-    return iframe;
-  }
-
-  function attachEditor(block) {
-    block.classList.add("exercise");
-    const id = block.innerText.split(/\s+/)[0];
-    for(const holeMarker of block.getElementsByClassName("Hole")) {
-      const editButton = document.createElement("a");
-      editButton.className = "edit";
-      editButton.innerHTML = "🐔 Edit hole…";
-      editButton.onclick = function () {
-        block.classList.add("spinning");
-        block.insertAdjacentElement("afterend", createIframe(block, id));
-      };
-      holeMarker.insertAdjacentElement("afterend", editButton);
-    }
-  }
-
-  for(const block of document.getElementsByTagName("pre")) {
-    if(block.innerHTML.indexOf("{!!}") >= 0) {
-      attachEditor(block);
-    }
-  }
-</script>
-
+<script src="ui.js"></script>
 <link rel="stylesheet" href="Agda.css">
 
 </body>

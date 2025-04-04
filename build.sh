@@ -75,6 +75,7 @@ for i in *.md; do
 done
 
 cp --reflink=auto ../cache/*.woff2 .
+cp --reflink=auto ../frontend/ui.js .
 
 ln -s Padova2025.Welcome.html index.html
 
