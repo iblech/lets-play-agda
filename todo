@@ -16,3 +16,4 @@ Frontend:
 Backend:
 - accept solution submissions
 - detect success
+- holify only current exercise, not earlier or later ones
