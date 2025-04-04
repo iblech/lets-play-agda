@@ -151,7 +151,8 @@ Contact:
     iframe.onload = function () {
       let sheet = iframe.contentWindow.document.styleSheets[0];
       sheet.insertRule('.xterm-viewport { overflow-y: hidden !important; }', sheet.cssRules.length);
-      new FontFace('JuliaMono', 'url(JuliaMono-Regular.woff2)').load().then(function (f) {
+      // XXX: This font loading will likely come too late
+      new FontFace('JuliaMono', 'url(./juliamono.woff2)').load().then(function (f) {
         iframe.contentDocument.fonts.add(f);
       });
       iframe.contentWindow.document.addEventListener('keydown', function (e) {
