@@ -1,8 +1,8 @@
-# Booleans
-
 ```
 module Padova2025.ProgrammingBasics.Booleans where
 ```
+
+# Booleans
 
 The type `Bool` contains precisely two values, `false` and `true`:
 

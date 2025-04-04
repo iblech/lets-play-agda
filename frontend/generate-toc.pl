@@ -16,7 +16,7 @@ sub visit {
   my ($level, $module) = @_;
   $seen{$module}++;
 
-  open my $fh, "<", src($module) or die $!;
+  open my $fh, "<", src($module) or die "Couldn't open $module: $!\n";
   
   my $title;
   my $childs;
@@ -27,7 +27,7 @@ sub visit {
       print "  " x $level, "<li><a href=\"$module.html\">$1</a>" unless $level == 0;
     }
 
-    if($line =~ /import\s*([^\s]*)/) {
+    if($line =~ /import\s+([^\s]*)/) {
       print "<ol>\n" unless $childs++;
       visit($level + 1, $1) unless $seen{$1};
     }

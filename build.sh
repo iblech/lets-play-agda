@@ -44,11 +44,17 @@ done
 (cd ..; ./frontend/generate-toc.pl Padova2025.Index) > toc.html
 
 for i in *.md; do
+  echo "$i..."
+
   export bodyfile="${i%.md}.body.html"
-  export title="$(head -n1 "$i" | sed -e 's+^#\s*++')"
+  export title="$(< "$i" sed -ne '/^# / { s/^#\s*//; p; q; }')"
   export modulename="${i%.md}"
+  export filename="${i%.md}.html"
+  export basename="${i%.md}"
+  export source="${basename//./\/}.lagda.md"
 
   pandoc -o "$bodyfile" "$i"
+  sed -i -e '0,/<pre class="Agda">\(.*module.*where.*\)/ { s/<pre class="Agda">\(.*module.*where.*\)/<pre class="Agda inessential">\1/; }' "$bodyfile"
 
   < ../frontend/template.html \
   perl -pwe '
@@ -62,12 +68,13 @@ for i in *.md; do
     s/__BODY__/slurp($ENV{bodyfile})/eg;
     s/__TOC__/slurp("toc.html")/eg;
     s/__MODULENAME__/$ENV{modulename}/g;
-  ' > "${i%.md}.html"
+    s/__SOURCE__/$ENV{source}/g;
+  ' > "$filename"
 
   rm "$bodyfile"
 done
 
-cp ../cache/*.woff2 .
+cp --reflink=auto ../cache/*.woff2 .
 
 ln -s Padova2025.Welcome.html index.html
 
