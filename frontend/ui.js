@@ -127,6 +127,10 @@ function printActivity() {
 
   div.replaceChildren();
 
+  if(log.length == 0) {
+    return;
+  }
+
   const boxes = document.createElement("div");
   boxes.style.lineHeight = "0.5em";
 
@@ -200,5 +204,20 @@ function printActivity() {
   div.appendChild(boxes);
 }
 
+function activateHints() {
+  for(const hint of document.getElementsByClassName("Hint")) {
+    let st = true;
+    hint.onclick = function () {
+      if(st) {
+        hint.classList.add("spoiler");
+      } else {
+        hint.classList.remove("spoiler");
+      }
+      st = ! st;
+    };
+  }
+}
+
 attachEditors();
+activateHints();
 printActivity();

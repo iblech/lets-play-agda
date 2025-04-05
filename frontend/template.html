@@ -108,6 +108,19 @@
     .active   { background-color: #44a340; }
     .resting  { background-color: #77c770; }
     .inactive { background-color: #eeeeee; }
+
+    .Hint { filter: blur(0.3em); user-select: none; cursor: pointer; background-color: #eef; }
+    .Hint::before {
+      content: "Hint";
+      font-weight: bold;
+      padding: 0.3em;
+      background-color: #ddf;
+      display: block;
+      width: calc(100%-0.3em);
+      margin-bottom: -0.7em;
+      padding-bottom: 0;
+    }
+    .spoiler { filter: none; }
   </style>
 </head><body>
 

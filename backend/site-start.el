@@ -11,9 +11,8 @@
 
 (setq-default indent-tabs-mode nil)
 
-(if (not (display-graphic-p))
-  (progn (set-terminal-parameter nil 'background-mode 'light)
-         (load-theme 'tsdh-light)))
+(set-terminal-parameter nil 'background-mode 'light)
+(load-theme 'tsdh-light)
 
 (custom-set-variables
   '(xterm-mouse-mode t)
