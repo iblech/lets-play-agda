@@ -65,6 +65,7 @@ exec bwrap \
           }
           $code =~ s/\{--\}.*?\{--\}/{!!}/gs;
           $code =~ s#\n-- Holify\n([^ ]*).*$#\n$1 = {!!}\n#s;
+          $code =~ s/\n+$/\n/;
           print "-- EXERCISE STARTS\n";
           print $code;
           print "-- EXERCISE ENDS\n";

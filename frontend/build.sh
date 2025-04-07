@@ -41,12 +41,10 @@ find Padova2025 -name '*agda*' | grep -v "#" | xargs perl -i -pwe '
   s/\{--\}.*?\{--\}/{!!}/gs;
   s#-- Holify\n([^ ]*).*?```#$1 = {!!}\n```#gs;
   s#^-- Tests.*?```#```#mgs;
-  s#\n\n```#\n```#g;
 '
 
 agda --allow-unsolved-metas --html --html-highlight=code Padova2025/Index.lagda.md
 
-rm -r Padova2025
 mv html/* .
 rmdir html
 
@@ -68,6 +66,7 @@ for i in *.md; do
 
   pandoc -o "$bodyfile" "$i"
   sed -i -e '0,/<pre class="Agda">\(.*module.*where.*\)/ { s/<pre class="Agda">\(.*module.*where.*\)/<pre class="Agda inessential">\1/; }' "$bodyfile"
+  perl -i -pe 'BEGIN { $/ = undef } s#\n\n</pre>#\n</pre>#g' "$bodyfile"
 
   < ../frontend/template.html \
   perl -pwe '
@@ -84,7 +83,8 @@ for i in *.md; do
     s/__SOURCE__/$ENV{source}/g;
   ' > "$filename"
 
-  rm "$bodyfile"
+  rm "$bodyfile" "$i"
+  cp --reflink=auto "$source" "$basename.lagda.md"
 done
 
 cp --reflink=auto ../cache/*.woff2  .
@@ -94,3 +94,4 @@ cp --reflink=auto ../frontend/ui.js .
 ln -s Padova2025.Welcome.html index.html
 
 rm toc.html
+rm -r Padova2025
