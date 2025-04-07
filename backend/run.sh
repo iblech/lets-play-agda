@@ -3,6 +3,9 @@
 echo Spawning container...
 
 # XXX: --new-session?
+
+# We try to do without /proc so that remounting /proc in the parent container
+# is not required. Let's see whether everything will still work.
 exec bwrap \
   --clearenv \
   --setenv PATH "$PATH" \
@@ -17,7 +20,6 @@ exec bwrap \
   --unshare-all \
   --tmpfs /run \
   --dev /dev \
-  --proc /proc \
   --tmpfs /tmp \
   --dir /home/user \
   --ro-bind-try /bin /bin \
