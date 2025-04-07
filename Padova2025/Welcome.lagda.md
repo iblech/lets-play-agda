@@ -2,7 +2,7 @@
 
 ## Let's play Agda -- *running abstract mathematical proofs as programs*
 
-The purpose of this website is to help you in learning Agda, the functional
+The purpose of this website is to help you learn Agda, the functional
 proof language. It was created for a 2025 course at the [University of
 Padova](https://www.unipd.it/en/dm).
 

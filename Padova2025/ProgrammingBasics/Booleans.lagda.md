@@ -37,8 +37,10 @@ not true  = false
    that you would like to do the case split on the variable `x`.
 4. Finally, for each case, fill in the definition. Press C-c C-SPACE when you
    are finished with a hole.
-5. Ask Agda to reload the file again using C-c C-l.
+5. Ask Agda to reload the file again using C-c C-l. You should then see
+   a confetti animation, indicating that the exercise has been successfully solved.
 :::
+
 
 ## Exercise: Identity function
 
@@ -50,3 +52,7 @@ id x = {--}x{--}
 -- EX: id false ≡ false
 -- EX: id true  ≡ true
 ```
+
+::: Hint :::
+Similar to the negation exercise.
+:::
