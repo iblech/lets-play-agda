@@ -85,7 +85,7 @@ let cache = builtins.fetchTarball {
         text/x-agda   agda lagda;
       }
       charset utf-8;
-      charset_types text/x-agda;
+      charset_types text/x-agda text/markdown;
     '';
 
     virtualHosts.localhost = {
