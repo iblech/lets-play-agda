@@ -34,6 +34,7 @@ exec bwrap \
     cd /home/user
     AGDA_INPUT_FILENAME="${AGDA_MODULENAME//\./\/}".lagda.md
     AGDA_OUTPUT_FILENAME="${AGDA_MODULENAME//\./\/}".agda
+
     perl -we '\''
       while(1) {
         my $holify;
@@ -77,10 +78,15 @@ exec bwrap \
       }
     '\'' < "$AGDA_INPUT_FILENAME" > "$AGDA_OUTPUT_FILENAME"
     rm "$AGDA_INPUT_FILENAME"
+
     AGDA_FIRSTLINE=$(< "$AGDA_OUTPUT_FILENAME" sed -ne "/^-- EXERCISE STARTS/ { =; q }")
     AGDA_LASTLINE=$(< "$AGDA_OUTPUT_FILENAME" sed -ne "/^-- EXERCISE ENDS/ { =; q }")
     : $((AGDA_FIRSTLINE++))
     : $((AGDA_LASTLINE--))
+
+    # in the likely case that an agdai file (containing the solutions) already exists, remove it
+    rm -f "$AGDA_OUTPUT_FILENAME"i 2>/dev/null
+
     (
       previous_hash=""
       inotifywait -m -e close_write -- "$(dirname "$AGDA_OUTPUT_FILENAME")" | while read; do
@@ -101,11 +107,13 @@ exec bwrap \
         fi
       done
     ) &
+
     tmux \
       set -g status off \; \
       set-option -g default-terminal screen-256color \; \
       new-session -A -s fun \
       -- \
       emacs "$AGDA_OUTPUT_FILENAME" --eval "(narrow-to-line-range $AGDA_FIRSTLINE $AGDA_LASTLINE)"
+
     kill %1
   '
