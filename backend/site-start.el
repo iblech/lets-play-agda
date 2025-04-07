@@ -1,6 +1,5 @@
 (menu-bar-mode -1)
 (tool-bar-mode -1)
-(scroll-bar-mode -1)
 
 (load-file (let ((coding-system-for-read 'utf-8)) (shell-command-to-string "agda-mode locate")))
 (setq auto-mode-alist
