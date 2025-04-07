@@ -1,4 +1,10 @@
 { config, pkgs, ... }:
+
+let cache = builtins.fetchTarball {
+  url = "https://www.speicherleck.de/iblech/stuff/lets-play-agda-cache.tgz";
+  sha256 = "sha256:09m6qxh4404qs1sb9dfcyqgm131bj5rfnal15716139a90yzfjzs";
+}; in
+
 {
   services.journald.extraConfig = ''
     Storage=volatile
@@ -12,11 +18,6 @@
   boot.isContainer = true;
   documentation.doc.enable = false;
 
-  # hack, for now; eventually the container should not require connectivity at all
-  environment.etc."resolv.conf".text = ''
-    nameserver 8.8.8.8
-  '';
-
   users.users.user = {
     isNormalUser = true;
     description = "User";
@@ -27,7 +28,10 @@
     script = ''
       cd /home/user
       rm -rf lets-play-agda
-      git clone https://github.com/iblech/lets-play-agda.git
+      cp -r --reflink=auto ${./.} lets-play-agda
+      chmod -R u+w lets-play-agda
+      cp -r --reflink=auto ${cache} lets-play-agda/cache
+      chmod -R u+w lets-play-agda/cache
       cd lets-play-agda
 
       ./frontend/build.sh
@@ -39,7 +43,6 @@
       bash
       bubblewrap
       curl
-      git
       gnugrep
       gnused
       gnutar
