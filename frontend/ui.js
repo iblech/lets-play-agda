@@ -46,9 +46,6 @@ function createIframe(block, id) {
   });
 
   iframe.onload = function () {
-    let sheet = iframe.contentWindow.document.styleSheets[0];
-    sheet.insertRule('.xterm-viewport { overflow-y: hidden !important; }', sheet.cssRules.length);
-
     iframe.contentWindow.document.addEventListener('keydown', function (e) {
       if(e.altKey && e.keyCode == 13) {
         if(document.fullscreenElement) {
@@ -79,6 +76,9 @@ function createIframe(block, id) {
       iframe.style.display = "block";
       block.remove();
     }, 100);
+
+    let sheet = iframe.contentWindow.document.styleSheets[0];
+    sheet.insertRule('.xterm-viewport { overflow-y: hidden !important; }', sheet.cssRules.length);
   };
 
   return iframe;
