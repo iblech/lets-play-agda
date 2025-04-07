@@ -1,12 +1,52 @@
+function getAgdaModuleName(url) {
+  if(url === undefined) {
+    url = location.href;
+  }
+
+  return new URL(url).pathname.split(".html")[0].split("/").pop();
+}
+
+function recordCode(file, id, code) {
+  localStorage.setItem(file + "/code/" + id, code);
+}
+
+function getCode(file, id) {
+  return localStorage.getItem(file + "/code/" + id);
+}
+
+function getCompletionStatus(file) {
+  const idsString = localStorage.getItem(file + "/ids");
+  if(idsString === null) return "status-0";
+
+  const ids   = idsString.split(",").filter(e => e);
+  let   found = 0;
+  for(const id of ids) {
+    if(localStorage.getItem(file + "/" + id + "/success")) {
+      found++;
+    }
+  }
+
+  if(found == ids.length) {
+    return "status-2";
+  } else if(found > 0) {
+    return "status-1";
+  } else {
+    return "status-0";
+  }
+}
+
 function createIframe(block, id) {
   const iframe = document.createElement("iframe");
+
   iframe.onload = function () {
     let sheet = iframe.contentWindow.document.styleSheets[0];
     sheet.insertRule('.xterm-viewport { overflow-y: hidden !important; }', sheet.cssRules.length);
+
     // XXX: This font loading will likely come too late
     new FontFace('JuliaMono', 'local("JuliaMono"), local("JuliaMono Regular"), url(./juliamono.woff2)').load().then(function (f) {
       iframe.contentDocument.fonts.add(f);
     });
+
     iframe.contentWindow.document.addEventListener('keydown', function (e) {
       if(e.altKey && e.keyCode == 13) {
         if(document.fullscreenElement) {
@@ -16,19 +56,37 @@ function createIframe(block, id) {
         }
       }
     }, true);
+
+    new MutationObserver(function(mutations) {
+      if(iframe.contentDocument.title.includes("SUCCESS")) {
+        const encodedPayload = iframe.contentDocument.title.split(' ')[1];
+        const decodedPayload = decodeURIComponent(atob(encodedPayload).split('').map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
+        recordCode(getAgdaModuleName(), id, decodedPayload);
+        updateCode(iframe, id);
+        localStorage.setItem(getAgdaModuleName() + "/" + id + "/success", "true");
+        renderToc();
+        confetti.start();
+        window.setTimeout(confetti.stop, 1000);
+      }
+    }).observe(
+      iframe.contentDocument.querySelector('title'),
+      { subtree: true, characterData: true, childList: true }
+    );
+
     window.setTimeout(function () {
       iframe.style.display = "block";
       block.remove();
       iframe.focus();
     }, 100);
   };
-  iframe.src = "/__ttyd/?arg=" + (new URL(location.href).pathname.split(".html")[0].split("/").pop()) + "&arg=" + id;
+  iframe.src = "/__ttyd/?arg=" + getAgdaModuleName() + "&arg=" + id;
   return iframe;
 }
 
 function attachEditor(block) {
   block.classList.add("exercise");
   const id = block.innerText.split(/\s+/)[0];
+
   for(const holeMarker of block.getElementsByClassName("Hole")) {
     const editButton = document.createElement("a");
     editButton.className = "edit";
@@ -41,14 +99,41 @@ function attachEditor(block) {
     };
     holeMarker.insertAdjacentElement("afterend", editButton);
   }
+
+  updateCode(block, id);
+}
+
+function updateCode(block, id) {
+  const code = getCode(getAgdaModuleName(), id);
+
+  const old = document.getElementById("solution-" + id);
+  if(old !== null) {
+    old.remove();
+    console.log("removed");
+  }
+
+  if(code !== null) {
+    console.log(code);
+    const pre = document.createElement("pre");
+    pre.id = "solution-" + id;
+    pre.innerText = code;
+    pre.classList.add("solution");
+    block.insertAdjacentElement("afterend", pre);
+  }
 }
 
 function attachEditors() {
+  let ids = [];
+
   for(const block of document.getElementsByTagName("pre")) {
     if(block.innerHTML.indexOf("{!!}") >= 0) {
+      const id = block.innerText.split(/\s+/)[0];
+      ids.push(id);
       attachEditor(block);
     }
   }
+
+  localStorage.setItem(getAgdaModuleName() + "/" + "ids", ids.join(","));
 }
 
 function getActivityLog() {
@@ -188,7 +273,6 @@ function printActivity() {
     }
 
     cur.setDate(cur.getDate() + 1);
-    console.log(currentRestingFifths);
 
     i++;
     if(i == 7) {
@@ -218,6 +302,17 @@ function activateHints() {
   }
 }
 
+function renderToc() {
+  const list = document.getElementsByTagName("nav")[0].getElementsByTagName("ol")[0];
+
+  for(const link of list.getElementsByTagName("a")) {
+    const file  = getAgdaModuleName(link.href);
+    const stats = getCompletionStatus(file);
+    link.parentElement.classList.add(stats);
+  }
+}
+
 attachEditors();
 activateHints();
 printActivity();
+renderToc();

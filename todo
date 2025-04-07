@@ -1,9 +1,15 @@
 Frontend:
 - provide option to submit solution
 - view submitted solutions (and reference solution)
-- store successes in local storage
 - patch bubblewrap for SIGWINCH (if using bubblewrap's new-session)
+- option to delete own code
+- explain how to explore on one's own, beyond the provided exercises
+- acknowledge dependencies:
+  - xterm.js
+  - ttyd
+  - bubblewrap
+  - confetti.js, https://gist.github.com/elrumo/3055a9163fd2d0d19f323db744b0a094
 
 Backend:
 - accept solution submissions
-- detect success
+- relay work in progress to the browser, for safekeeping

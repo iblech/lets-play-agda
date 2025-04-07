@@ -81,10 +81,31 @@ exec bwrap \
     AGDA_LASTLINE=$(< "$AGDA_OUTPUT_FILENAME" sed -ne "/^-- EXERCISE ENDS/ { =; q }")
     : $((AGDA_FIRSTLINE++))
     : $((AGDA_LASTLINE--))
-    exec tmux \
+    (
+      previous_hash=""
+      inotifywait -m -e close_write -- "$(dirname "$AGDA_OUTPUT_FILENAME")" | while read; do
+        if echo "$REPLY" | grep "\.agdai" >/dev/null; then
+          current_hash="$(sha256sum -- "$AGDA_OUTPUT_FILENAME")"
+          if [ "$previous_hash" != "$current_hash" ]; then
+            previous_hash="$current_hash"
+            date >> verification.log
+            echo "$current_hash" >> verification.log
+            if agda -- "$AGDA_OUTPUT_FILENAME" &>verification.log; then
+              echo success >> verification.log
+              echo -en "\033]0;SUCCESS $(< "$AGDA_OUTPUT_FILENAME" sed -ne "/-- EXERCISE STARTS/,/-- EXERCISE ENDS/ p" | sed '\''1d;$d'\'' | base64)\007"
+              exit
+            else
+              echo failure >> verification.log
+            fi
+          fi
+        fi
+      done
+    ) &
+    tmux \
       set -g status off \; \
       set-option -g default-terminal screen-256color \; \
       new-session -A -s fun \
       -- \
       emacs "$AGDA_OUTPUT_FILENAME" --eval "(narrow-to-line-range $AGDA_FIRSTLINE $AGDA_LASTLINE)"
+    kill %1
   '

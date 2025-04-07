@@ -121,6 +121,17 @@
       padding-bottom: 0;
     }
     .spoiler { filter: none; }
+
+    .solution { background-color: #fef; }
+    .solution::before {
+      content: "Your code";
+      font-weight: bold;
+      padding: 0.3em;
+      background-color: #ddf;
+      display: block;
+      width: calc(100%-0.3em);
+      padding-bottom: 0;
+    }
   </style>
 </head><body>
 
@@ -150,8 +161,9 @@ __BODY__
   Contact: <a href="tel:+4917695110311">+49 176 95110311</a> (Signal, Telegram, SMS)</p>
 </footer>
 
-<script src="ui.js"></script>
 <link rel="stylesheet" href="Agda.css">
+<script src="ui.js"></script>
+<script src="confetti.js"></script>
 
 </body>
 </html>

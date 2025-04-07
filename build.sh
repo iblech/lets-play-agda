@@ -3,19 +3,27 @@
 set -e
 
 mkdir -p cache
+
 if [ ! -e cache/juliamono.woff2 ]; then
   curl -L https://github.com/cormullion/juliamono/releases/download/v0.059/JuliaMono-webfonts.tar.gz | \
     tar -xvzO webfonts/JuliaMono-Regular.woff2 > \
     cache/juliamono.woff2
 fi
+
 if [ ! -e cache/inria-sans.woff2 ]; then
   curl https://aff.quasicoherent.io/inria-sans.woff2 > \
     cache/inria-sans.woff2
 fi
 
+if [ ! -e cache/confetti.js ]; then
+  curl https://gist.githubusercontent.com/elrumo/3055a9163fd2d0d19f323db744b0a094/raw/d9b09ae21d20adcf85f2ef59d110179a243996e9/confetti.js > \
+    cache/confetti.js
+fi
+
 sha256sum -c <<EOF
 f47be20f9140e3e7f56fe1e552704084b713434377f6f2bad74d5d6ea358278e  cache/inria-sans.woff2
 978ac8f14acd3559329ea14fa72d1eba924bdb4cad236ab434f7804c2def1bf5  cache/juliamono.woff2
+86856036d4e9f9c3b822961f26b972cd86560d07137d7f75abb32705aea49843  cache/confetti.js
 EOF
 
 rm -rf out
@@ -76,7 +84,8 @@ for i in *.md; do
   rm "$bodyfile"
 done
 
-cp --reflink=auto ../cache/*.woff2 .
+cp --reflink=auto ../cache/*.woff2  .
+cp --reflink=auto ../cache/*.js     .
 cp --reflink=auto ../frontend/ui.js .
 
 ln -s Padova2025.Welcome.html index.html
