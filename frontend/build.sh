@@ -26,6 +26,9 @@ f47be20f9140e3e7f56fe1e552704084b713434377f6f2bad74d5d6ea358278e  cache/inria-sa
 86856036d4e9f9c3b822961f26b972cd86560d07137d7f75abb32705aea49843  cache/confetti.js
 EOF
 
+# keep us honest
+agda Padova2025/Index.lagda.md
+
 rm -rf out
 mkdir out
 
@@ -36,7 +39,7 @@ cd out
 find Padova2025 -name '*agda*' | grep -v "#" | xargs perl -i -pwe '
   BEGIN { $/ = undef }
   s/\{--\}.*?\{--\}/{!!}/gs;
-  s#```agda/hole\n([^ ]*)(\s+.*?)\1.*?```#```\n$1$2$1 = {!!}\n```#gs;
+  s#-- Holify\n([^ ]*).*?```#$1 = {!!}\n```#gs;
   s#^-- Tests.*?```#```#mgs;
   s#\n\n```#\n```#g;
 '

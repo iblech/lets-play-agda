@@ -18,8 +18,9 @@ data Bool : Set where
 Implement the negation function. It should map `false` to `true` and vice
 versa:
 
-```agda/hole
+```
 not : Bool → Bool
+-- Holify
 not false = true
 not true  = false
 
@@ -43,7 +44,7 @@ not true  = false
 
 ```
 id : Bool → Bool
-id = {!!}
+id x = {--}x{--}
 
 -- Tests
 -- EX: id false ≡ false

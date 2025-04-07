@@ -37,14 +37,8 @@ exec bwrap \
 
     perl -we '\''
       while(1) {
-        my $holify;
         while(<STDIN>) {
-          if(/^```agda\/hole/) {
-            $holify++;
-            last;
-          } elsif(/^```/) {
-            last;
-          }
+          last if /^```/;
         }
 
         my $code = "";
@@ -68,7 +62,7 @@ exec bwrap \
             $tests =~ s/^--\s*EX:\s*(.*)$/module _ where private\n  open import Padova2025.Equality.Definition\n  lets-play-agda-test : $1\n  lets-play-agda-test = refl\n/gm;
           }
           $code =~ s/\{--\}.*?\{--\}/{!!}/gs;
-          $code =~ s#^([^ ]*)(\s+.*?\n)\1.*$#$1$2$1 = {!!}\n#s;
+          $code =~ s#\n-- Holify\n([^ ]*).*$#\n$1 = {!!}\n#s;
           print "-- EXERCISE STARTS\n";
           print $code;
           print "-- EXERCISE ENDS\n";
@@ -99,7 +93,7 @@ exec bwrap \
             if agda -- "$AGDA_OUTPUT_FILENAME" &>verification.log; then
               echo success >> verification.log
               echo -en "\033]0;SUCCESS $(< "$AGDA_OUTPUT_FILENAME" sed -ne "/-- EXERCISE STARTS/,/-- EXERCISE ENDS/ p" | sed '\''1d;$d'\'' | base64)\007"
-              exit
+              # no need to exit, allow user to refine their solution
             else
               echo failure >> verification.log
             fi
