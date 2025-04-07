@@ -38,14 +38,16 @@ function getCompletionStatus(file) {
 function createIframe(block, id) {
   const iframe = document.createElement("iframe");
 
+  // xterm.js has issues if the font is not available at initialization time,
+  // hence ensure that it is available before the frame contents are loaded
+  new FontFace('JuliaMono', 'local("JuliaMono"), local("JuliaMono Regular"), url(./juliamono.woff2)').load().then(function (f) {
+    iframe.contentDocument.fonts.add(f);
+    iframe.src = "/__ttyd/?arg=" + getAgdaModuleName() + "&arg=" + id;
+  });
+
   iframe.onload = function () {
     let sheet = iframe.contentWindow.document.styleSheets[0];
     sheet.insertRule('.xterm-viewport { overflow-y: hidden !important; }', sheet.cssRules.length);
-
-    // XXX: This font loading will likely come too late
-    new FontFace('JuliaMono', 'local("JuliaMono"), local("JuliaMono Regular"), url(./juliamono.woff2)').load().then(function (f) {
-      iframe.contentDocument.fonts.add(f);
-    });
 
     iframe.contentWindow.document.addEventListener('keydown', function (e) {
       if(e.altKey && e.keyCode == 13) {
@@ -76,10 +78,9 @@ function createIframe(block, id) {
     window.setTimeout(function () {
       iframe.style.display = "block";
       block.remove();
-      iframe.focus();
     }, 100);
   };
-  iframe.src = "/__ttyd/?arg=" + getAgdaModuleName() + "&arg=" + id;
+
   return iframe;
 }
 
