@@ -110,11 +110,9 @@ function updateCode(block, id) {
   const old = document.getElementById("solution-" + id);
   if(old !== null) {
     old.remove();
-    console.log("removed");
   }
 
   if(code !== null) {
-    console.log(code);
     const pre = document.createElement("pre");
     pre.id = "solution-" + id;
     pre.innerText = code;
@@ -291,16 +289,34 @@ function printActivity() {
 
 function activateHints() {
   for(const hint of document.getElementsByClassName("Hint")) {
-    let st = true;
-    hint.onclick = function () {
-      if(st) {
-        hint.classList.add("spoiler");
-      } else {
-        hint.classList.remove("spoiler");
-      }
-      st = ! st;
+    for(const li of hint.getElementsByTagName("li")) {
+      activateHint(li);
+    }
+
+    hint.style.display = "none";
+    const showButton = document.createElement("a");
+    showButton.className = "show-hint";
+    showButton.innerHTML = "👉 Show hint…";
+    showButton.onclick = function () {
+      showButton.remove();
+      hint.style.display = "block";
     };
+    hint.insertAdjacentElement("afterend", showButton);
   }
+}
+
+function activateHint(obj) {
+  let st = true;
+  obj.style.cursor = "pointer";
+  obj.onclick = function () {
+    if(st) {
+      obj.classList.add("spoiler");
+    } else {
+      obj.classList.remove("spoiler");
+    }
+    st = ! st;
+  };
+  obj.onclick();
 }
 
 function renderToc() {

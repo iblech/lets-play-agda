@@ -62,7 +62,7 @@
       outline-offset: 4px;
     }
 
-    .edit {
+    .edit, .show-hint {
       font-family: "JuliaMono", monospace;
       color: white;
       font-weight: bold;
@@ -73,6 +73,7 @@
       border: 1px solid transparent;
       border-radius: 0.25rem;
     }
+    .show-hint { margin-left: 0; background-color: lightgrey; color: black; }
 
     .edit:hover { background-color: darkorange; }
     .edit a { color: white; background-image: none; }
@@ -109,7 +110,7 @@
     .resting  { background-color: #77c770; }
     .inactive { background-color: #eeeeee; }
 
-    .Hint { filter: blur(0.3em); user-select: none; cursor: pointer; background-color: #eef; }
+    .Hint, .Hint li { user-select: none; background-color: #eef; }
     .Hint::before {
       content: "Hint";
       font-weight: bold;
@@ -120,7 +121,7 @@
       margin-bottom: -0.7em;
       padding-bottom: 0;
     }
-    .spoiler { filter: none; }
+    .spoiler { filter: blur(0.3em); }
 
     .solution { background-color: #fef; }
     .solution::before {
