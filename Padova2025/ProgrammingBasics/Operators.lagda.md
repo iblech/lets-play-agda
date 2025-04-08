@@ -57,6 +57,13 @@ true  && false = false
 true  && true  = true
 ```
 
+We can then rewrite `example-usage` as follows.
+
+```
+example-usage' : Bool
+example-usage' = false && (true && false)
+```
+
 
 ## Exercise: Logical OR
 

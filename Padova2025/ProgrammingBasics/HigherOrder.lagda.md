@@ -47,7 +47,9 @@ is-tautology₂ f = {--}is-tautology₁ (f false) && is-tautology₁ (f true){--
 -- EX: is-tautology₂ _&&'_           ≡ false
 -- EX: is-tautology₂ _||_            ≡ false
 -- EX: is-tautology₂ (λ x y → x)     ≡ false
+-- EX: is-tautology₂ (λ x y → y)     ≡ false
 -- EX: is-tautology₂ (λ x y → not x) ≡ false
+-- EX: is-tautology₂ (λ x y → not y) ≡ false
 -- EX: is-tautology₂ (λ x y → true)  ≡ true
 ```
 
