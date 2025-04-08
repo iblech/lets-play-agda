@@ -46,12 +46,12 @@ exec bwrap \
         my $code = "";
         my $id   = "";
         $_ = <STDIN>;
-        die "Premature end of file, aborting.\n" unless defined $_;
+        die "(1) Premature end of file, aborting.\n" unless defined $_;
         /^([^ ]*)\s+(.*?)/ and $id = $1;
         until(/^```/) {
           $code .= $_;
           $_ = <STDIN>;
-          die "Premature end of file, aborting.\n" unless defined $_;
+          die "(2) Premature end of file, aborting.\n" unless defined $_;
         }
 
         if($id ne $ENV{AGDA_BLOCKNAME}) {

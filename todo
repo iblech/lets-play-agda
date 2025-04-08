@@ -9,6 +9,7 @@ Frontend:
   - ttyd
   - bubblewrap
   - confetti.js, https://gist.github.com/elrumo/3055a9163fd2d0d19f323db744b0a094
+- statically check tests
 
 Backend:
 - accept solution submissions
