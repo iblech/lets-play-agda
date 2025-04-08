@@ -31,9 +31,11 @@ sub visit {
       $in_code = ! $in_code;
     }
 
-    if($in_code and $line =~ /import\s+([^\s]*)/) {
-      print "<ol>\n" unless $childs++;
-      visit($level + 1, $1) unless $seen{$1};
+    if($in_code and $line =~ /^(?:open\s+)?import\s+([^\s]*)/) {
+      unless($seen{$1}) {
+        print "<ol>\n" unless $childs++;
+        visit($level + 1, $1);
+      }
     }
   }
 
@@ -86,7 +88,7 @@ EOF
   if($childs) {
     print "  " x $level, "</ol>";
   }
-  print "</li>\n" unless $level == 0;
+  print "</li>\n" unless $level == 0 or not $title;
 }
 
 visit(0, $ARGV[0]);
