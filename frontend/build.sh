@@ -26,9 +26,6 @@ f47be20f9140e3e7f56fe1e552704084b713434377f6f2bad74d5d6ea358278e  cache/inria-sa
 86856036d4e9f9c3b822961f26b972cd86560d07137d7f75abb32705aea49843  cache/confetti.js
 EOF
 
-# keep us honest
-agda Padova2025/Index.lagda.md
-
 rm -rf out
 mkdir out
 
@@ -36,6 +33,13 @@ cp --reflink=auto -t out -r Padova2025
 
 cd out
 
+# Keep us honest: check our proposed solutions
+find Padova2025 -name '*agda*' | grep -v "#" | xargs perl -i -pwe '
+  s/^--\s*EX:\s*(.*)$/module _ where private\n  open import Padova2025.Equality.Definition\n  lets-play-agda-test : $1\n  lets-play-agda-test = refl\n/g;
+'
+agda Padova2025/Index.lagda.md
+
+# Now hide the solutions and generate HTML
 find Padova2025 -name '*agda*' | grep -v "#" | xargs perl -i -pwe '
   BEGIN { $/ = undef }
   s/#[^\n]*\/\/\s*([^\n]*)/# $1/g;
@@ -43,7 +47,6 @@ find Padova2025 -name '*agda*' | grep -v "#" | xargs perl -i -pwe '
   s#-- Holify\n([^ ]*).*?```#$1 = {!!}\n```#gs;
   s#^-- Tests.*?```#```#mgs;
 '
-
 agda --allow-unsolved-metas --html --html-highlight=code Padova2025/Index.lagda.md
 
 mv html/* .
