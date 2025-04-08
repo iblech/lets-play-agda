@@ -65,7 +65,7 @@
       outline-offset: 4px;
     }
 
-    .edit, .show-hint {
+    .edit, .show-hint, .show-reference-solution {
       font-family: "JuliaMono", monospace;
       color: white;
       font-weight: bold;
@@ -76,7 +76,14 @@
       border: 1px solid transparent;
       border-radius: 0.25rem;
     }
-    .show-hint { margin-left: 0; background-color: lightgrey; color: black; }
+    .show-hint, .show-reference-solution { margin-left: 0; background-color: lightgrey; color: black; }
+    .show-reference-solution {
+      background-color: #fff;
+      color: black;
+      outline: 1px solid purple;
+      font-weight: normal;
+      filter: grayscale(100%);
+    }
 
     .edit:hover { background-color: darkorange; }
     .edit a { color: white; background-image: none; }
@@ -144,8 +151,8 @@
       color: darkred;
     }
 
-    .solution { background-color: #fef; }
-    .solution::before {
+    .solution, .reference-solution { background-color: #fef; }
+    .solution::before, .reference-solution::before {
       content: "Your code";
       font-weight: bold;
       padding: 0.3em;
@@ -154,6 +161,12 @@
       width: calc(100%-0.3em);
       padding-bottom: 0;
     }
+    .reference-solution::before {
+      content: "Reference solution";
+      background-color: #edf;
+    }
+
+    #reference-solutions { display: none; }
 
     body {
       counter-reset: h2counter;
@@ -196,6 +209,12 @@ __TOC__
 <main>
 <div class="raw"><a href="__MODULENAME__.lagda.md">📥 Download raw</a></div>
 __BODY__
+
+<aside id="reference-solutions">
+<h2>Reference solutions</h2>
+
+__SOLUTIONS__
+</aside>
 </main>
 
 <div></div>

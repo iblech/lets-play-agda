@@ -4,6 +4,8 @@ set -e
 
 mkdir -p cache
 
+echo "* Obtaining external static resources..."
+
 if [ ! -e cache/juliamono.woff2 ]; then
   curl -L https://github.com/cormullion/juliamono/releases/download/v0.059/JuliaMono-webfonts.tar.gz | \
     tar -xvzO webfonts/JuliaMono-Regular.woff2 > \
@@ -33,13 +35,45 @@ cp --reflink=auto -t out -r Padova2025
 
 cd out
 
+echo
+echo "* Checking solutions..."
 # Keep us honest: check our proposed solutions
 find Padova2025 -name '*agda*' | grep -v "#" | xargs perl -i -pwe '
   s/^--\s*EX:\s*(.*)$/module _ where private\n  open import Padova2025.Equality.Definition\n  lets-play-agda-test : $1\n  lets-play-agda-test = refl\n/g;
 '
 agda Padova2025/Index.lagda.md
 
+# Now generate HTML for the solutions
+echo
+echo "* Generating HTML for solutions..."
+find Padova2025 -name '*agda*' | grep -v "#" | xargs perl -i -pwe '
+  BEGIN { $/ = undef }
+  s#^-- Tests.*?```#```#mgs;
+'
+agda --html --html-highlight=code Padova2025/Index.lagda.md
+
+mkdir solutions
+for i in html/*.md; do
+  < "$i" perl -nwe '
+    BEGIN { $/ = undef }
+    while($_ =~ m#<pre class="Agda"><a id="([^"]*)"></a>(.*?)</pre>#gs) {
+      my ($id, $code) = ($1, $2);
+      next unless $code =~ /-- Holify/ or $code =~ /\{--\}/;
+      $code =~ s/\{--\}//g;
+      $code =~ s/<a id="[^"]*"/<a/g;
+      $code =~ s/<a class="Comment">-- Holify<\/a>\n//g;
+      $code =~ s/<a (?:href="[^"]*" )?class="([^"]*)">/<span class="$1">/g;
+      $code =~ s/<\/a>/<\/span>/g;
+      $code =~ s/\n+$/\n/;
+      print "<pre class=\"Agda reference-solution\" id=\"reference-solution-$id\">$code</pre>\n\n";
+    }
+  ' > "solutions/$(basename "$i")"
+done
+rm -rf html
+
 # Now hide the solutions and generate HTML
+echo
+echo "* Generating HTML for exercises..."
 find Padova2025 -name '*agda*' | grep -v "#" | xargs perl -i -pwe '
   BEGIN { $/ = undef }
   s/#[^\n]*\/\/\s*([^\n]*)/# $1/g;
@@ -58,6 +92,8 @@ done
 
 (cd ..; ./frontend/generate-toc.pl Padova2025.Index) > toc.html
 
+echo
+echo "* Assembling HTML files..."
 for i in *.md; do
   echo "$i..."
 
@@ -85,6 +121,7 @@ for i in *.md; do
     s/__TOC__/slurp("toc.html")/eg;
     s/__MODULENAME__/$ENV{modulename}/g;
     s/__SOURCE__/$ENV{source}/g;
+    s/__SOLUTIONS__/slurp("solutions\/$ENV{modulename}.md")/eg;
   ' > "$filename"
 
   rm "$bodyfile" "$i"
@@ -98,4 +135,4 @@ cp --reflink=auto ../frontend/ui.js .
 ln -s Padova2025.Welcome.html index.html
 
 rm toc.html
-rm -r Padova2025
+rm -r Padova2025 solutions

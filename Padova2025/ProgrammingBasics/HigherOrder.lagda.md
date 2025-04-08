@@ -21,7 +21,9 @@ function is constantly true.
 
 ```
 is-tautology₁ : (Bool → Bool) → Bool
-is-tautology₁ f = {--}f false && f true{--}
+is-tautology₁ f = {--}f false && f true
+-- There is also the following more cryptic solution:
+-- is-tautology₁ f = f (f false){--}
 
 -- Tests
 -- EX: is-tautology₁ (λ x → x)     ≡ false

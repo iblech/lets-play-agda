@@ -102,6 +102,27 @@ function attachEditor(block) {
   }
 
   updateCode(block, id);
+  attachReferenceSolution(block, id);
+}
+
+function attachReferenceSolution(block, id) {
+  const solution = document.getElementById("reference-solution-" + id);
+  if(solution === null) return;
+
+  const showButton = document.createElement("a");
+  showButton.className = "show-reference-solution";
+  showButton.innerHTML = "🧑‍🏫 Show reference solution…";
+  showButton.onclick = function () {
+    if(
+      getCode(getAgdaModuleName(), id) !== null ||
+      window.confirm("Please confirm that you would like to peek at the reference solution.")
+    ) {
+      showButton.after(solution);
+      showButton.remove();
+    }
+  };
+
+  block.insertAdjacentElement("afterend", showButton);
 }
 
 function updateCode(block, id) {
