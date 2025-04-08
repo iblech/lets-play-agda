@@ -24,13 +24,20 @@ is-tautology₁ : (Bool → Bool) → Bool
 is-tautology₁ f = {--}f false && f true{--}
 
 -- Tests
--- EX: is-tautology₁ (λ x → x)    ≡ false
--- EX: is-tautology₁ (λ x → true) ≡ true
--- EX: is-tautology₁ not          ≡ false
+-- EX: is-tautology₁ (λ x → x)     ≡ false
+-- EX: is-tautology₁ (λ x → false) ≡ false
+-- EX: is-tautology₁ not           ≡ false
+-- EX: is-tautology₁ (λ x → true)  ≡ true
 ```
 
 For instance, for the function `f` defined by `f x = x`, the result of
 `is-tautology₁ f` should be `false`.
+
+<!--
+TODO: Exercises about...
+- verifying that is-tautology₁ does what it should do
+- verifying the clever solution "f (f false)"
+-->
 
 
 ## Exercise: Binary tautologies
@@ -51,6 +58,7 @@ is-tautology₂ f = {--}is-tautology₁ (f false) && is-tautology₁ (f true){--
 -- EX: is-tautology₂ (λ x y → not x) ≡ false
 -- EX: is-tautology₂ (λ x y → not y) ≡ false
 -- EX: is-tautology₂ (λ x y → true)  ≡ true
+-- TODO: check all 2^4 cases
 ```
 
 For instance, for the function `f` defined by `f x y = true`, the result of
