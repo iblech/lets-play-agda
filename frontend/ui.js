@@ -42,7 +42,7 @@ function createIframe(block, id) {
   // hence ensure that it is available before the frame contents are loaded
   new FontFace('JuliaMono', 'local("JuliaMono"), local("JuliaMono Regular"), url(./juliamono.woff2)').load().then(function (f) {
     iframe.contentDocument.fonts.add(f);
-    iframe.src = "/__ttyd/?arg=" + getAgdaModuleName() + "&arg=" + id;
+    iframe.src = "/__ttyd/?arg=" + getAgdaModuleName() + "&arg=" + encodeURIComponent(id);
   });
 
   iframe.onload = function () {
