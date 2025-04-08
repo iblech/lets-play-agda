@@ -34,6 +34,7 @@
 
     nav { grid-area: nav; }
     main { grid-area: main; }
+    main, footer { max-width: 50em; }
 
     @media (min-width: 768px) { 
       body {
@@ -125,6 +126,24 @@
     }
     .spoiler { filter: blur(0.3em); }
 
+    .Aside::before {
+      content: "Aside.";
+      font-weight: bold;
+      display: inline;
+    }
+    .Aside {
+      outline: 1px solid grey;
+      padding: 0 0.3em 0 0.3em;
+      font-size: smaller;
+      color: gray;
+    }
+
+    .Todo {
+      outline: 1px solid darkred;
+      padding: 0 0.3em 0 0.3em;
+      color: darkred;
+    }
+
     .solution { background-color: #fef; }
     .solution::before {
       content: "Your code";
@@ -134,6 +153,28 @@
       display: block;
       width: calc(100%-0.3em);
       padding-bottom: 0;
+    }
+
+    body {
+      counter-reset: h2counter;
+    }
+    h1 {
+      counter-reset: h2counter;
+    }
+    h2::before {
+      content: counter(h2counter) ".\0000a0\0000a0";
+      counter-increment: h2counter;
+      counter-reset: h3counter;
+    }
+    h3::before {
+      content: counter(h2counter) "." counter(h3counter) ".\0000a0\0000a0";
+      counter-increment: h3counter;
+    }
+
+    h2 {
+      margin-top: 2em;
+      border-top: 3px solid rgba(124,70,87, 0.25);
+      padding-top: 1em;
     }
   </style>
 </head><body>
@@ -165,10 +206,11 @@ __BODY__
   <a href="https://www.ingo-blechschmidt.eu/">Ingo Blechschmidt</a>
   for a 2025 course at the <a href="https://www.unipd.it/en/dm">University of Padova</a>.<br>
   Contact: <a href="tel:+4917695110311">+49 176 95110311</a> (Signal, Telegram, SMS)<br><br>
+  <!--
   Your Agda code, along with your level progress and
   streak information, is stored purely in your browser's local
   storage. Only solutions which you specifically submit for sharing are persistently
-  stored on the server.</p>
+  stored on the server.--></p>
 </footer>
 
 <link rel="stylesheet" href="Agda.css">
