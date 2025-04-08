@@ -20,13 +20,18 @@ sub visit {
   
   my $title;
   my $childs;
+  my $in_code;
   while(defined(my $line = <$fh>)) {
     if(not $title and $line =~ /^#\s*(.*?)(?:\s*\/\/.*)?$/) {
       $title++;
       print "  " x $level, "<li><a href=\"$module.html\">$1</a>" unless $level == 0;
     }
 
-    if($line =~ /import\s+([^\s]*)/) {
+    if($line =~ /```/) {
+      $in_code = ! $in_code;
+    }
+
+    if($in_code and $line =~ /import\s+([^\s]*)/) {
       print "<ol>\n" unless $childs++;
       visit($level + 1, $1) unless $seen{$1};
     }
