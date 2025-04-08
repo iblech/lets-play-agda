@@ -38,6 +38,7 @@ cd out
 
 find Padova2025 -name '*agda*' | grep -v "#" | xargs perl -i -pwe '
   BEGIN { $/ = undef }
+  s/#[^\n]*\/\/\s*([^\n]*)/# $1/g;
   s/\{--\}.*?\{--\}/{!!}/gs;
   s#-- Holify\n([^ ]*).*?```#$1 = {!!}\n```#gs;
   s#^-- Tests.*?```#```#mgs;

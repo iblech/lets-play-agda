@@ -21,8 +21,7 @@ sub visit {
   my $title;
   my $childs;
   while(defined(my $line = <$fh>)) {
-    chomp $line;
-    if(not $title and $line =~ /^#\s*(.*)$/) {
+    if(not $title and $line =~ /^#\s*(.*?)(?:\s*\/\/.*)?$/) {
       $title++;
       print "  " x $level, "<li><a href=\"$module.html\">$1</a>" unless $level == 0;
     }
