@@ -37,6 +37,52 @@ sub visit {
     }
   }
 
+  if($level == 0) {
+    print <<EOF;
+      <li>
+        Agda as a proof language
+        <ol>
+          <li>Relations</li>
+          <li>
+            Equality
+            <ol>
+              <li>Definition</li>
+              <li>Basic usage</li>
+              <li>Equational reasoning</li>
+            </ol>
+          </li>
+          <li>Results about natural numbers</li>
+          <li>Termination and well-founded induction</li>
+        </ol>
+      </li>
+      <li>
+        Verified algorithms
+        <ol>
+          <li>Post-hoc verification</li>
+          <li>Correct by construction</li>
+          <li>Case study: insertion sort</li>
+          <li>Case study: compiler &amp; interpreter</li>
+        </ol>
+      </li>
+      <li>
+        Computational content of classical logic
+        <ol>
+          <li>Minimas as convenient fiction</li>
+          <li>Sarcastic interpretation of classical logic</li>
+          <li>Case study: Dickson's lemma</li>
+        </ol>
+      </li>
+      <li>
+        Cubical Agda
+        <ol>
+          <li>Issues with standard Agda</li>
+          <li>A mathematical rosetta stone</li>
+          <li>First steps</li>
+        </ol>
+      </li>
+EOF
+  }
+
   if($childs) {
     print "  " x $level, "</ol>";
   }
