@@ -5,6 +5,12 @@ Mention streak, open source dependencies, ...
 :::
 
 
+## Download
+
+In case you prefer to work with a local Agda installation, there is an
+[archive](Padova2025.zip) of all Agda code.
+
+
 ## Unicode symbols
 
 Agda's community is big on Unicode, helping us to notationally mimic

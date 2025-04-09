@@ -89,6 +89,10 @@ find Padova2025 -name '*agda*' | grep -v "#" | xargs perl -i -pwe '
 '
 agda --allow-unsolved-metas --html --html-highlight=code Padova2025/Index.lagda.md
 
+# Deterministically generate zip file
+find Padova2025 -print | xargs touch -d @0
+find Padova2025 -not -name "*.agdai" | sort | TZ=UTC xargs zip -X -9 Padova2025.zip
+
 mv html/* .
 rmdir html
 

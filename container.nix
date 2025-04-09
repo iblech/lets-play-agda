@@ -53,6 +53,7 @@ let cache = builtins.fetchTarball {
       tmux
       ttyd
       util-linux
+      zip
     ];
     wantedBy = [ "multi-user.target" ];
     serviceConfig.User = "user";
