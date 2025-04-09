@@ -34,12 +34,12 @@ f47be20f9140e3e7f56fe1e552704084b713434377f6f2bad74d5d6ea358278e  cache/inria-sa
 f5dd77ce2d35ffe604286ca0dc2d89b65bf8425dcdbafb32aee2a461976b0b76  cache/agda-input.el
 EOF
 
-rm -rf out
-mkdir out
+rm -rf out-wip
+mkdir out-wip
 
-cp --reflink=auto -t out -r Padova2025
+cp --reflink=auto -t out-wip -r Padova2025
 
-cd out
+cd out-wip
 
 echo
 echo "* Checking solutions..."
@@ -143,3 +143,7 @@ cat ../frontend/ui.js >> ui.js
 ln -s Padova2025.Welcome.html index.html
 
 rm -r toc.html Padova2025 solutions
+
+cd ..
+rm -rf out
+mv out-wip out
