@@ -19,6 +19,9 @@ Add introduction.
 Implement a function `is-tautology₁?` which checks whether a given input
 function is constantly true.
 
+For instance, for the function `f` defined by `f x = x`, the result of
+`is-tautology₁ f` should be `false`.
+
 ```
 is-tautology₁ : (Bool → Bool) → Bool
 is-tautology₁ f = {--}f false && f true
@@ -32,9 +35,6 @@ is-tautology₁ f = {--}f false && f true
 -- EX: is-tautology₁ (λ x → true)  ≡ true
 ```
 
-For instance, for the function `f` defined by `f x = x`, the result of
-`is-tautology₁ f` should be `false`.
-
 <!--
 TODO: Exercises about...
 - verifying that is-tautology₁ does what it should do
@@ -46,6 +46,9 @@ TODO: Exercises about...
 
 Implement a function ``is-tautology₂?`` which checks whether a given input
 function of two arguments is constantly true.
+
+For instance, for the function `f` defined by `f x y = true`, the result of
+`is-tautology₂ f` should be `true`.
 
 ```
 is-tautology₂ : (Bool → Bool → Bool) → Bool
@@ -62,9 +65,6 @@ is-tautology₂ f = {--}is-tautology₁ (f false) && is-tautology₁ (f true){--
 -- EX: is-tautology₂ (λ x y → true)  ≡ true
 -- TODO: check all 2^4 cases
 ```
-
-For instance, for the function `f` defined by `f x y = true`, the result of
-`is-tautology₂ f` should be `true`.
 
 
 ## Exercise: Types are first-class values

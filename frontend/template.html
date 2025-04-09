@@ -33,8 +33,7 @@
     }
 
     nav { grid-area: nav; }
-    main { grid-area: main; }
-    main, footer { max-width: 50em; }
+    main { grid-area: main; max-width: 50em; }
 
     @media (min-width: 768px) { 
       body {
@@ -43,9 +42,10 @@
       }
     }
 
-    footer, footer a, .inessential * { color: gray !important; }
+    .footer, .footer a, .inessential * { color: gray !important; }
+    .footer { font-size: smaller; }
     a { text-decoration: none; }
-    footer a { background-image: linear-gradient(#eeebee 0%, #eeebee 100%); background-repeat: repeat-x; background-position: 0 100%; background-size: 1px 1px; }
+    .footer a { background-image: linear-gradient(#eeebee 0%, #eeebee 100%); background-repeat: repeat-x; background-position: 0 100%; background-size: 1px 1px; }
     a:hover { background-image: linear-gradient(rgba(114, 83, 237, 0.45) 0%, rgba(114, 83, 237, 0.45) 100%); background-size: 1px 1px; background-repeat: repeat-x; background-position: 0 100%; }
 
     iframe { width: 100%; height: 30em; border: 0; display: none; }
@@ -56,7 +56,7 @@
     .Background { font-family: "Inria Sans", "Trebuchet MS", sans-serif; }
     .Markup     { display: none; }
 
-    main, footer { padding: 0.5em; }
+    main { padding: 0.5em; }
 
     .raw, .raw a { float: right; color: gray; filter: grayscale(100%); }
 
@@ -213,22 +213,21 @@ __BODY__
 
 __SOLUTIONS__
 </aside>
-</main>
 
-<div></div>
-<footer>
+<aside class="footer">
   <p>Want to contribute?
   <a href="https://github.com/iblech/lets-play-agda/blob/main/__SOURCE__">Visit this file on GitHub.</a><br>
   <a href=".">Let's play Agda</a> was created by
   <a href="https://www.ingo-blechschmidt.eu/">Ingo Blechschmidt</a>
   for a 2025 course at the <a href="https://www.unipd.it/en/dm">University of Padova</a>.<br>
-  Contact: <a href="tel:+4917695110311">+49 176 95110311</a> (Signal, Telegram, SMS)<br><br>
+  Contact: <a href="tel:+4917695110311">+49 176 95110311</a> (Signal, Telegram, SMS)</p>
   <!--
   Your Agda code, along with your level progress and
   streak information, is stored purely in your browser's local
   storage. Only solutions which you specifically submit for sharing are persistently
-  stored on the server.--></p>
-</footer>
+  stored on the server.-->
+</aside>
+</main>
 
 <link rel="stylesheet" href="Agda.css">
 <script src="ui.js"></script>
