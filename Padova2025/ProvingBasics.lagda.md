@@ -8,6 +8,8 @@ Here are a couple of facts about even and odd numbers. None of them are
 particularly earth-shattering. How can we express these assertions in Agda, and
 how can we prove them? How do we switch Agda from "programming mode" to "logic mode"?
 
+<!-- update EvenOdd.lagda.md in case numbering changes -->
+
 1. **Zero is an even number.** \
    $\mathrm{Even}(0)$
 
@@ -99,3 +101,9 @@ resulting type will be inhabited.
 The displayed assertions can then be formalized by suitable constant witnesses
 or functions manipulating such witnesses---click on the buttons above to see
 how.
+
+Having formalized the assertions, we are now in a position to prove them.
+
+```
+open import Padova2025.ProvingBasics.EvenOdd
+```

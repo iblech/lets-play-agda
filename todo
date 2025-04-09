@@ -16,3 +16,11 @@ Backend:
 - relay work in progress to the browser, for safekeeping
 - display cheatsheet
 - have container.nix run frontend/build.sh in compilePhase or similar
+- have basic type test
+
+Content:
+- "Weird" exercise
+- explain ⊥
+- lists
+- vectors, dependent types
+- contraction (a b : X)
