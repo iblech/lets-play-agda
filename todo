@@ -17,6 +17,7 @@ Backend:
 - display cheatsheet
 - have container.nix run frontend/build.sh in compilePhase or similar
 - have basic type test
+- fix C-c C-,
 
 Content:
 - "Weird" exercise
