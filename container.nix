@@ -2,7 +2,7 @@
 
 let cache = builtins.fetchTarball {
   url = "https://www.speicherleck.de/iblech/stuff/lets-play-agda-cache.tgz";
-  sha256 = "sha256:09m6qxh4404qs1sb9dfcyqgm131bj5rfnal15716139a90yzfjzs";
+  sha256 = "sha256:1jlv1a6dnl3kf41ws24ghn5gngfnh8i09aa1zk2dnbkf029gr98j";
 }; in
 
 {
@@ -85,7 +85,7 @@ let cache = builtins.fetchTarball {
         text/x-agda   agda lagda;
       }
       charset utf-8;
-      charset_types text/x-agda text/markdown;
+      charset_types text/x-agda text/markdown text/javascript;
     '';
 
     virtualHosts.localhost = {

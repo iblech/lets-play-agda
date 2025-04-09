@@ -40,9 +40,22 @@ hierarchy was extended up to the (ω⋅2)'th level.
 :::
 
 
+## Example: Constants
+
+With the type of Booleans at hand, we can introduce simple constants:
+
+```
+our-first-constant : Bool
+our-first-constant = true
+```
+
+Not particularly exciting---without functions, we are limited to the two
+trivial right hand sides `false` and `true`.
+
+
 ## Example: Identity function
 
-With the type of Booleans at hand, we can implement our first function, the
+Let us implement our first function, the
 identity function which maps every input value to itself, i.e. which maps
 `false` to `false` and `true` to `true`. As in Haskell, and unlike in most
 other programming languages, no special keyword is needed to define a function.
@@ -50,7 +63,7 @@ other programming languages, no special keyword is needed to define a function.
 Here is a template for the required code:
 
 ```
-id : Bool → Bool
+id : Bool → Bool   -- enter `→` by `\-‌>` or `\to` or `\rightarrow`
 id x = {--}x{--}
 
 -- Tests
@@ -69,7 +82,8 @@ function.
 
 ::: Hint :::
 1. Fire up Agda by clicking on `Edit hole`.
-2. Press `C-c C-l` to activate the hole.
+2. Press `C-c C-l` to activate the hole. Here and in the following, `C-`
+   indicates that the `Ctrl` key should be pressed.
 3. Navigate to the hole.
 4. Fill the hole with the following content: `x`
 5. Press `C-c C-SPC` to verify that the proposed hole contents are type-correct.
@@ -103,11 +117,34 @@ hints.
 ::: Hint :::
 1. First introduce a variable to the left of the `=` symbol, i.e. have the line
    begin with `not x`.
-2. Reload the file using C-c C-l, so that the hole activates.
-3. Then, ensuring that the cursor is inside the hole, press C-c C-c and answer
+2. Reload the file using `C-c C-l`, so that the hole activates.
+3. Then, ensuring that the cursor is inside the hole, press `C-c C-c` and answer
    that you would like to do the case split on the variable `x`.
 4. Finally, for each case, fill in the definition. Press C-c C-SPACE when you
    are finished with a hole.
-5. Ask Agda to reload the file again using C-c C-l. You should then see
+5. Ask Agda to reload the file again using `C-c C-l`. You should then see
    a confetti animation, indicating that the exercise has been successfully solved.
+:::
+
+
+## Running functions
+
+In blackboard mathematics, and also most programming languages, the usual
+syntax for calling a function with an argument is `f(x)`, as in `sin(π)`. Agda
+follows the lambda calculus and Haskell tradition and instead uses
+(space-delimited) juxtaposition, `f x`:
+
+```
+example-run : Bool
+example-run = {--}not our-first-constant{--}
+```
+
+Fill this hole with `not our-first-constant`, or a more involved function call
+of your choosing. Then observe the result by pressing `C-c C-v` and
+supplying the expression you want to evaluate, in this case `example-run`.
+
+::: Aside :::
+If you run Agda locally instead of embedded into this webpage, then the
+shortcut for evaluating expressions is `C-c C-n` ("normalize") instead of `C-c
+C-v` ("value"). In the browser, `C-n` is tied to opening a new window.
 :::

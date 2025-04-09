@@ -22,10 +22,16 @@ if [ ! -e cache/confetti.js ]; then
     cache/confetti.js
 fi
 
+if [ ! -e cache/agda-input.el ]; then
+  curl https://raw.githubusercontent.com/agda/agda/refs/heads/master/src/data/emacs-mode/agda-input.el > \
+    cache/agda-input.el
+fi
+
 sha256sum -c <<EOF
 f47be20f9140e3e7f56fe1e552704084b713434377f6f2bad74d5d6ea358278e  cache/inria-sans.woff2
 978ac8f14acd3559329ea14fa72d1eba924bdb4cad236ab434f7804c2def1bf5  cache/juliamono.woff2
 86856036d4e9f9c3b822961f26b972cd86560d07137d7f75abb32705aea49843  cache/confetti.js
+f5dd77ce2d35ffe604286ca0dc2d89b65bf8425dcdbafb32aee2a461976b0b76  cache/agda-input.el
 EOF
 
 rm -rf out
@@ -130,9 +136,10 @@ done
 
 cp --reflink=auto ../cache/*.woff2  .
 cp --reflink=auto ../cache/*.js     .
-cp --reflink=auto ../frontend/ui.js .
+
+(cd ..; find Padova2025 -name "*.md" | xargs cat | ./frontend/generate-input-tips.pl) > ui.js
+cat ../frontend/ui.js >> ui.js
 
 ln -s Padova2025.Welcome.html index.html
 
-rm toc.html
-rm -r Padova2025 solutions
+rm -r toc.html Padova2025 solutions
