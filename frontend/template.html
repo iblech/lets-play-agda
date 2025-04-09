@@ -65,7 +65,7 @@
       outline-offset: 4px;
     }
 
-    .edit, .show-hint, .show-reference-solution {
+    .edit, .show-hint, .show-reference-solution, .show-more {
       font-family: "JuliaMono", monospace;
       color: white;
       font-weight: bold;
@@ -76,8 +76,8 @@
       border: 1px solid transparent;
       border-radius: 0.25rem;
     }
-    .show-hint, .show-reference-solution { margin-left: 0; background-color: lightgrey; color: black; }
-    .show-reference-solution {
+    .show-hint, .show-reference-solution, .show-more { margin-left: 0; background-color: lightgrey; color: black; }
+    .show-reference-solution, .show-more {
       background-color: #fff;
       color: black;
       outline: 1px solid purple;
@@ -95,7 +95,7 @@
 
     nav { position: sticky; overflow-y: auto; top: 0; height: 100vh; align-self: start; }
     nav li { list-style-type: "⬜ "; }
-    nav li:has(> ol) > a { font-weight: bold; }
+    nav > ol > li > a { font-weight: bold; }
     .list-style-type-none li { list-style-type: none; }
     .status-0 { list-style-type: "⬜ "; }
     .status-1 { list-style-type: "☑️ "; }

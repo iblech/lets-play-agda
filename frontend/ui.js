@@ -308,25 +308,30 @@ function printActivity() {
   div.appendChild(boxes);
 }
 
-function activateHints() {
-  for(const hint of document.getElementsByClassName("Hint")) {
-    for(const li of hint.getElementsByTagName("li")) {
-      activateHint(li);
+function activateHintsAndMore() {
+  activateDetails("Hint", "show-hint", "👉 Show hint…");
+  activateDetails("More", "show-more", "👉 Show more…");
+}
+
+function activateDetails(elemClass, popupClass, action) {
+  for(const elem of document.getElementsByClassName(elemClass)) {
+    for(const li of elem.getElementsByTagName("li")) {
+      activateSpoiler(li);
     }
 
-    hint.style.display = "none";
+    elem.style.display = "none";
     const showButton = document.createElement("a");
-    showButton.className = "show-hint";
-    showButton.innerHTML = "👉 Show hint…";
+    showButton.className = popupClass;
+    showButton.innerHTML = action;
     showButton.onclick = function () {
       showButton.remove();
-      hint.style.display = "block";
+      elem.style.display = "block";
     };
-    hint.insertAdjacentElement("afterend", showButton);
+    elem.insertAdjacentElement("afterend", showButton);
   }
 }
 
-function activateHint(obj) {
+function activateSpoiler(obj) {
   let st = true;
   obj.style.cursor = "pointer";
   obj.onclick = function () {
@@ -363,7 +368,7 @@ function attachTooltips() {
 }
 
 attachEditors();
-activateHints();
+activateHintsAndMore();
 printActivity();
 renderToc();
 attachTooltips();
