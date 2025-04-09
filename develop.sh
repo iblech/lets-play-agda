@@ -5,7 +5,7 @@
 ./frontend/boot.sh &
 
 while :; do
-  ./frontend/build.sh
+  ./frontend/build.sh "$1"
   echo -en "\007"
 
   inotifywait -e close_write -r Padova2025/ backend/ frontend/

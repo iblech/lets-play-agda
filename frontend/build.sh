@@ -2,6 +2,8 @@
 
 set -e
 
+export quick="$1"
+
 mkdir -p cache
 
 echo "* Obtaining external static resources..."
@@ -41,41 +43,45 @@ cp --reflink=auto -t out-wip -r Padova2025
 
 cd out-wip
 
-echo
-echo "* Checking solutions..."
-# Keep us honest: check our proposed solutions
-find Padova2025 -name '*agda*' | grep -v "#" | xargs perl -i -pwe '
-  s/^--\s*EX:\s*(.*)$/module _ where private\n  open import Padova2025.Equality.Definition\n  lets-play-agda-test : $1\n  lets-play-agda-test = refl\n/g;
-'
-agda --safe Padova2025/Index.lagda.md
+if [ -z "$quick" ]; then
+  echo
+  echo "* Checking solutions..."
+  # Keep us honest: check our proposed solutions
+  find Padova2025 -name '*agda*' | grep -v "#" | xargs perl -i -pwe '
+    s/^--\s*EX:\s*(.*)$/module _ where private\n  open import Padova2025.Equality.Definition\n  lets-play-agda-test : $1\n  lets-play-agda-test = refl\n/g;
+  '
+  agda --safe Padova2025/Index.lagda.md
+fi
 
-# Now generate HTML for the solutions
-echo
-echo "* Generating HTML for solutions..."
-find Padova2025 -name '*agda*' | grep -v "#" | xargs perl -i -pwe '
-  BEGIN { $/ = undef }
-  s#^-- Tests.*?```#```#mgs;
-'
-agda --safe --html --html-highlight=code Padova2025/Index.lagda.md
-
-mkdir solutions
-for i in html/*.md; do
-  < "$i" perl -nwe '
+if [ -z "$quick" ]; then
+  # Now generate HTML for the solutions
+  echo
+  echo "* Generating HTML for solutions..."
+  find Padova2025 -name '*agda*' | grep -v "#" | xargs perl -i -pwe '
     BEGIN { $/ = undef }
-    while($_ =~ m#<pre class="Agda"><a id="([^"]*)"></a>(.*?)</pre>#gs) {
-      my ($id, $code) = ($1, $2);
-      next unless $code =~ /-- Holify/ or $code =~ /\{--\}/;
-      $code =~ s/\{--\}//g;
-      $code =~ s/<a id="[^"]*"/<a/g;
-      $code =~ s/<a class="Comment">-- Holify<\/a>\n//g;
-      $code =~ s/<a (?:href="[^"]*" )?class="([^"]*)">/<span class="$1">/g;
-      $code =~ s/<\/a>/<\/span>/g;
-      $code =~ s/\n+$/\n/;
-      print "<pre class=\"Agda reference-solution\" id=\"reference-solution-$id\">$code</pre>\n\n";
-    }
-  ' > "solutions/$(basename "$i")"
-done
-rm -rf html
+    s#^-- Tests.*?```#```#mgs;
+  '
+  agda --safe --html --html-highlight=code Padova2025/Index.lagda.md
+
+  mkdir solutions
+  for i in html/*.md; do
+    < "$i" perl -nwe '
+      BEGIN { $/ = undef }
+      while($_ =~ m#<pre class="Agda"><a id="([^"]*)"></a>(.*?)</pre>#gs) {
+        my ($id, $code) = ($1, $2);
+        next unless $code =~ /-- Holify/ or $code =~ /\{--\}/;
+        $code =~ s/\{--\}//g;
+        $code =~ s/<a id="[^"]*"/<a/g;
+        $code =~ s/<a class="Comment">-- Holify<\/a>\n//g;
+        $code =~ s/<a (?:href="[^"]*" )?class="([^"]*)">/<span class="$1">/g;
+        $code =~ s/<\/a>/<\/span>/g;
+        $code =~ s/\n+$/\n/;
+        print "<pre class=\"Agda reference-solution\" id=\"reference-solution-$id\">$code</pre>\n\n";
+      }
+    ' > "solutions/$(basename "$i")"
+  done
+  rm -rf html
+fi
 
 # Now hide the solutions and generate HTML
 echo
@@ -89,9 +95,11 @@ find Padova2025 -name '*agda*' | grep -v "#" | xargs perl -i -pwe '
 '
 agda --allow-unsolved-metas --html --html-highlight=code Padova2025/Index.lagda.md
 
-# Deterministically generate zip file
-find Padova2025 -print | xargs touch -d @0
-find Padova2025 -not -name "*.agdai" | sort | TZ=UTC xargs zip -X -9 Padova2025.zip
+if [ -z "$quick" ]; then
+  # Deterministically generate zip file
+  find Padova2025 -print | xargs touch -d @0
+  find Padova2025 -not -name "*.agdai" | sort | TZ=UTC xargs zip -X -9 Padova2025.zip
+fi
 
 mv html/* .
 rmdir html
@@ -131,7 +139,8 @@ for i in *.md; do
     s/__TOC__/slurp("toc.html")/eg;
     s/__MODULENAME__/$ENV{modulename}/g;
     s/__SOURCE__/$ENV{source}/g;
-    s/__SOLUTIONS__/slurp("solutions\/$ENV{modulename}.md")/eg;
+    s/__SOLUTIONS__/slurp("solutions\/$ENV{modulename}.md")/eg
+      unless $ENV{quick};
   ' > "$filename"
 
   rm "$bodyfile" "$i"
@@ -146,7 +155,7 @@ cat ../frontend/ui.js >> ui.js
 
 ln -s Padova2025.Welcome.html index.html
 
-rm -r toc.html Padova2025 solutions
+rm -rf toc.html Padova2025 solutions
 
 cd ..
 rm -rf out
