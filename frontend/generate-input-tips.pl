@@ -21,6 +21,8 @@ push @{$commands{"→"}}, "to";
 push @{$commands{"π"}}, "pi";
 push @{$commands{"₁"}}, "_1";
 push @{$commands{"₂"}}, "_2";
+push @{$commands{"¹"}}, "^1";
+push @{$commands{"²"}}, "^2";
 push @{$commands{"ℓ"}}, "ell";
 
 $ignore{$_}++ for qw<
