@@ -1,6 +1,8 @@
 ```
 module Padova2025.Equality.Definition where
 
-data _≡_ {X : Set} : X → X → Set where
+open import Agda.Primitive
+
+data _≡_ {ℓ : Level} {X : Set ℓ} : X → X → Set ℓ where
   refl : {x : X} → x ≡ x
 ```

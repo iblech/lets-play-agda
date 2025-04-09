@@ -10,7 +10,7 @@ open import Padova2025.ProgrammingBasics.Operators
 ```
 
 ::: Todo ::
-Introduction.
+Add introduction.
 :::
 
 
@@ -65,3 +65,27 @@ is-tautology₂ f = {--}is-tautology₁ (f false) && is-tautology₁ (f true){--
 
 For instance, for the function `f` defined by `f x y = true`, the result of
 `is-tautology₂ f` should be `true`.
+
+
+## Exercise: Types are first-class values
+
+Most statically typed programming languages have a strict separation between
+values (which then exist only at runtime) and types (which then exist only at
+compiletime, and which are erased in the resulting machine code). In Agda,
+types are values in their own right---indeed, they are values of the type
+`Set`---and we can freely manipulate them.
+
+For instance, define a function `Endo` which inputs a type `X` and outputs the
+type `X → X` of functions from `X` to `X`:
+
+```
+Endo : Set → Set
+Endo X = {--}X → X{--}
+
+-- Tests
+module _ where private
+  open import Padova2025.Equality.Definition
+
+  test : (X : Set) → Endo X ≡ (X → X)
+  test X = refl
+```
