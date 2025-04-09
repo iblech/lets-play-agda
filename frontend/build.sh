@@ -41,7 +41,7 @@ echo "* Checking solutions..."
 find Padova2025 -name '*agda*' | grep -v "#" | xargs perl -i -pwe '
   s/^--\s*EX:\s*(.*)$/module _ where private\n  open import Padova2025.Equality.Definition\n  lets-play-agda-test : $1\n  lets-play-agda-test = refl\n/g;
 '
-agda Padova2025/Index.lagda.md
+agda --safe Padova2025/Index.lagda.md
 
 # Now generate HTML for the solutions
 echo
@@ -50,7 +50,7 @@ find Padova2025 -name '*agda*' | grep -v "#" | xargs perl -i -pwe '
   BEGIN { $/ = undef }
   s#^-- Tests.*?```#```#mgs;
 '
-agda --html --html-highlight=code Padova2025/Index.lagda.md
+agda --safe --html --html-highlight=code Padova2025/Index.lagda.md
 
 mkdir solutions
 for i in html/*.md; do
