@@ -15,6 +15,4 @@ Backend:
 - accept solution submissions
 - relay work in progress to the browser, for safekeeping
 - display cheatsheet
-
-Contents:
-- Unicode symbols
+- have container.nix run frontend/build.sh in compilePhase or similar
