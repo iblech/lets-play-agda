@@ -15,7 +15,7 @@ how can we prove them? How do we switch Agda from "programming mode" to "logic m
 
    ::: More :::
    ```code
-   base-even    : Even zero
+   base-even : Even zero
    "base-even is a witness that zero is even."
    ```
    :::
@@ -25,7 +25,7 @@ how can we prove them? How do we switch Agda from "programming mode" to "logic m
 
    ::: More :::
    ```code
-   step-even    : (a : ℕ) → Even a → Even (succ (succ a))
+   step-even : (a : ℕ) → Even a → Even (succ (succ a))
    "step-even is a function which reads as input
    - a number `a` and
    - a witness that `a` is even,
@@ -39,7 +39,7 @@ how can we prove them? How do we switch Agda from "programming mode" to "logic m
 
    ::: More :::
    ```code
-   sum-even     : (a : ℕ) → (b : ℕ) → Even a → Even b → Even (a + b)
+   sum-even : (a : ℕ) → (b : ℕ) → Even a → Even b → Even (a + b)
    "sum-even is a function which reads as input
    - a number `a`,
    - a number `b`,
@@ -55,7 +55,7 @@ how can we prove them? How do we switch Agda from "programming mode" to "logic m
 
    ::: More :::
    ```code
-   succ-even    : (a : ℕ) → Even a → Odd (succ a)
+   succ-even : (a : ℕ) → Even a → Odd (succ a)
    "succ-even is a function which reads as input
    - a number `a` and
    - a witness that `a` is even,
@@ -85,7 +85,7 @@ is no "logic mode" separate from "programming mode". Instead, a common language
 is used for both.
 
 This feat is made possible by *dependent types*. Unlike familiar types like `ℕ`
-or `List ℕ` or `ℕ → ℕ` which exist in most statically typed programming
+or `List ℕ` or `ℕ → ℕ` which are available in most statically typed programming
 languages, dependent types are types which depend on values. Perhaps the most
 well-known example of such a type is `Vector n X`, the type of length-`n` lists
 of elements of `X`, where `n` can be an unknown value determined only at
@@ -102,8 +102,13 @@ The displayed assertions can then be formalized by suitable constant witnesses
 or functions manipulating such witnesses---click on the buttons above to see
 how.
 
+For instance, to prove that some proposition $P$ implies some further
+proposition $Q$, in Agda we construct a function which maps witnesses of $P$ to
+witnesses of $Q$.
+
 Having formalized the assertions, we are now in a position to prove them.
 
 ```
 open import Padova2025.ProvingBasics.EvenOdd
+open import Padova2025.ProvingBasics.Negation
 ```

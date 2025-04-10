@@ -63,16 +63,3 @@ succ-even : {a : ℕ} → Even a → Odd (succ a)
 succ-even base-even     = base-odd
 succ-even (step-even p) = step-odd (succ-even p)
 ```
-
-
-## Exercise: No simultaneously even and odd numbers
-
-```
-data ⊥ : Set where
-```
-
-```
-even-and-odd : {a : ℕ} → Even a → Odd a → ⊥
--- Holify
-even-and-odd (step-even p) (step-odd q) = even-and-odd p q
-```
