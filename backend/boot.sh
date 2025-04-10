@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
+# -t fontFamily="'JuliaMono', serif" \
 exec ttyd \
   -t disableReconnect=true \
   -t disableLeaveAlert=true \
   -t fontSize=20 \
-  -t fontFamily="'JuliaMono', serif" \
   -t "theme={'background':'white'}" \
   -b /__ttyd \
   -W \

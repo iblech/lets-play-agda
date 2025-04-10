@@ -37,13 +37,16 @@ function getCompletionStatus(file) {
 
 function createIframe(block, id) {
   const iframe = document.createElement("iframe");
+  iframe.src = "/__ttyd/?arg=" + getAgdaModuleName() + "&arg=" + encodeURIComponent(id);
 
   // xterm.js has issues if the font is not available at initialization time,
   // hence ensure that it is available before the frame contents are loaded
+  /*
   new FontFace('JuliaMono', 'local("JuliaMono"), local("JuliaMono Regular"), url(./juliamono.woff2)').load().then(function (f) {
     iframe.contentDocument.fonts.add(f);
     iframe.src = "/__ttyd/?arg=" + getAgdaModuleName() + "&arg=" + encodeURIComponent(id);
   });
+  */
 
   iframe.onload = function () {
     iframe.contentWindow.document.addEventListener('keydown', function (e) {
