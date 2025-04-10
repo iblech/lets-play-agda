@@ -98,7 +98,7 @@ agda --allow-unsolved-metas --html --html-highlight=code Padova2025/Index.lagda.
 if [ -z "$quick" ]; then
   # Deterministically generate zip file
   find Padova2025 -print | xargs touch -d @0
-  find Padova2025 -not -name "*.agdai" | sort | TZ=UTC xargs zip -X -9 Padova2025.zip
+  find Padova2025 -not -name "*.agdai" -not -name "*.swp" | sort | TZ=UTC xargs zip -X -9 Padova2025.zip
 fi
 
 mv html/* .
