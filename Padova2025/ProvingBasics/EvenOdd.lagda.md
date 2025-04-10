@@ -63,3 +63,75 @@ succ-even : {a : ℕ} → Even a → Odd (succ a)
 succ-even base-even     = base-odd
 succ-even (step-even p) = step-odd (succ-even p)
 ```
+
+
+## Exercise: Being zero
+
+Soon we will discuss equality in general; as a warm-up, we want to set up a
+family `IsZero n` of dependent types in such a way that their elements can be
+regarded as witnesses for `n` being zero. In other words:
+
+1. The type `IsZero zero` should be inhabited.
+2. For all nonzero numbers `n`, the type `IsZero n` should be empty.
+
+Think about how we can formalize this in Agda, then compare with the reference
+solution:
+
+::: More :::
+```
+data IsZero : ℕ → Set where
+  case-zero : IsZero zero
+```
+:::
+
+With this definition in place, we can state and prove that the sum of two
+numbers, both of which are zero, is zero again. First think about how we could
+formalize this claim, then have a look and fill in the hole.
+
+::: More :::
+```
+sum-zero : (x y : ℕ) → IsZero x → IsZero y → IsZero (x + y)
+-- Holify
+sum-zero zero zero case-zero case-zero = case-zero
+```
+
+::: Hint :::
+First introduce four variables to the left of the `=` sign: `x`, `y`, `p` (a
+witness for `x` being zero), and `q` (a witness for `y` being zero). Then do
+case splits. You will observe that Agda recognizes that the successor cases
+cannot occur.
+:::
+:::
+
+
+## Exercise: Being positive
+
+Similar to the types `IsZero n` of the previous exercise, let us now introduce
+types `IsPositive n`. The type `IsPositive zero` should be empty---there should
+not be a witness of the false claim that `zero` is positive---and all the other
+types `IsPositive n` should be inhabited.
+
+Think about how this could be formalized in Agda, then compare with the
+reference solution:
+
+::: More :::
+```
+data IsPositive : ℕ → Set where
+  case-succ : (n : ℕ) → IsPositive (succ n)
+```
+:::
+
+Now think about how the observation "the sum of two numbers, the first one on
+which is positive, is positive" can be formalized in Agda; then compare with
+the reference solution; then fill in the hole.
+
+::: More :::
+```
+sum-positive : (x y : ℕ) → IsPositive x → IsPositive (x + y)
+-- Holify
+sum-positive x y (case-succ n) = case-succ (n + y)
+
+-- Alternatively:
+-- sum-positive (succ x) y p = case-succ (x + y)
+```
+:::
