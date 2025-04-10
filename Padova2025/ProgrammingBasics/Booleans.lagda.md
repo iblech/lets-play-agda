@@ -63,7 +63,7 @@ other programming languages, no special keyword is needed to define a function.
 Here is a template for the required code:
 
 ```
-id : Bool → Bool   -- enter `→` by `\-‌>` or `\to` or `\rightarrow`
+id : Bool → Bool   -- enter `→` by `\->` or `\to` or `\rightarrow`
 id x = {--}x{--}
 
 -- Tests
