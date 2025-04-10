@@ -57,7 +57,7 @@ zipWithV f (x ∷ xs) (y ∷ ys) = f x y ∷ zipWithV f xs ys
 
 ## Exercise: drop
 
-For instance, "dropV (succ zero) (a ∷ b ∷ c ∷ [])" should evaluate to "b ∷ c ∷ []".
+For instance, `dropV (succ zero) (a ∷ b ∷ c ∷ [])` should evaluate to `b ∷ c ∷ []`.
 
 ```
 dropV : {A : Set} {n : ℕ} (k : ℕ) → Vector A (k + n) → Vector A n
@@ -66,14 +66,31 @@ dropV zero xs = xs
 dropV (succ n) (x ∷ xs) = dropV n xs
 ```
 
-<!--
--- For instance, "takeV (succ zero) (a ∷ b ∷ c ∷ [])" should evaluate to "a ∷ []".
-takeV : {A : Set} {n : ℕ} (k : ℕ) → Vector A (k + n) → Vector A k
-takeV n xs = {!!}
 
--- For instance, "(a ∷ b ∷ []) ++ (c ∷ d ∷ [])" should evaluate to "a ∷ b ∷ c ∷ d ∷ []".
+## Exercise: take
+
+For instance, `takeV (succ zero) (a ∷ b ∷ c ∷ [])` should evaluate to `a ∷ []`.
+
+```
+takeV : {A : Set} {n : ℕ} (k : ℕ) → Vector A (k + n) → Vector A k
+-- Holify
+takeV zero     xs       = []
+takeV (succ n) (x ∷ xs) = x ∷ takeV n xs
+```
+
+
+## Exercise: Concatenation
+
+For instance, `(a ∷ b ∷ []) ++ (c ∷ d ∷ [])` should evaluate to `a ∷ b ∷ c ∷ d ∷ []`.
+
+```
 _++_ : {A : Set} {n m : ℕ} → Vector A n → Vector A m → Vector A (n + m)
-xs ++ ys = {!!}
+-- Holify
+_++_ []       ys = ys
+_++_ (x ∷ xs) ys = x ∷ (xs ++ ys)
+```
+
+<!--
 
 -- For instance, "snocV (a ∷ b ∷ []) c" should evaluate to "a ∷ b ∷ c ∷ []".
 snocV : {A : Set} {n : ℕ} → Vector A n → A → Vector A (succ n)
