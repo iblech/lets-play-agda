@@ -96,6 +96,8 @@ function attachEditor(block) {
     editButton.className = "edit";
     editButton.innerHTML = "🐔 Edit hole…";
     editButton.onclick = function () {
+      editButton.onclick = null;
+      editButton.innerHTML = "⏳ Please wait…";
       block.classList.add("spinning");
       block.insertAdjacentElement("afterend", createIframe(block, id));
       recordActivity();
