@@ -5,7 +5,7 @@ proof language. It was created for a 2025 course at the [University of
 Padova](https://www.unipd.it/en/dm).
 
 **Start here:**
-<span class="edit">[Agda as a programming language](Padova2025.ProgrammingBasics.html)</span>
+<span class="edit">[Agda as a programming language](Padova2025.ProgrammingBasics.Booleans.html)</span>
 
 
 ## In a nutshell: Agda is a programming language...
