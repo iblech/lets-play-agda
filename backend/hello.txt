@@ -2,21 +2,22 @@
   "C-" means "Ctrl".
   If C-c is intercepted by your browser, try C-o instead.
 
-  ┌─ GENERAL ─────────────────────────┐    ┌─ SYMBOLS ──────────────┐
-  │ C-z       = enable Vi keybinds    │    │ ℕ = \bN                │
-  │ C-+       = increase font size    │    │ α = \alpha or \Ga      │
-  │ C-Return  = fullscreen mode       │    │ → = \r     or \to      │
-  │ C-x 1     = maximize window       │    │ · = \cdot              │
-  └───────────────────────────────────┘    │ ∷ = \::                │
-                                           │ ≡ = \==                │
-  ┌─ AGDA ────────────────────────────┐    │ ≤ = \<=                │
-  │ C-c C-l   = load file             │    │ ⊥ = \bot               │
-  │ C-c C-c   = case split            │    └────────────────────────┘
+  ┌─ GENERAL ─────────────────────────┐    ┌─ SYMBOLS ────────────────┐
+  │ C-z       = enable Vi keybinds    │    │ ℕ = \bN                  │
+  │ C-+       = increase font size    │    │ α = \alpha or \Ga        │
+  │ C-Return  = fullscreen mode       │    │ → = \r     or \to        │
+  │ C-x 1     = maximize window       │    │ · = \cdot                │
+  └───────────────────────────────────┘    │ ∷ = \::                  │
+                                           │ ≡ = \==                  │
+  ┌─ AGDA ────────────────────────────┐    │ ≤ = \<=                  │
+  │ C-c C-l   = load file             │    │ ⊥ = \bot                 │
+  │ C-c C-c   = case split            │    └──────────────────────────┘
   │ C-c C-SPC = check hole            │    Use M-x describe-char to
-  │ C-c ,     = see context           │    lookup input method for
-  │ C-c .     = see context and goal  │    symbol under cursor.
-  │ C-c C-d   = display type          │
-  │ C-c C-v   = evaluate expression   │
+  │ C-c ,     = show context          │    lookup input method for
+  │ C-c .     = show context and goal │    symbol under cursor.
+  │ C-c C-r   = refine goal           │
+  │ C-c C-d   = display type          │    If you experience weird
+  │ C-c C-v   = evaluate expression   │    layout issues, try C-Return.
   └───────────────────────────────────┘
 
   To get back to your file, press C-x C-Left.
