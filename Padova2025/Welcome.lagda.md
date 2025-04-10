@@ -7,6 +7,13 @@ Padova](https://www.unipd.it/en/dm).
 **Start here:**
 <span class="edit">[Agda as a programming language](Padova2025.ProgrammingBasics.Booleans.html)</span>
 
+<div style="background-color: purple; padding: 1em; color: white">
+  <a href="https://agdapad.quasicoherent.io/~Padova2025/" style="color: white; font-weight: bold; text-decoration: underline">
+    Transcripts and links
+  </a>
+  accompanying the theory sessions
+</div>
+
 
 ## In a nutshell: Agda is a programming language...
 
