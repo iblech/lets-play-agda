@@ -107,7 +107,7 @@ function attachEditor(block) {
   }
 
   updateCode(block, id);
-  attachReferenceSolution(block, id);
+  // attachReferenceSolution(block, id);
 }
 
 function attachReferenceSolution(block, id) {
