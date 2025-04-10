@@ -28,23 +28,23 @@ Here is a list of Unicode symbols used in this course.
     for(const symbol of Object.keys(characterDescriptions).toSorted()) {
       const tr = document.createElement("tr");
 
-      const th = document.createElement("th");
-      th.style.textAlign = "left";
-      th.style.fontWeight = "normal";
-      th.appendChild(document.createTextNode(symbol));
+      const td1 = document.createElement("td");
+      td1.appendChild(document.createTextNode(symbol));
 
-      const td = document.createElement("td");
-      td.appendChild(document.createTextNode(characterDescriptions[symbol]));
+      const td2  = document.createElement("td");
+      const code = document.createElement("code");
+      code.appendChild(document.createTextNode(characterDescriptions[symbol]));
+      td2.appendChild(code);
 
-      tr.appendChild(th);
-      tr.appendChild(td);
+      tr.appendChild(td1);
+      tr.appendChild(td2);
       table.appendChild(tr);
     }
   };
 </script>
 
 <table id="char-table">
-  <tr><th>Symbol</th><th>Input method</th></tr>
+  <tr><th style="text-align: left">Symbol</th><th style="text-align: left">Input method</th></tr>
 </table>
 
 <!--
