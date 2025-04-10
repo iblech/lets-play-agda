@@ -7,4 +7,5 @@ open import Padova2025.ProgrammingBasics.Operators
 open import Padova2025.ProgrammingBasics.HigherOrder
 open import Padova2025.ProgrammingBasics.Naturals
 open import Padova2025.ProgrammingBasics.Lists
+open import Padova2025.ProgrammingBasics.Vectors
 ```
