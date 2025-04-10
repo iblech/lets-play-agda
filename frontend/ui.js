@@ -50,7 +50,7 @@ function createIframe(block, id) {
 
   iframe.onload = function () {
     iframe.contentWindow.document.addEventListener('keydown', function (e) {
-      if(e.altKey && e.keyCode == 13) {
+      if((e.altKey || e.ctrlKey) && e.keyCode == 13) {
         if(document.fullscreenElement) {
           document.exitFullscreen();
         } else {

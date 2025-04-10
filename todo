@@ -16,10 +16,11 @@ Frontend:
 Backend:
 - accept solution submissions
 - relay work in progress to the browser, for safekeeping
-- display cheatsheet
 - have container.nix run frontend/build.sh in compilePhase or similar
 - have basic type test
-- fix C-c C-,
+
+Long-term:
+- fix C-c C-, in xterm.js
 
 Content:
 - "Weird" exercise

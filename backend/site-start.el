@@ -19,8 +19,11 @@
 
 (global-set-key (kbd "C-c C-v") 'agda2-compute-normalised-maybe-toplevel)
 (global-set-key (kbd "C-c C-p") 'agda2-give)
+(global-set-key (kbd "C-c ,")   'agda2-goal-and-context)
+(global-set-key (kbd "C-c .")   'agda2-goal-and-context-and-inferred)
 (add-hook 'agda2-mode-hook
   #'(lambda () (define-key (current-local-map) (kbd "C-o") (lookup-key (current-local-map) (kbd "C-c")))))
+(global-set-key (kbd "C-c C-y") (lambda() (interactive) (find-file "~/.hello.txt")))
 
 (require 'evil)
 (setq evil-default-state 'emacs)
@@ -38,3 +41,7 @@
       (goto-line end-line)
       (end-of-line)
       (narrow-to-region start (point)))))
+
+(add-hook 'emacs-startup-hook
+  (lambda ()
+    (message "Welcome to Agda! For a list of keyboard commands, press Ctrl-c Ctrl-y.")))

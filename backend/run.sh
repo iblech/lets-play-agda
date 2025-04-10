@@ -31,6 +31,7 @@ exec bwrap \
   --overlay-src Padova2025 \
   --tmp-overlay /home/user/Padova2025 \
   --ro-bind-try backend/site-start.el /home/user/.emacs \
+  --ro-bind-try backend/hello.txt /home/user/.hello.txt \
   bash -c '
     set -e
     cd /home/user
