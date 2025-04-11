@@ -112,5 +112,6 @@ Having formalized the assertions, we are now in a position to prove them.
 open import Padova2025.ProvingBasics.EvenOdd
 open import Padova2025.ProvingBasics.Negation
 open import Padova2025.ProvingBasics.Equality
+open import Padova2025.ProvingBasics.Connectives
 open import Padova2025.ProvingBasics.Termination
 ```

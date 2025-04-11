@@ -24,7 +24,14 @@ sub visit {
   while(defined(my $line = <$fh>)) {
     if(not $title and $line =~ /^#\s*(.*?)(?:\s*\/\/.*)?$/) {
       $title++;
-      print "  " x $level, "<li><a href=\"$module.html\">$1</a>" unless $level == 0;
+      my $name = $1;
+      unless($level == 0) {
+        if($name =~ s/\s*🚧//) {
+          print "  " x $level, "<li>$name";
+        } else {
+          print "  " x $level, "<li><a href=\"$module.html\">$name</a>";
+        }
+      }
     }
 
     if($line =~ /```/) {
@@ -42,18 +49,15 @@ sub visit {
   if($level == 0) {
     print <<EOF;
       <li>
-        Verified algorithms
-        <ol>
-          <li>Post-hoc verification</li>
-          <li>Correct by construction</li>
-          <li>Case study: insertion sort</li>
-          <li>Case study: compiler &amp; interpreter</li>
-        </ol>
-      </li>
-      <li>
         Computational content of classical logic
         <ol>
-          <li>Minimas as convenient fiction</li>
+          <li>
+            Convenient fiction
+            <ol>
+              <li>Minimas</li>
+              <li>Drinkers</li>
+            </ol>
+          </li>
           <li>Sarcastic interpretation of classical logic</li>
           <li>Case study: Dickson's lemma</li>
         </ol>
