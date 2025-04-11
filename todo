@@ -23,6 +23,6 @@ Long-term:
 - fix C-c C-, in xterm.js
 
 Content:
-- vectors, dependent types
+- dependent types
 - contraction (a b : X)
 - implicit arguments
