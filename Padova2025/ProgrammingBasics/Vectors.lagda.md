@@ -137,7 +137,7 @@ For instance, `concatV ((a ∷ b ∷ []) ∷ (c ∷ d ∷ []) ∷ [])` should ev
 to `a ∷ b ∷ c ∷ d ∷ []`.
 
 ```
-concatV : {--}{A : Set} {n m : ℕ} → Vector (Vector A n) m → Vector A (m * n){--}
+concatV : {--}{A : Set} {n m : ℕ} → Vector (Vector A n) m → Vector A (m · n){--}
 -- Holify
 concatV []         = []
 concatV (xs ∷ xss) = xs ++V concatV xss
@@ -149,8 +149,8 @@ concatV (xs ∷ xss) = xs ++V concatV xss
 ::: Aside :::
 Note that this exercise nontrivially depends on the somewhat arbitrary choices
 in implementing addition and multiplication of natural numbers: Should the case
-split be on the first or on the second argument? Should `succ a * b` be defined
-as `b + a * b` or as `a * b + b`? Et cetera. This state of affairs is
+split be on the first or on the second argument? Should `succ a · b` be defined
+as `b + a · b` or as `a · b + b`? Et cetera. This state of affairs is
 unsatisfying and there are a couple of proposals attacking this problem. One of
 these is [objective type theory](https://arxiv.org/abs/2102.00905) by Benno van
 den Bergh and Martijn den Besten.

@@ -7,6 +7,7 @@ module Padova2025.ProvingBasics.Equality.Lists where
 ```
 open import Padova2025.ProgrammingBasics.Lists
 open import Padova2025.ProvingBasics.Equality.Base
+open import Padova2025.ProvingBasics.Equality.General
 ```
 
 For the following exercise, note that `reverse (x ∷ xs)` is defined as

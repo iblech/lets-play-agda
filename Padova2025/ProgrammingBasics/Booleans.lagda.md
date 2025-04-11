@@ -92,7 +92,7 @@ function.
 :::
 
 ::: Aside :::
-We will [soon discuss](Padova2025.ProgrammingBasics.SyntacticSugar.html#dependent-functions)
+We will [soon discuss](Padova2025.ProgrammingBasics.DependentFunctions.html)
 how to implement a version of the identity function which works simultaneously
 for all types, instead of being restricted to type `Bool`.
 :::

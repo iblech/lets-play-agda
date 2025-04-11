@@ -55,9 +55,9 @@ Some people prefer to use the notation for dependent functions also in the
 non-dependent case. They can:
 
 ```
-double : (x : ℕ) → ℕ
-double zero     = zero
-double (succ x) = succ (succ (double x))
+twice : (x : ℕ) → ℕ
+twice zero     = zero
+twice (succ x) = succ (succ (twice x))
 ```
 :::
 

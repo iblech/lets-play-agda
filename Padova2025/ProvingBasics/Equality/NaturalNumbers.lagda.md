@@ -2,58 +2,175 @@
 module Padova2025.ProvingBasics.Equality.NaturalNumbers where
 ```
 
-# Identities involving natural numbers
+# Results on natural numbers
 
 ```
 open import Padova2025.ProvingBasics.Equality.Base
+open import Padova2025.ProvingBasics.Equality.General
 open import Padova2025.ProgrammingBasics.Naturals.Base
 open import Padova2025.ProgrammingBasics.Naturals.Arithmetic
 ```
 
+
+## Exercise: Associativity
+
 ```
-lemma-+-associative : (a b c : ℕ) → (a + (b + c)) ≡ ((a + b) + c)
++-assoc : (a b c : ℕ) → (a + b) + c ≡ a + (b + c)
 -- Holify
-lemma-+-associative zero     b c = refl
-lemma-+-associative (succ a) b c = cong succ (lemma-+-associative a b c)
++-assoc zero     b c = refl
++-assoc (succ a) b c = cong succ (+-assoc a b c)
+```
+
+
+## Exercise: Commutativity
+
+Establishing commutativity is a little bit more involved than establishing
+associativity. Recall that the definition of addition involved a somewhat
+arbitrary choice of whether to case split on the first or on the second argument.
+The key idea in the commutativity proof developed in this exercise is to
+establish that the other choice would have worked as well.
+
+```
++-zero : (a : ℕ) → (a + zero) ≡ a
+-- This does not hold by definition, the definition would state zero + b = b.
+-- Holify
++-zero zero     = refl
++-zero (succ a) = cong succ (+-zero a)
 ```
 
 ```
-lemma-+-zero : (a : ℕ) → (a + zero) ≡ a
++-succ : (a b : ℕ) → a + succ b ≡ succ (a + b)
+-- This does not hold by definition, the definition would state succ a + b = succ (a + b).
 -- Holify
-lemma-+-zero zero     = refl
-lemma-+-zero (succ a) = cong succ (lemma-+-zero a)
++-succ zero     b = refl
++-succ (succ a) b = cong succ (+-succ a b)
 ```
 
 ```
-lemma-+-succ : (a b : ℕ) → (a + succ b) ≡ succ (a + b)
++-comm : (a b : ℕ) → a + b ≡ b + a
 -- Holify
-lemma-+-succ zero     b = refl
-lemma-+-succ (succ a) b = cong succ (lemma-+-succ a b)
++-comm zero     b = symm (+-zero b)
++-comm (succ a) b =
+  trans (cong succ (+-comm a b)) (symm (+-succ b a))
+```
+
+
+## Exercise: Distributivity
+
+```
+·-distribʳ-+ : (a b c : ℕ) → (a + b) · c ≡ a · c + b · c
+-- Holify
+·-distribʳ-+ zero b c = refl
+·-distribʳ-+ (succ a) b c =
+  trans (cong (c +_) (·-distribʳ-+ a b c)) (symm (+-assoc c (a · c) (b · c)))
+```
+
+A word of warning: The proof here will only barely be readable. When we
+introduce *equational reasoning*, we will be able to format this proof in a
+much more accessible manner.
+
+
+## Exercise: One not zero, revisited
+
+```
+open import Padova2025.ProvingBasics.Negation
+```
+
+[Earlier we have informally
+argued](Padova2025.ProvingBasics.Equality.Base.html#example-one-not-zero) that
+there is no value of type `one ≡ zero`. Now let us formally prove that if there
+was such a value, a contradiction would ensue.
+
+```
+one≠zero : ¬ (one ≡ zero)
+-- Holify
+one≠zero ()
+```
+
+As a corollary, prove that it is not the case that for all numbers `a`, `succ
+(pred a)` is the same as `a`:
+
+```
+lemma-succ-pred : ((a : ℕ) → succ (pred a) ≡ a) → ⊥
+lemma-succ-pred f = {--}one≠zero (f zero){--}
+```
+
+Instead, the equation $\mathrm{succ}(\mathrm{pred}(a)) = a$ only holds for
+positive numbers. State and prove this fact, making use of [the predicate
+`IsPositive` from before](Padova2025.ProvingBasics.EvenOdd.html#IsPositive).
+
+```
+open import Padova2025.ProvingBasics.EvenOdd
 ```
 
 ```
-lemma-+-commutative : (a b : ℕ) → (a + b) ≡ (b + a)
+lemma-succ-pred' : (a : ℕ) → {--}IsPositive a{--} → succ (pred a) ≡ a
 -- Holify
-lemma-+-commutative zero     b = symm (lemma-+-zero b)
-lemma-+-commutative (succ a) b =
-  trans (cong succ (lemma-+-commutative a b)) (symm (lemma-+-succ b a))
+lemma-succ-pred' a (case-succ _) = refl
+```
+
+
+## Exercise: Twice even
+
+State and prove that for every number `a`, the number [`twice
+a`](Padova2025.ProgrammingBasics.DependentFunctions.html#twice) is even.
+
+```
+open import Padova2025.ProgrammingBasics.DependentFunctions
+```
+
+```
+twice-even : (a : ℕ) → Even (twice a)
+-- Holify
+twice-even zero     = base-even
+twice-even (succ a) = step-even (twice-even a)
+```
+
+::: Hint :::
+1. First introduce a variable `a` in front of the `=` symbol and then
+   reload the file using `C-c C-l`, so that the line reads `twice-even a =
+   {!!}`.
+2. Then use `C-c C-c` to ask Agda to case split on the variable `a`.
+3. Navigate into the first hole and press `C-c ,` to obtain a summary of the
+   situation.
+4. Notice that `base-even` fits the bill (or use Agda's automatic mode, `C-c C-a`).
+   Press `C-c C-SPACE` to conclude.
+5. Now navigate to the second hole and inspect the situation with `C-c ,`.
+6. Recognize that we are asked to verify the evenness of a number of the form
+   `succ (succ _)`. Hence use the `step-even` constructor, write `step-even ?`
+   into the hole and press `C-c C-SPACE`.
+7. In the new hole, press `C-c ,` to get hold of the changed situation.
+8. Notice that the recursive call `twice-even a` (in blackboard mathematics
+   that would be an appeal to the induction hypothesis) fits the bill.
+   Conclude by `C-c C-SPACE` followed by `C-c C-l`.
+:::
+
+The following exercise is similar but more involved. We will require the
+[`subst` function](Padova2025.ProvingBasics.Equality.General.html#subst).
+
+```
+twice-even' : (a : ℕ) → Even (a + a)
+-- Holify
+twice-even' zero     = base-even
+twice-even' (succ a) =
+  subst Even lemma (step-even (twice-even' a))
+  where
+  lemma : succ (succ (a + a)) ≡ succ (a + succ a)
+  lemma = cong succ (symm (+-succ a a))
 ```
 
 <!--
+-- EXERCISE: Show that the two functions "even?" and "even?'" have the same
+values.
+even? : ℕ → Bool
+even? zero     = true
+even? (succ n) = ! (even? n)
 
-lemma-+-succ : (a b : ℕ) → (a + succ b) ≡ succ (a + b)
-lemma-+-succ a b = {!!}
+even?' : ℕ → Bool
+even?' zero            = true
+even?' (succ zero)     = false
+even?' (succ (succ n)) = even?' n
 
--- EXERCISE: Verify that addition is commutative.
-lemma-+-commutative : (a b : ℕ) → (a + b) ≡ (b + a)
-lemma-+-commutative a b = {!!}
-
--- EXERCISE: Verify that addition is associative.
-
--- EXERCISE: Verify the distributive law. Similar as the implementation/proof
--- of lemma-+-commutative, the result will not be easy to read.
--- By a technique called "equational reasoning", to be introduced next time,
--- we will be able to clean up the proof.
-lemma-distributive : (a b c : ℕ) → ((a + b) · c) ≡ ((a · c) + (b · c))
-lemma-distributive a b c = {!!}
+lemma-even?-even?' : (a : ℕ) → even? a ≡ even?' a
+lemma-even?-even?' a = {!!}
 -->

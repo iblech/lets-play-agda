@@ -75,10 +75,11 @@ This style is especially useful in case we want the result type, in this case
 `ℕ`, to depend on the input value `x`. This syntax is reminiscent of the
 notation for the universal quantifier used in the beginning of the 20th
 century: What we now write as "$\forall(x \in X).\ \ldots$" used to be written
-as "$(x \in X)\ldots$", as in "$(x \in ℕ)(y \in ℕ)(x+y)² = x² + 2xy + y²$.
+as "$(x \in X)\ (\ldots)$", as in "$(x \in ℕ)\ (y \in ℕ)\ ((x+y)² = x² + 2xy + y²)$.
 And indeed, a function associates to *every input* some output, so mimicking
 the notation of the universal quantifier makes sense.
 :::
+
 
 ## Exercise: Predecessor
 
@@ -133,23 +134,23 @@ succ a - succ b = {--}a - b{--}
 Define multiplication and exponentiation.
 
 ```
-infixl 7 _*_
+infixl 7 _·_
 infixr 8 _^_
 ```
 
 ```
-_*_ : ℕ → ℕ → ℕ
-zero   * b = {--}zero{--}
-succ a * b = {--}b + (a * b){--}
+_·_ : ℕ → ℕ → ℕ
+zero   · b = {--}zero{--}
+succ a · b = {--}b + (a · b){--}
 
 -- Tests
--- EX: (two * three) ≡ succ (succ (succ (succ (succ (succ zero)))))
+-- EX: (two · three) ≡ succ (succ (succ (succ (succ (succ zero)))))
 ```
 
 ```
 _^_ : ℕ → ℕ → ℕ
 a ^ zero   = {--}one{--}
-a ^ succ b = {--}a * (a ^ b){--}
+a ^ succ b = {--}a · (a ^ b){--}
 
 -- Tests
 -- EX: (two ^ three) ≡ succ (succ (succ (succ (succ (succ (succ (succ zero)))))))

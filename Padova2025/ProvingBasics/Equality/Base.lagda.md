@@ -4,69 +4,122 @@ module Padova2025.ProvingBasics.Equality.Base where
 
 # Definition
 
+In blackboard mathematics, "$x = y$" is an *assertion*, a *statement*. For
+instance, this assertion might be true, or it might be false. In the Agda
+community, `x ≡ y` is a type---the type of witnesses that `x` and `y` are
+equal. For instance, this type could be inhabited, or it could be empty.
+
+If in blackboard mathematics we would prove that $x = y$, in Agda we exhibit a
+value of type `x ≡ y`.
+
+The following three lines set up these types:
+
 ```
 infix 5 _≡_
 data _≡_ {X : Set} : X → X → Set where
   refl : {a : X} → a ≡ a
 ```
 
-```
-cong : {A B : Set} {x y : A} → (f : A → B) → x ≡ y → f x ≡ f y
-cong f refl = refl
-
-symm : {A : Set} {x y : A} → x ≡ y → y ≡ x
-symm refl = refl
-```
+::: Aside :::
+The basic equality symbol `=` is used in Agda only for definitions. For
+formulating assumptions or results involing equality, we use `≡`.
+:::
 
 
-## Exercise: Transitivity
-
-Fill in this hole, thereby proving that equality is transitive.
-
-```
-trans : {A : Set} {x y z : A} → x ≡ y → y ≡ z → x ≡ z
--- Holify
-trans refl q = q
-```
-
-
-## Exercise: Pointwise equality
-
-Prove that equal functions have equal values.
-(The converse is a principle known as "function extensionality" which
-can be postulated in Agda but is not assumed by default.)
-
-```
-equal→pwequal : {A B : Set} {f g : A → B} {x : A} → f ≡ g → f x ≡ g x
--- Holify
-equal→pwequal refl = refl
-```
-
-## Exercise: Identity of indiscernibles
-
-Identical values have all their properties in common: If `F : A → Set` is a
-property of elements of a type `A` (for instance, `F` might be [the predicate `Even` from
-before](Padova2025.ProvingBasics.EvenOdd.html#Even)) and if `x` and `y` are
-identical elements, then `F x` should imply `F y`.
-
-```
-transport : {A : Set} {x y : A} → (F : A → Set) → x ≡ y → F x → F y
--- Holify
-transport F refl s = s
-```
-
-<!--
--- EXERCISE: Think about the expression "(⊥ ≡ ℕ)". Is it well-defined?
--- What would be its meaning?
--->
-
-
-## Exercise: Predecessor of successor
+## Example: Our first identities
 
 ```
 open import Padova2025.ProgrammingBasics.Naturals.Base
 open import Padova2025.ProgrammingBasics.Naturals.Arithmetic
 ```
+
+With the definition of equality at hand, we can state and prove that `zero`
+equals `zero`:
+
+```
+zero-equals-zero : zero ≡ zero
+zero-equals-zero = refl
+```
+
+In exactly the same fashion, we can state and prove that `two + two` equals
+`four`:
+
+```
+grande-teorema : two + two ≡ four
+-- fully parenthesized as follows: grande-teorema : ((two + two) ≡ four)
+grande-teorema = refl
+```
+
+We can use `refl` in exactly those situations, where the two sides of the
+alleged identity are *manifestly equal*, i.e. equal in a way which just
+requires unfolding all definitions and simplifying by computation, but no
+actual insights, to become convinced of the equality.
+
+For instance, as `zero + b` equals `b` [by
+definition](Padova2025.ProgrammingBasics.Naturals.Arithmetic.html#_+_), `refl` can
+be used in the following proof:
+
+```
+trivial : (b : ℕ) → zero + b ≡ b
+-- fully parenthesized: lemma : (b : ℕ) → ((zero + b) ≡ b)
+trivial b = refl
+```
+
+This piece of code can (as all pieces of Agda code!) be both read in a logical
+and in a computational sense:
+
+> (logical reading) \
+> "lemma" is the result that for every number `b`, `zero + b` equals `b`.
+>
+> (computational reading) \
+> "lemma" is a function which reads as input a number `b`, and outputs a
+> witness that `zero + b` equals `b`.
+
+It is also true that `a + zero` equals `a`. However, this identity does not
+hold *by definition*; instead it requires a [nontrivial (inductive)
+argument](Padova2025.ProvingBasics.Equality.NaturalNumbers.html#+-zero).
+For this reason, Agda rejects `refl` in the following attempt:
+
+```code
+nontrivial : (a : ℕ) → a + zero ≡ a
+nontrivial a = refl
+-- ERROR:
+-- a + zero != a of type ℕ
+-- when checking that the expression refl has type a + zero ≡ a
+```
+
+
+## Example: One not zero
+
+It is not the case that `one` equals `zero`. And indeed, the hole in the
+following piece of Agda code cannot be filled:
+
+```code
+outrageous : one ≡ zero
+outrageous = ?
+```
+
+It is instructive to understand why this is the case. At the end of the day,
+for constructing an inhabitant of the type `one ≡ zero`, we will need to use a
+constructor of this type. But the only constructor is `refl`. This constructor
+only provides us with elements of types of the for `x ≡ x`, where the two sides
+are literally the same. But `succ zero` is (by definition) a freshly-minted new
+natural number, distint from `zero`.
+
+The only way to fill in this hole would be to change the definition of `≡`. For
+instance, we could add a constructor `bailout`:
+
+```
+data _≡'_ {X : Set} : X → X → Set where
+  refl    : {x   : X} → x ≡' x
+  bailout : {x y : X} → x ≡' y
+
+outrageous' : one ≡' zero
+outrageous' = bailout
+```
+
+
+## Exercise: Predecessor of successor
 
 Prove that the predecessor of a successor of a number is the original number
 again.
@@ -75,54 +128,3 @@ again.
 lemma-pred-succ : (a : ℕ) → pred (succ a) ≡ a
 lemma-pred-succ a = {--}refl{--}
 ```
-
-
-## Exercise: One not zero
-
-```
-open import Padova2025.ProvingBasics.Negation
-```
-
-```
-one≠zero : ¬ (one ≡ zero)
--- Holify
-one≠zero ()
-```
-
-As a corollary, prove that it is not the case that for all numbers `a`, `succ
-(pred a)` is the same as `a`:
-
-```
-lemma-succ-pred : ((a : ℕ) → succ (pred a) ≡ a) → ⊥
-lemma-succ-pred f = {--}one≠zero (f zero){--}
-```
-
-Instead, the equation $\mathrm{succ}(\mathrm{pred}(a)) = a$ only holds for
-positive numbers. State and prove this fact, making use of [the predicate
-`IsPositive` from before](Padova2025.ProvingBasics.EvenOdd.html#IsPositive).
-
-```
-open import Padova2025.ProvingBasics.EvenOdd
-```
-
-```
-lemma-succ-pred' : (a : ℕ) → {--}IsPositive a{--} → succ (pred a) ≡ a
--- Holify
-lemma-succ-pred' a (case-succ _) = refl
-```
-
-<!--
--- EXERCISE: Show that the two functions "even?" and "even?'" have the same
-values.
-even? : ℕ → Bool
-even? zero     = true
-even? (succ n) = ! (even? n)
-
-even?' : ℕ → Bool
-even?' zero            = true
-even?' (succ zero)     = false
-even?' (succ (succ n)) = even?' n
-
-lemma-even?-even?' : (a : ℕ) → even? a ≡ even?' a
-lemma-even?-even?' a = {!!}
--->
