@@ -87,7 +87,7 @@ is used for both.
 This feat is made possible by *dependent types*. Unlike familiar types like `ℕ`
 or `List ℕ` or `ℕ → ℕ` which are available in most statically typed programming
 languages, dependent types are types which depend on values. Perhaps the most
-well-known example of such a type is `Vector n X`, the type of length-`n` lists
+well-known example of such a type is `Vector X n`, the type of length-`n` lists
 of elements of `X`, where `n` can be an unknown value determined only at
 runtime.
 

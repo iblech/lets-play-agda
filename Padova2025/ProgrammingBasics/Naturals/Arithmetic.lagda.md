@@ -64,6 +64,21 @@ half (succ (succ n)) = succ (half n)
 -- EX: half (succ (succ (succ (succ zero)))) ≡ succ (succ zero)
 ```
 
+::: Aside :::
+We could also write the type signature of `half` as follows:
+
+```code
+half : (x : ℕ) → ℕ
+```
+
+This style is especially useful in case we want the result type, in this case
+`ℕ`, to depend on the input value `x`. This syntax is reminiscent of the
+notation for the universal quantifier used in the beginning of the 20th
+century: What we now write as "$\forall(x \in X).\ \ldots$" used to be written
+as "$(x \in X)\ldots$", as in "$(x \in ℕ)(y \in ℕ)(x+y)² = x² + 2xy + y²$.
+And indeed, a function associates to *every input* some output, so mimicking
+the notation of the universal quantifier makes sense.
+:::
 
 ## Exercise: Predecessor
 
@@ -81,6 +96,10 @@ pred (succ x) = x
 -- EX: pred zero ≡ zero
 -- EX: pred four ≡ three
 ```
+
+::: Aside :::
+Again, we could also write the type signature as `pred : (x : ℕ) → ℕ`.
+:::
 
 
 ## Exercise: Subtraction

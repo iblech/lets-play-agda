@@ -63,12 +63,12 @@ other programming languages, no special keyword is needed to define a function.
 Here is a template for the required code:
 
 ```
-id : Bool → Bool   -- enter `→` by `\->` or `\to` or `\rightarrow`
-id x = {--}x{--}
+idBool : Bool → Bool   -- enter `→` by `\->` or `\to` or `\rightarrow`
+idBool x = {--}x{--}
 
 -- Tests
--- EX: id false ≡ false
--- EX: id true  ≡ true
+-- EX: idBool false ≡ false
+-- EX: idBool true  ≡ true
 ```
 
 On the right hand side of the definition, we encounter our first "hole",
@@ -89,6 +89,12 @@ function.
 5. Press `C-c C-SPC` to verify that the proposed hole contents are type-correct.
 6. Press `C-c C-l` to ask Agda to reload the file. You should then see a
    celebratory confetti animation, confirming that the exercise has been solved.
+:::
+
+::: Aside :::
+We will [soon discuss](Padova2025.ProgrammingBasics.SyntacticSugar.html#dependent-functions)
+how to implement a version of the identity function which works simultaneously
+for all types, instead of being restricted to type `Bool`.
 :::
 
 

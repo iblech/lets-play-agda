@@ -55,6 +55,7 @@ __DATA__
 ² ^2
 ₂ _2
 ⊥ bot
+· cdot
 ℓ ell
 ¬ neg
 → to

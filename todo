@@ -23,6 +23,6 @@ Long-term:
 - fix C-c C-, in xterm.js
 
 Content:
-- dependent types
-- contraction (a b : X)
-- implicit arguments
+- common pitfalls
+  - adding a variable, forgetting C-c C-l
+  - weird yellow
