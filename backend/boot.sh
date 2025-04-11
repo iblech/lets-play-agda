@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+set -e
+
+# precompile the Agda sources for faster C-c C-l in the containers
+agda --safe Padova2025/Index.lagda.md
+
 # -t fontFamily="'JuliaMono', serif" \
 exec ttyd \
   -t disableReconnect=true \
