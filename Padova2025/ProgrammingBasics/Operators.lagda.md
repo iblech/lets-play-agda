@@ -50,12 +50,21 @@ syntactically, the underscores indicate that the `_&&_` function should be used
 as an infix operator with the arguments supplied to the left and the right.
 
 ```
+infixr 6 _&&_
 _&&_ : Bool → Bool → Bool
 false && false = false
 false && true  = false
 true  && false = false
 true  && true  = true
 ```
+
+::: Aside :::
+The first line in this snippet, `infixr 6 _&&_`, is optional and only included
+to tell Agda how tightly our new operator should bind. For instance, later we
+will provide `_+_` with precedence level 6 and `_*_` with precedence level `7`,
+so that expressions like `a + b * c` are correctly parsed as `a + (b * c)`
+instead of the incorrect `(a + b) * c`.
+:::
 
 We can then rewrite `example-usage` as follows.
 
@@ -70,6 +79,7 @@ example-usage' = false && (true && false)
 In a similar vein, implement the logical OR operator.
 
 ```
+infixr 5 _||_
 _||_ : Bool → Bool → Bool
 false || y = {--}y{--}
 true  || y = {--}true{--}

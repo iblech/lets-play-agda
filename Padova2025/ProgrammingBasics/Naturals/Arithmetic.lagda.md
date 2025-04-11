@@ -13,6 +13,7 @@ define basic arithmetic. For instance, addition can be defined by pattern
 matching as follows.
 
 ```
+infixl 6 _+_
 _+_ : ℕ → ℕ → ℕ
 zero   + b = b
 succ a + b = succ (a + b)
@@ -70,6 +71,10 @@ Define (cut-off) subtraction. For instance `one - one` and `one - two` should
 both result in `zero`.
 
 ```
+infixl 6 _-_
+```
+
+```
 _-_ : ℕ → ℕ → ℕ
 zero   - b      = {--}zero{--}
 succ a - zero   = {--}succ a{--}
@@ -89,6 +94,11 @@ succ a - succ b = {--}a - b{--}
 ## Exercise: Multiplication and exponentiation
 
 Define multiplication and exponentiation.
+
+```
+infixl 7 _*_
+infixr 8 _^_
+```
 
 ```
 _*_ : ℕ → ℕ → ℕ
