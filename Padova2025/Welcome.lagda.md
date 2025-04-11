@@ -7,11 +7,11 @@ Padova](https://www.unipd.it/en/dm).
 **Start here:**
 <span class="edit">[Agda as a programming language](Padova2025.ProgrammingBasics.Booleans.html)</span>
 
-<div style="background-color: purple; padding: 1em; color: white">
-  <a href="https://agdapad.quasicoherent.io/~Padova2025/" style="color: white; font-weight: bold; text-decoration: underline">
-    Transcripts and links
-  </a>
-  accompanying the theory sessions
+<!--<div style="background-color: mediumpurple; padding: 1em; color: white">-->
+<div style="outline: 3px solid mediumpurple; padding: 0.5em; border: 1px solid transparent; border-radius: 0.3rem">
+  👋 Padova students:
+  <a href="https://agdapad.quasicoherent.io/~Padova2025/"><strong>Transcripts and links</strong></a>
+  accompanying our sessions
 </div>
 
 
