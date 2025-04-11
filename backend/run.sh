@@ -43,6 +43,7 @@ exec bwrap \
         while(<STDIN>) {
           last if /^```/;
         }
+        my $skip = ! (/^```(?:agda)?$/);
 
         my $code = "";
         my $id   = "";
@@ -54,6 +55,8 @@ exec bwrap \
           $_ = <STDIN>;
           die "(2) Premature end of file, aborting.\n" unless defined $_;
         }
+
+        next if $skip;
 
         if($id ne $ENV{AGDA_BLOCKNAME}) {
           print $code;
