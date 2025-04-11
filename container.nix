@@ -48,6 +48,7 @@ let cache = builtins.fetchTarball {
       gnutar
       gzip
       inotify-tools
+      lychee
       pandoc
       perl
       tmux
