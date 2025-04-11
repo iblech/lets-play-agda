@@ -109,6 +109,21 @@ map f (x ∷ xs) = f x ∷ map f xs
 ```
 
 
+## Exercise: Snocking
+
+For instance, `(a ∷ b ∷ c ∷ []) ∷ʳ z` should reduce to `a ∷ b ∷ c ∷ z`.
+
+```
+_∷ʳ_ : {A : Set} → List A → A → List A
+-- Holify
+_∷ʳ_ []       y = y ∷ []
+_∷ʳ_ (x ∷ xs) y = x ∷ (xs ∷ʳ y)
+
+-- Tests
+-- EX: (zero ∷ one ∷ []) ∷ʳ two ≡ (zero ∷ one ∷ two ∷ [])
+```
+
+
 ## Exercise: Reversal
 
 Write a function which reverses the elements of a list. For instance, `reverse
@@ -118,7 +133,7 @@ Write a function which reverses the elements of a list. For instance, `reverse
 reverse : {A : Set} → List A → List A
 -- Holify
 reverse []       = []
-reverse (x ∷ xs) = reverse xs ++ (x ∷ [])
+reverse (x ∷ xs) = reverse xs ∷ʳ x
 
 -- Alternatively, in tail-recursive form thanks to an accumulator:
 -- reverse = reverseAcc []
@@ -130,6 +145,7 @@ reverse (x ∷ xs) = reverse xs ++ (x ∷ [])
 -- Tests
 -- EX: reverse (zero ∷ one ∷ two ∷ []) ≡ (two ∷ one ∷ zero ∷ [])
 ```
+
 
 ## Exercise: A higher-kinded function
 

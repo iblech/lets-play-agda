@@ -42,22 +42,6 @@ sub visit {
   if($level == 0) {
     print <<EOF;
       <li>
-        Agda as a proof language
-        <ol>
-          <li>Relations</li>
-          <li>
-            Equality
-            <ol>
-              <li>Definition</li>
-              <li>Basic usage</li>
-              <li>Equational reasoning</li>
-            </ol>
-          </li>
-          <li>Results about natural numbers</li>
-          <li>Termination and well-founded induction</li>
-        </ol>
-      </li>
-      <li>
         Verified algorithms
         <ol>
           <li>Post-hoc verification</li>

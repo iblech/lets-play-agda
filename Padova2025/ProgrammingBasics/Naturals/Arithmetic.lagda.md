@@ -65,6 +65,24 @@ half (succ (succ n)) = succ (half n)
 ```
 
 
+## Exercise: Predecessor
+
+Implement the predecessor function. For simplicity, let us agree that the
+predecessor of `zero` is `zero` again (instead of introducing negative numbers
+or error handling).
+
+```
+pred : ℕ → ℕ
+-- Holify
+pred zero     = zero
+pred (succ x) = x
+
+-- Tests
+-- EX: pred zero ≡ zero
+-- EX: pred four ≡ three
+```
+
+
 ## Exercise: Subtraction
 
 Define (cut-off) subtraction. For instance `one - one` and `one - two` should
