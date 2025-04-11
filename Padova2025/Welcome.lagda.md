@@ -55,7 +55,7 @@ philosophy:
 
 ```code
 grande-teorema   : 2 + 2 ≡ 4
-binomial-theorem : (x : ℕ) (y : ℕ) → (x + y) ² ≡ x ² + y ²
+binomial-theorem : (x : ℕ) (y : ℕ) → (x + y) ² ≡ x ² + 2 · x · y + y ²
 sort-correct     : (xs : List ℕ) → IsSorted (sort xs)
 ```
 
