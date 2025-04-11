@@ -8,7 +8,7 @@ while :; do
   ./frontend/build.sh "$1"
   echo -en "\007"
 
-  inotifywait -e close_write -r Padova2025/ backend/ frontend/
+  inotifywait -e close_write -r --exclude "\..*\.sw[px]" Padova2025/ backend/ frontend/
   sleep 0.2  # wait for things to settle
 done
 
