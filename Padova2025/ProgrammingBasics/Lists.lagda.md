@@ -74,6 +74,22 @@ it does not need to be explicitly mentioned: From the explicit argument, a
 certain list, Agda is able to infer the type of its elements.
 
 
+## Exercise: Replication
+
+Define a function `replicate` which reads a number `n` and an element `x` as
+input and outputs a list containing `n` copies of `x`.
+
+```
+replicate : {A : Set} → ℕ → A → List A
+-- Holify
+replicate zero     x = []
+replicate (succ n) x = x ∷ replicate n x
+
+-- Tests
+-- EX: replicate two zero ≡ zero ∷ zero ∷ []
+```
+
+
 ## Exercise: Concatenation
 
 Define a binary operator which concatenates two lists. For instance,

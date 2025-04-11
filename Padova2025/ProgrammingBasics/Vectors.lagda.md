@@ -30,6 +30,22 @@ lengthV {n} xs = n
 ```
 
 
+## Exercise: Replication
+
+Define a function `replicateV` which reads a number `n` and an element `x` as
+input and outputs a vector containing `n` copies of `x`.
+
+```
+replicateV : {A : Set} → (n : ℕ) → A → Vector A n
+-- Holify
+replicateV zero     x = []
+replicateV (succ n) x = x ∷ replicateV n x
+
+-- Tests
+-- EX: replicateV two zero ≡ zero ∷ zero ∷ []
+```
+
+
 ## Exercise: Map
 
 Define the `map` function for vectors.
