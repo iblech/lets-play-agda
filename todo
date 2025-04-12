@@ -9,9 +9,9 @@ Frontend:
   - ttyd
   - bubblewrap
   - confetti.js, https://gist.github.com/elrumo/3055a9163fd2d0d19f323db744b0a094
-- statically check tests
 - show confetti animation in full screen mode
 - fix font
+- collapse navigation
 
 Backend:
 - accept solution submissions
