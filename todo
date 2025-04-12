@@ -33,7 +33,9 @@ Content:
 - unit tests
 - disjunction
 - infinitude of primes
+- gaps in primes
 - cong! macro
 - model of CZF
 - PA
 - ordinals
+- STLC

@@ -73,22 +73,25 @@ part₁ : (f : Bool → Bool) → ConstantlyTrue f → is-tautology₁' f ≡ tr
 part₁ f p = p (f false)
 ```
 
-::: Todo :::
-Converse direction.
-:::
+The converse direction is more involved. One way to structure the
+argument is to first verify an auxiliary lemma.
 
-<!--
 ```
-{-# BUILTIN EQUALITY _≡_ #-}
+γ : (f : Bool → Bool) → (a : Bool) → f false ≡ a → f a ≡ true → ConstantlyTrue f
+-- Holify
+γ f false p q false = q
+γ f false p q true  with trans (sym p) q
+... | ()
+γ f true  p q false = p
+γ f true  p q true  = q
+```
+
+```
 part₂ : (f : Bool → Bool) → is-tautology₁' f ≡ true → ConstantlyTrue f
-part₂ f p false with f false in eq
-... | false = trans (sym eq) p
-... | true  = refl
-part₂ f p true with f false in eq
-... | false = absurd (trans (sym eq) p)
-  where
-  absurd : {A : Set} → false ≡ true → A
-  absurd ()
-... | true  = p
+part₂ f = {--}γ f (f false) refl{--}
 ```
--->
+
+::: Aside :::
+This way of structuring the argument is due to Martín Escardó, who has explored this topic
+[in great detail](https://martinescardo.github.io/TypeTopology/Various.RootsOfBooleanFunctions.html).
+:::
