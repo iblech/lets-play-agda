@@ -52,7 +52,7 @@ sub visit {
         Computational content of classical logic
         <ol>
           <li>
-            Convenient fiction
+            Convenient fictions
             <ol>
               <li>Minimas</li>
               <li>Drinkers</li>

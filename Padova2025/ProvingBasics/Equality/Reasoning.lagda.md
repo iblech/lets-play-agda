@@ -27,7 +27,7 @@ Instead, on a blackboard, we usually verify identities by chains of
 equalities, using `trans` implicitly rather than explicitly. This style is
 called *equational reasoning*, and it is also available in Agda. For instance,
 here is how the [proof of commutativity of addition](Padova2025.ProvingBasics.Equality.NaturalNumbers.html#+-comm)
-like in this style.
+looks like in this style.
 
 ```
 open import Padova2025.ProvingBasics.Equality.Reasoning.Core
@@ -40,6 +40,10 @@ open import Padova2025.ProvingBasics.Equality.Reasoning.Core
   succ (a + b) ≡⟨ cong succ (+-comm' a b) ⟩
   succ (b + a) ≡⟨ sym (+-succ b a) ⟩
   b + succ a   ∎
+
+-- compare with the combinator-style proof:
+-- +-comm (succ a) b =
+--   trans (cong succ (+-comm a b)) (sym (+-succ b a))
 ```
 
 We start with the left-hand side and then repeatedly carry out manipulations
@@ -49,7 +53,7 @@ Steps indicated by `≡⟨ p ⟩` hold by the specified reason (element of the
 corresponding identity type) `p`.
 
 ::: Aside :::
-Instead of `≡⟨ sym p ⟩`, one can also write `≡˘⟨ p ⟩`.
+Instead of `≡⟨ sym p ⟩`, we can also write `≡˘⟨ p ⟩`.
 :::
 
 
