@@ -107,7 +107,9 @@ function attachEditor(block) {
   }
 
   updateCode(block, id);
-  // attachReferenceSolution(block, id);
+  if(location.href.includes("localhost")) {
+    attachReferenceSolution(block, id);
+  }
 }
 
 function attachReferenceSolution(block, id) {
@@ -120,6 +122,7 @@ function attachReferenceSolution(block, id) {
   showButton.onclick = function () {
     if(
       getCode(getAgdaModuleName(), id) !== null ||
+      location.href.includes("localhost")       ||
       window.confirm("Please confirm that you would like to peek at the reference solution.")
     ) {
       showButton.after(solution);
