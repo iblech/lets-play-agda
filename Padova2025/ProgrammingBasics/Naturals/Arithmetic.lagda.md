@@ -135,7 +135,6 @@ Define multiplication and exponentiation.
 
 ```
 infixl 7 _·_
-infixr 8 _^_
 ```
 
 ```
@@ -145,6 +144,37 @@ succ a · b = {--}b + (a · b){--}
 
 -- Tests
 -- EX: (two · three) ≡ succ (succ (succ (succ (succ (succ zero)))))
+```
+
+
+## Exercise: Squaring
+
+Define squaring, without using the exponentiation operator introduced below.
+
+```
+infixr 8 _²
+_² : ℕ → ℕ
+_² x = {--}x · x{--}
+
+-- Tests
+-- EX: two ²   ≡ four
+-- EX: three ² ≡ four + four + one
+```
+
+::: Aside :::
+We could define squaring by reducing to exponentiation, i.e. defining `x ² = x ^ 2`.
+This alternative definition would give the same results as the definition
+envisioned here, and we will be able to state and prove this fact in Agda.
+However, it is sometimes useful that `x ²` is the same as `x · x` *by
+definition* instead of *by a nontrivial proof*. We will touch on this fine
+point again [later](Padova2025.ProvingBasics.Equality.Base.html).
+:::
+
+
+## Exercise: Exponentiation
+
+```
+infixr 8 _^_
 ```
 
 ```

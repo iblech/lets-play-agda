@@ -70,3 +70,87 @@ of distributivity in equational style.
   (c + a · c) + b · c ≡⟨⟩
   succ a · c  + b · c ∎
 ```
+
+
+## Exercise: Commutativity of multiplication
+
+```
+·-zero : (a : ℕ) → a · zero ≡ zero
+-- Holify
+·-zero zero     = refl
+·-zero (succ a) = ·-zero a
+```
+
+```
++-swap : (a b c : ℕ) → a + (b + c) ≡ b + (a + c)
+-- Holify
++-swap a b c = begin
+  a + (b + c) ≡˘⟨ +-assoc a b c ⟩
+  (a + b) + c ≡⟨ cong (_+ c) (+-comm a b) ⟩
+  (b + a) + c ≡⟨ +-assoc b a c ⟩
+  b + (a + c) ∎
+```
+
+```
+·-succ : (a b : ℕ) → a · succ b ≡ a + a · b
+-- Holify
+·-succ zero     b = refl
+·-succ (succ a) b = begin
+  succ a · succ b        ≡⟨⟩
+  succ b + a · succ b    ≡⟨ cong (succ b +_) (·-succ a b) ⟩
+  succ b + (a + a · b)   ≡⟨ +-swap (succ b) a (a · b) ⟩
+  a + (succ b + a · b)   ≡⟨⟩
+  a + succ (b + a · b)   ≡⟨ +-succ a (b + a · b) ⟩
+  succ (a + (b + a · b)) ≡⟨⟩
+  succ a + succ a · b    ∎
+```
+
+```
+·-comm : (a b : ℕ) → a · b ≡ b · a
+-- Holify
+·-comm zero     b = sym (·-zero b)
+·-comm (succ a) b = begin
+  succ a · b ≡⟨⟩
+  b + a · b  ≡⟨ cong (b +_) (·-comm a b) ⟩
+  b + b · a  ≡˘⟨ ·-succ b a ⟩
+  b · succ a ∎
+```
+
+As a corollary, from commutativity and the [first distributive
+law](Padova2025.ProvingBasics.Equality.NaturalNumbers.html#·-distribʳ-+) we obtain the other distributive law.
+
+```
+·-distribˡ-+ : (a b c : ℕ) → a · (b + c) ≡ a · b + a · c
+-- Holify
+·-distribˡ-+ a b c = begin
+  a · (b + c)   ≡⟨ ·-comm a (b + c) ⟩
+  (b + c) · a   ≡⟨ ·-distribʳ-+ b c a ⟩
+  b · a + c · a ≡⟨ cong₂ _+_ (·-comm b a) (·-comm c a) ⟩
+  a · b + a · c ∎
+```
+
+
+## Exercise: Binomial theorem
+
+```
+binomial-theorem : (x y : ℕ) → (x + y) ² ≡ x ² + two · (x · y) + y ²
+-- Holify
+binomial-theorem x y = begin
+  (x + y) ²                         ≡⟨⟩
+  (x + y) · (x + y)                 ≡⟨ ·-distribʳ-+ x y (x + y) ⟩
+  x · (x + y) + y · (x + y)         ≡⟨ cong₂ (_+_) (·-distribˡ-+ x x y) (·-distribˡ-+ y x y) ⟩
+  (x · x + x · y) + (y · x + y · y) ≡⟨ +-assoc (x · x) (x · y) (y · x + y · y) ⟩
+  x ² + (x · y + (y · x + y ²))     ≡˘⟨ cong (x ² +_) (+-assoc (x · y) (y · x) (y ²)) ⟩
+  x ² + ((x · y + y · x) + y ²)     ≡⟨ cong (λ a → x ² + (a + y ²)) lemma ⟩
+  x ² + (two · (x · y) + y ²)       ≡˘⟨ +-assoc (x ²) (two · (x · y)) (y ²) ⟩
+  x ² + two · (x · y) + y ²         ∎
+  where
+  lemma : x · y + y · x ≡ two · (x · y)
+  lemma = trans (cong ((x · y) +_) (·-comm y x)) (two-+-+ (x · y))
+```
+
+It is instructive to do this proof, once, by hand, so as to appreciate the
+nontriviality of the binomial theorem if the only tools available are
+the axioms and their basic consequences. There is a
+[ring solver](https://gist.github.com/andrejbauer/358722620c26c09d6be218bcd95ee654)
+which can generate the proof automatically.

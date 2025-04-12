@@ -85,6 +85,15 @@ subst : {A : Set} {x y : A} → (F : A → Set) → x ≡ y → F x → F y
 subst F refl s = s
 ```
 
+
+## Exercise: Congruence for functions with two parameters
+
+```
+cong₂ : {A B C : Set} {x x' : A} {y y' : B} → (f : A → B → C) → x ≡ x' → y ≡ y' → f x y ≡ f x' y'
+-- Holify
+cong₂ f refl refl = refl
+```
+
 <!--
 -- EXERCISE: Think about the expression "(⊥ ≡ ℕ)". Is it well-defined?
 -- What would be its meaning?

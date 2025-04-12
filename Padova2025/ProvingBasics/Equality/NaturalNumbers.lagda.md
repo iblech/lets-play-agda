@@ -12,7 +12,7 @@ open import Padova2025.ProgrammingBasics.Naturals.Arithmetic
 ```
 
 
-## Exercise: Associativity
+## Exercise: Associativity of addition
 
 ```
 +-assoc : (a b c : ℕ) → (a + b) + c ≡ a + (b + c)
@@ -22,7 +22,7 @@ open import Padova2025.ProgrammingBasics.Naturals.Arithmetic
 ```
 
 
-## Exercise: Commutativity
+## Exercise: Commutativity of addition
 
 Establishing commutativity is a little bit more involved than establishing
 associativity. Recall that the definition of addition involved a somewhat
@@ -52,6 +52,15 @@ establish that the other choice would have worked as well.
 +-comm zero     b = sym (+-zero b)
 +-comm (succ a) b =
   trans (cong succ (+-comm a b)) (sym (+-succ b a))
+```
+
+
+## Exercise: Two ways of doubling
+
+```
+two-+-+ : (a : ℕ) → a + a ≡ two · a
+-- Holify
+two-+-+ a = cong (a +_) (sym (+-zero a))
 ```
 
 
