@@ -168,18 +168,38 @@ twice-even' (succ a) =
   lemma = cong succ (sym (+-succ a a))
 ```
 
-<!--
--- EXERCISE: Show that the two functions "even?" and "even?'" have the same
-values.
-even? : ℕ → Bool
-even? zero     = true
-even? (succ n) = ! (even? n)
 
-even?' : ℕ → Bool
-even?' zero            = true
-even?' (succ zero)     = false
-even?' (succ (succ n)) = even?' n
+## Exercise: Two deciders of evenness
 
-lemma-even?-even?' : (a : ℕ) → even? a ≡ even?' a
-lemma-even?-even?' a = {!!}
--->
+```
+open import Padova2025.ProgrammingBasics.Booleans
+open import Padova2025.ProvingBasics.Equality.Booleans
+```
+
+Back in [the section on decision
+procedures](Padova2025.ProgrammingBasics.Naturals.DecisionProcedures.html),
+we have discussed the function `even? : ℕ → Bool`, which has the purpose of
+returning `true` if the input number is even, and `false` otherwise.
+
+We can imagine at least two implementations of `even?`:
+
+```
+even?₁ : ℕ → Bool
+even?₁ zero            = true
+even?₁ (succ zero)     = false
+even?₁ (succ (succ n)) = even?₁ n
+
+even?₂ : ℕ → Bool
+even?₂ zero     = true
+even?₂ (succ n) = not (even?₂ n)
+```
+
+In this exercise, verify that these two implementations yield the same result on all inputs.
+
+```
+even?₁-even?₂ : (a : ℕ) → even?₁ a ≡ even?₂ a
+-- Holify
+even?₁-even?₂ zero            = refl
+even?₁-even?₂ (succ zero)     = refl
+even?₁-even?₂ (succ (succ a)) = trans (even?₁-even?₂ a) (sym (not² (even?₂ a)))
+```

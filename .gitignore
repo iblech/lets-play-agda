@@ -2,3 +2,6 @@
 cache
 out
 out-wip
+*~
+\#*#
+.\#*
