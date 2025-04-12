@@ -16,14 +16,14 @@ In Agda, we have a function which transforms values of type `x ≡ y` into
 values of type `y ≡ x`. Fill in this hole:
 
 ```
-symm : {A : Set} {x y : A} → x ≡ y → y ≡ x
+sym : {A : Set} {x y : A} → x ≡ y → y ≡ x
 -- Holify
-symm refl = refl
+sym refl = refl
 ```
 
 ::: Hint :::
 1. First introduce a variable to the left of the `=` symbol, i.e. have the line
-   read `symm p = ?`. Then reload the file using `C-c C-l`, else the hole will
+   read `sym p = ?`. Then reload the file using `C-c C-l`, else the hole will
    not know about the variable `p`.
 2. Press `C-c ,` to ask Agda to print a summary of the situation.
 3. Then do a case split on `p`.

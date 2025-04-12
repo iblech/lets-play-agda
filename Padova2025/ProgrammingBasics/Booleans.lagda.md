@@ -50,7 +50,7 @@ our-first-constant = true
 ```
 
 Not particularly exciting---without functions, we are limited to the two
-trivial right hand sides `false` and `true`.
+trivial right-hand sides `false` and `true`.
 
 
 ## Example: Identity function
@@ -71,7 +71,7 @@ idBool x = {--}x{--}
 -- EX: idBool true  ≡ true
 ```
 
-On the right hand side of the definition, we encounter our first "hole",
+On the right-hand side of the definition, we encounter our first "hole",
 a placeholder displayed as `{!!}`. In Agda, we often build our programs or proofs
 interactively; holes are the main interaction points. A hole can be created by
 inserting a question mark `?` and then reloading the file using `C-c C-l` (i.e.

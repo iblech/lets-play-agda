@@ -23,7 +23,7 @@ As in the section on [Operators](Padova2025.ProgrammingBasics.Operators.html),
 the underscores in the name of the addition function allow us to use it as an
 infix operator.
 
-The right hand side of the second clause in the definition is lifted straight
+The right-hand side of the second clause in the definition is lifted straight
 from the [Peano axioms](https://en.wikipedia.org/wiki/Peano_axioms). It is
 mostly a matter of taste whether to do the case split on the first argument, as
 done above, or instead on the second argument. One way to obtain this

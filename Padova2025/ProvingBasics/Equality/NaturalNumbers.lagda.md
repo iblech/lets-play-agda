@@ -49,9 +49,9 @@ establish that the other choice would have worked as well.
 ```
 +-comm : (a b : ℕ) → a + b ≡ b + a
 -- Holify
-+-comm zero     b = symm (+-zero b)
++-comm zero     b = sym (+-zero b)
 +-comm (succ a) b =
-  trans (cong succ (+-comm a b)) (symm (+-succ b a))
+  trans (cong succ (+-comm a b)) (sym (+-succ b a))
 ```
 
 
@@ -60,9 +60,9 @@ establish that the other choice would have worked as well.
 ```
 ·-distribʳ-+ : (a b c : ℕ) → (a + b) · c ≡ a · c + b · c
 -- Holify
-·-distribʳ-+ zero b c = refl
+·-distribʳ-+ zero     b c = refl
 ·-distribʳ-+ (succ a) b c =
-  trans (cong (c +_) (·-distribʳ-+ a b c)) (symm (+-assoc c (a · c) (b · c)))
+  trans (cong (c +_) (·-distribʳ-+ a b c)) (sym (+-assoc c (a · c) (b · c)))
 ```
 
 A word of warning: The proof here will only barely be readable. When we
@@ -156,7 +156,7 @@ twice-even' (succ a) =
   subst Even lemma (step-even (twice-even' a))
   where
   lemma : succ (succ (a + a)) ≡ succ (a + succ a)
-  lemma = cong succ (symm (+-succ a a))
+  lemma = cong succ (sym (+-succ a a))
 ```
 
 <!--

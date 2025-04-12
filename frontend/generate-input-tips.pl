@@ -50,6 +50,8 @@ print join ", ", @pairs;
 print "};\n\n";
 
 __DATA__
+⟨ <
+⟩ >
 ₀ _0
 ¹ ^1
 ₁ _1
@@ -60,4 +62,5 @@ __DATA__
 ℓ ell
 ¬ neg
 → to
+˘ u{}
 π pi
