@@ -15,7 +15,7 @@ value of type `x ≡ y`.
 The following three lines set up these types:
 
 ```
-infix 5 _≡_
+infix 4 _≡_
 data _≡_ {X : Set} : X → X → Set where
   refl : {a : X} → a ≡ a
 ```

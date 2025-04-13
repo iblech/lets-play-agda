@@ -12,6 +12,7 @@ Frontend:
 - show confetti animation in full screen mode
 - fix font
 - collapse navigation
+- fix fullscreen mode in Firefox
 
 Backend:
 - accept solution submissions

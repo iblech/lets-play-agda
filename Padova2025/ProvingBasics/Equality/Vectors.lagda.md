@@ -35,5 +35,78 @@ Then `(xs ++V ys) ++V zs` is of type `Vector A ((n + m) + o`, whereas `xs ++V (y
 is of type `Vector A (n + (m + o))`.
 
 These two types are equal, but not by definition. Hence the expression "`(xs
-++V ys) ++V zs ≡ xs ++V (ys ++V zs)`" is ill-typed.
+++V ys) ++V zs ≡ xs ++V (ys ++V zs)`" is ill-typed. To state the desired
+equality, we have three options.
+
+1. Transport one of the two sides of the equation to the type of the other.
+2. Introduce so-called *heterogeneous equality*.
+3. Switch to Cubical Agda, where we still have to do the transporting (and
+   heterogeneous equality does no longer work well), but where working with
+   this transporting gets simplified.
+
+```
+open import Padova2025.ProvingBasics.Equality.NaturalNumbers
+```
+
+
+### Method 1: Transporting one of the two sides of the equation
+
+```
+cons-subst
+  : {A : Set} {n m : ℕ}
+  → (p : n ≡ m) (x : A) (xs : Vector A n)
+  → subst (Vector A) (cong succ p) (x ∷ xs) ≡ x ∷ subst (Vector A) p xs
+-- Holify
+cons-subst refl x xs = refl
+```
+
+```
+++V-assoc
+  : {A : Set} {n m o : ℕ} (xs : Vector A n) (ys : Vector A m) (zs : Vector A o)
+  → subst (Vector A) (+-assoc n m o) ((xs ++V ys) ++V zs) ≡ xs ++V (ys ++V zs)
+-- Holify
+++V-assoc [] ys zs = refl
+++V-assoc {n = succ n} (x ∷ xs) ys zs =
+  trans (cons-subst (+-assoc n _ _) _ _) (cong (x ∷_) (++V-assoc xs ys zs))
+```
+
+::: Todo :::
+This becomes more pleasant by introducing a `cast` operation which, unlike
+`subst`, does not look at the given equality witness, as in the
+[standard library](https://agda.github.io/agda-stdlib/experimental/Data.Vec.Properties.html#++-assoc-eqFree).
+It also becomes more pleasant when
+[using Cubical Agda](https://agda.github.io/cubical/Cubical.Data.Vec.Properties.html#587).
+In both variations, there is no longer a need for `cons-subst`.
+:::
+
+
+### Method 2: Heterogeneous equality
+
+Alternatively, we can introduce so-called *heterogeneous equality*:
+
+```
+infix 4 _≅_
+data _≅_ {A : Set} (x : A) : {B : Set} → B → Set₁ where
+   refl : x ≅ x
+```
+
+```
+icong
+  : {I : Set} (F : I → Set) {G : {k : I} → F k → Set}
+  → {i j : I} {x : F i} {y : F j}
+  → i ≡ j → (f : {k : I} (z : F k) → G z)
+  → x ≅ y
+  → f x ≅ f y
+-- Holify
+icong F refl _ refl = refl
+```
+
+```
+++V-assoc'
+  : {A : Set} {n m o : ℕ} (xs : Vector A n) (ys : Vector A m) (zs : Vector A o)
+  → (xs ++V ys) ++V zs ≅ xs ++V (ys ++V zs)
+-- Holify
+++V-assoc'              []       ys zs = refl
+++V-assoc' {n = succ n} (x ∷ xs) ys zs = icong (Vector _) (+-assoc n _ _) (x ∷_) (++V-assoc' xs ys zs)
+```
 :::
