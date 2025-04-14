@@ -67,6 +67,7 @@ function createIframe(block, id) {
         updateCode(iframe, id);
         localStorage.setItem(getAgdaModuleName() + "/" + id + "/success", "true");
         renderToc();
+        attachReferenceSolution(iframe, id);
         confetti.start();
         window.setTimeout(confetti.stop, 1000);
       }
@@ -107,7 +108,7 @@ function attachEditor(block) {
   }
 
   updateCode(block, id);
-  if(location.href.includes("localhost")) {
+  if(location.href.includes("localhost") || getCode(getAgdaModuleName(), id) !== null) {
     attachReferenceSolution(block, id);
   }
 }
