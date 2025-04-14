@@ -66,7 +66,7 @@ twice (succ x) = succ (succ (twice x))
 
 Implement a function `K` which reads as input...
 
-1. a type `X` (i.e. a value `X  Set`),
+1. a type `X` (i.e. a value `X : Set`),
 2. a type `Y`,
 3. a value `x : X` and
 4. a value `y : Y`,
