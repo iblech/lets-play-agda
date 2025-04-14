@@ -50,6 +50,9 @@ sum (x ∷ xs) = x + sum xs
 
 -- Tests
 -- EX: sum [] ≡ zero
+-- EX: sum (one ∷ []) ≡ one
+-- EX: sum (one ∷ zero ∷ []) ≡ one
+-- EX: sum (one ∷ two ∷ []) ≡ three
 -- EX: sum (one ∷ two ∷ three ∷ []) ≡ succ (succ (succ (succ (succ (succ zero)))))
 ```
 
