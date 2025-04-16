@@ -70,14 +70,50 @@ cons-subst refl x xs = refl
   trans (cons-subst (+-assoc n _ _) _ _) (cong (x ∷_) (++V-assoc xs ys zs))
 ```
 
-::: Todo :::
-This becomes more pleasant by introducing a `cast` operation which, unlike
+
+### Method 1': Transporting one of the two sides, but with a twist
+
+Method 1 becomes more pleasant by introducing a `cast` operation which, unlike
 `subst`, does not look at the given equality witness, as in the
 [standard library](https://agda.github.io/agda-stdlib/experimental/Data.Vec.Properties.html#++-assoc-eqFree).
 It also becomes more pleasant when
 [using Cubical Agda](https://agda.github.io/cubical/Cubical.Data.Vec.Properties.html#587).
 In both variations, there is no longer a need for `cons-subst`.
-:::
+
+The trick is to not pattern match on the equality witness, but only on the
+dimensions and on the vectors themselves.
+
+In the following type signature, the dot before `(n ≡ m)` expresses that we
+will not look at the value of this argument (and Agda will then forbid us
+from peeking).
+
+```
+cast
+  : {A : Set} {n m : ℕ}
+  → .(n ≡ m) → Vector A n → Vector A m
+-- Holify
+cast {m = zero}   p []       = []
+cast {m = succ m} p (x ∷ xs) = x ∷ cast (succ-injective p) xs
+```
+
+```
+cast-is-id
+  : {A : Set} {n : ℕ}
+  → (p : n ≡ n) (xs : Vector A n)
+  → cast p xs ≡ xs
+-- Holify
+cast-is-id p []       = refl
+cast-is-id p (x ∷ xs) = cong (x ∷_) (cast-is-id (succ-injective p) xs)
+```
+
+```
+++V-assoc'
+  : {A : Set} {n m o : ℕ} (xs : Vector A n) (ys : Vector A m) (zs : Vector A o)
+  → cast (+-assoc n m o) ((xs ++V ys) ++V zs) ≡ xs ++V (ys ++V zs)
+-- Holify
+++V-assoc' []       ys zs = cast-is-id refl (ys ++V zs)
+++V-assoc' (x ∷ xs) ys zs = cong (x ∷_) (++V-assoc' xs ys zs)
+```
 
 
 ### Method 2: Heterogeneous equality
@@ -102,11 +138,11 @@ icong F refl _ refl = refl
 ```
 
 ```
-++V-assoc'
+++V-assoc''
   : {A : Set} {n m o : ℕ} (xs : Vector A n) (ys : Vector A m) (zs : Vector A o)
   → (xs ++V ys) ++V zs ≅ xs ++V (ys ++V zs)
 -- Holify
-++V-assoc'              []       ys zs = refl
-++V-assoc' {n = succ n} (x ∷ xs) ys zs = icong (Vector _) (+-assoc n _ _) (x ∷_) (++V-assoc' xs ys zs)
+++V-assoc''              []       ys zs = refl
+++V-assoc'' {n = succ n} (x ∷ xs) ys zs = icong (Vector _) (+-assoc n _ _) (x ∷_) (++V-assoc'' xs ys zs)
 ```
 :::

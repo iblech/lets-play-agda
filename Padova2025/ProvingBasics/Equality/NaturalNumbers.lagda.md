@@ -119,6 +119,17 @@ lemma-succ-pred' a (case-succ _) = refl
 ```
 
 
+## Exercise: Injectivity of successor
+
+Prove that the successor function is injective:
+
+```
+succ-injective : {n m : ℕ} → succ n ≡ succ m → n ≡ m
+-- Holify
+succ-injective = cong pred
+```
+
+
 ## Exercise: Twice even
 
 State and prove that for every number `a`, the number [`twice
