@@ -132,8 +132,8 @@ succ-injective = cong pred
 
 ## Exercise: Twice even
 
-State and prove that for every number `a`, the number [`twice
-a`](Padova2025.ProgrammingBasics.DependentFunctions.html#twice) is even.
+State and prove that for every number `a`, the number
+[`twice a`](Padova2025.ProgrammingBasics.DependentFunctions.html#twice) is even.
 
 ```
 open import Padova2025.ProgrammingBasics.DependentFunctions
@@ -177,6 +177,19 @@ twice-even' (succ a) =
   where
   lemma : succ (succ (a + a)) ≡ succ (a + succ a)
   lemma = cong succ (sym (+-succ a a))
+```
+
+
+## Exercise: Even twice
+
+Conversely, let us prove that even numbers are of the form `twice a`, more
+preceisely let us prove:
+
+```
+even-twice : {x : ℕ} → Even x → x ≡ twice (half x)
+-- Holify
+even-twice base-even     = refl
+even-twice (step-even p) = cong (λ a → succ (succ a)) (even-twice p)
 ```
 
 
