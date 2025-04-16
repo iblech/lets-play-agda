@@ -5,7 +5,7 @@
 ./frontend/boot.sh &
 
 while :; do
-  ./frontend/build.sh "$1"
+  time ./frontend/build.sh "$1"
   echo -en "\007"
 
   inotifywait -e close_write -r --exclude "\..*\.sw[px]" Padova2025/ backend/ frontend/

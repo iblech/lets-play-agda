@@ -113,39 +113,46 @@ done
 echo
 echo "* Assembling HTML files..."
 for i in *.md; do
-  echo "$i..."
+  (
+    echo "$i..."
 
-  export bodyfile="${i%.md}.body.html"
-  export title="$(< "$i" sed -ne '/^# / { s/^#\s*//; p; q; }')"
-  export modulename="${i%.md}"
-  export filename="${i%.md}.html"
-  export basename="${i%.md}"
-  export source="${basename//./\/}.lagda.md"
+    export bodyfile="${i%.md}.body.html"
+    export title="$(< "$i" sed -ne '/^# / { s/^#\s*//; p; q; }')"
+    export modulename="${i%.md}"
+    export filename="${i%.md}.html"
+    export basename="${i%.md}"
+    export source="${basename//./\/}.lagda.md"
 
-  pandoc -o "$bodyfile" "$i"
-  sed -i -e '0,/<pre class="Agda">\(.*module.*where.*\)/ { s/<pre class="Agda">\(.*module.*where.*\)/<pre class="Agda inessential">\1/; }' "$bodyfile"
-  perl -i -pe 'BEGIN { $/ = undef } s#\n\n</pre>#\n</pre>#g' "$bodyfile"
+    pandoc -o "$bodyfile" "$i"
+    sed -i -e '0,/<pre class="Agda">\(.*module.*where.*\)/ { s/<pre class="Agda">\(.*module.*where.*\)/<pre class="Agda inessential">\1/; }' "$bodyfile"
+    perl -i -pe 'BEGIN { $/ = undef } s#\n\n</pre>#\n</pre>#g' "$bodyfile"
 
-  < ../frontend/template.html \
-  perl -pwe '
-    sub slurp {
-      local $/;
-      open my $fh, "<", $_[0] or die $!;
-      return scalar <$fh>;
-    }
+    < ../frontend/template.html \
+    perl -pwe '
+      sub slurp {
+        local $/;
+        open my $fh, "<", $_[0] or die $!;
+        return scalar <$fh>;
+      }
 
-    s/__TITLE__/$ENV{title}/g;
-    s/__BODY__/slurp($ENV{bodyfile})/eg;
-    s/__TOC__/slurp("toc.html")/eg;
-    s/__MODULENAME__/$ENV{modulename}/g;
-    s/__SOURCE__/$ENV{source}/g;
-    s/__SOLUTIONS__/slurp("solutions\/$ENV{modulename}.md")/eg
-      unless $ENV{quick};
-  ' > "$filename"
+      s/__TITLE__/$ENV{title}/g;
+      s/__BODY__/slurp($ENV{bodyfile})/eg;
+      s/__TOC__/slurp("toc.html")/eg;
+      s/__MODULENAME__/$ENV{modulename}/g;
+      s/__SOURCE__/$ENV{source}/g;
+      s/__SOLUTIONS__/slurp("solutions\/$ENV{modulename}.md")/eg
+        unless $ENV{quick};
+    ' > "$filename"
 
-  rm "$bodyfile" "$i"
-  cp --reflink=auto "$source" "$basename.lagda.md"
+    rm "$bodyfile" "$i"
+    cp --reflink=auto "$source" "$basename.lagda.md"
+  ) &
+
+  if [[ $(jobs -r -p | wc -l) -ge 4 ]]; then
+    wait -n
+  fi
 done
+wait
 
 cp --reflink=auto ../cache/*.woff2  .
 cp --reflink=auto ../cache/*.js     .
