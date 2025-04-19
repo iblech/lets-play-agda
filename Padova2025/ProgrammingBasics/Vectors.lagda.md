@@ -27,6 +27,15 @@ and one which runs in linear time.
 lengthV : {n : ℕ} {A : Set} → Vector A n → ℕ
 -- Holify
 lengthV {n} xs = n
+
+-- This is the O(1) implementation. A slower O(n) implementation
+-- reconstructs the size from the vector itself, disregarding
+-- the type information:
+-- lengthV' []       = zero
+-- lengthV' (x ∷ xs) = succ (lengthV xs)
+
+-- Tests
+-- EX: lengthV (zero ∷ zero ∷ []) ≡ two
 ```
 
 
