@@ -1,13 +1,13 @@
 "C-" means "Ctrl", "M-" means "Alt".
 If C-c is intercepted by your browser, try C-o instead.
 
-┌─ GENERAL ─────────────────────────┐                ┌─ SYMBOLS ────────────────┐
-│ C-z       = enable Vi keybinds    │                │ ℕ = \bN                  │
-│ C-+       = increase font size    │                │ α = \alpha or \Ga        │
-│ M-Return  = fullscreen mode       │                │ → = \r     or \to        │
-│ C-x 1     = maximize window       │                │ · = \cdot                │
-│ C-g       = abort command         │                │ ∷ = \::                  │
-└───────────────────────────────────┘                │ ≡ = \==                  │
+┌─ GENERAL ─────────────────────────────────────┐    ┌─ SYMBOLS ────────────────┐
+│ C-z       = enable Vi keybindings             │    │ ℕ = \bN                  │
+│ C-+       = increase font size                │    │ α = \alpha or \Ga        │
+│ M-Return  = fullscreen mode                   │    │ → = \r     or \to        │
+│ C-x 1     = maximize window                   │    │ · = \cdot                │
+│ C-g       = abort command                     │    │ ∷ = \::                  │
+└───────────────────────────────────────────────┘    │ ≡ = \==                  │
                                                      │ ≤ = \<=                  │
 ┌─ AGDA ────────────────────────────────────────┐    │ ⊥ = \bot                 │
 │ C-c C-l   = load file                         │    └──────────────────────────┘
