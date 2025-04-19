@@ -25,6 +25,8 @@ let
       mkdir -p $out
       cp -r --reflink=auto out/* $out/
     '';
+    # See pkgs/build-support/agda/default.nix for explanation
+    LC_ALL = lib.optionalString (!pkgs.stdenv.hostPlatform.isDarwin) "C.UTF-8";
   };
 
   backend-data = pkgs.stdenv.mkDerivation rec {
@@ -32,7 +34,7 @@ let
     src = ./.;
     nativeBuildInputs = [ ouragda pkgs.makeWrapper ];
     buildPhase = ''
-      agda --safe Padova2025/Index.lagda.md
+      agda --safe --cubical-compatible Padova2025/Index.lagda.md
     '';
     patchPhase = ''
       patchShebangs .
@@ -43,6 +45,7 @@ let
       wrapProgram $out/backend/run.sh \
         --prefix PATH : ${lib.makeBinPath (with pkgs; [ bash bubblewrap inotify-tools ouragda ouremacs perl tmux ])}
     '';
+    LC_ALL = lib.optionalString (!pkgs.stdenv.hostPlatform.isDarwin) "C.UTF-8";
   };
 in
 

@@ -118,7 +118,11 @@ cast-is-id p (x ∷ xs) = cong (x ∷_) (cast-is-id (succ-injective p) xs)
 
 ### Method 2: Heterogeneous equality
 
-Alternatively, we can introduce so-called *heterogeneous equality*:
+Alternatively, we can introduce so-called *heterogeneous equality*. However,
+the `iconv` function presented below requires the
+[K axiom](https://agda.readthedocs.io/en/latest/language/without-k.html)
+which is incompatible with Cubical Agda. We hence only include this alternative
+here as a comment.
 
 ```
 infix 4 _≅_
@@ -127,22 +131,20 @@ data _≅_ {A : Set} (x : A) : {B : Set} → B → Set₁ where
 ```
 
 ```
+{-
 icong
   : {I : Set} (F : I → Set) {G : {k : I} → F k → Set}
   → {i j : I} {x : F i} {y : F j}
   → i ≡ j → (f : {k : I} (z : F k) → G z)
   → x ≅ y
   → f x ≅ f y
--- Holify
 icong F refl _ refl = refl
-```
 
-```
 ++V-assoc''
   : {A : Set} {n m o : ℕ} (xs : Vector A n) (ys : Vector A m) (zs : Vector A o)
   → (xs ++V ys) ++V zs ≅ xs ++V (ys ++V zs)
--- Holify
 ++V-assoc''              []       ys zs = refl
 ++V-assoc'' {n = succ n} (x ∷ xs) ys zs = icong (Vector _) (+-assoc n _ _) (x ∷_) (++V-assoc'' xs ys zs)
+-}
 ```
 :::

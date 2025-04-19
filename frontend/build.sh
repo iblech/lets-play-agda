@@ -50,7 +50,7 @@ if [ -z "$quick" ]; then
   find Padova2025 -name '*agda*' | grep -v "#" | xargs perl -i -pwe '
     s/^--\s*EX:\s*(.*)$/module _ where private\n  open import Padova2025.Equality.Definition\n  lets-play-agda-test : $1\n  lets-play-agda-test = refl\n/g;
   '
-  agda --safe Padova2025/Index.lagda.md
+  agda --safe --cubical-compatible Padova2025/Index.lagda.md
 fi
 
 if [ -z "$quick" ]; then
@@ -61,7 +61,7 @@ if [ -z "$quick" ]; then
     BEGIN { $/ = undef }
     s#^-- Tests.*?```#```#mgs;
   '
-  agda --safe --html --html-highlight=code Padova2025/Index.lagda.md
+  agda --safe --cubical-compatible --html --html-highlight=code Padova2025/Index.lagda.md
 
   mkdir solutions
   for i in html/*.md; do
@@ -93,7 +93,7 @@ find Padova2025 -name '*agda*' | grep -v "#" | xargs perl -i -pwe '
   s#-- Holify\n([^ ]*).*?```#$1 = {!!}\n```#gs;
   s#^-- Tests.*?```#```#mgs;
 '
-agda --allow-unsolved-metas --html --html-highlight=code Padova2025/Index.lagda.md
+agda --allow-unsolved-metas --cubical-compatible --html --html-highlight=code Padova2025/Index.lagda.md
 
 if [ -z "$quick" ]; then
   # Deterministically generate zip file
