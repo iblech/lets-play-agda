@@ -1,0 +1,10 @@
+<svg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+  <!-- Light background terminal-style box -->
+  <rect width="120" height="120" rx="10" ry="10" fill="#f5f5f5" stroke="#cccccc" stroke-width="1"/>
+
+  <!-- Prompt-like symbol -->
+  <text x="8" y="74" font-family="monospace" font-size="20" fill="#1565c0">#</text>
+
+  <!-- bubblewrap text -->
+  <text x="32" y="74" font-family="monospace" font-size="12.5" fill="#333333">bubblewrap</text>
+</svg>

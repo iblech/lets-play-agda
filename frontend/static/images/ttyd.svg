@@ -1,0 +1,10 @@
+<svg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background terminal box (light gray) -->
+  <rect width="120" height="120" rx="10" ry="10" fill="#f5f5f5" stroke="#cccccc" stroke-width="1"/>
+
+  <!-- Green prompt symbol (>) -->
+  <text x="12" y="76" font-family="monospace" font-size="32" fill="#2e7d32">&gt;</text>
+
+  <!-- ttyd text, aligned with prompt -->
+  <text x="44" y="76" font-family="monospace" font-size="28" fill="#333333">ttyd</text>
+</svg>

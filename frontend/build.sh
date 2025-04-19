@@ -154,8 +154,7 @@ for i in *.md; do
 done
 wait
 
-cp --reflink=auto ../cache/*.woff2  .
-cp --reflink=auto ../cache/*.js     .
+cp --reflink=auto -r ../cache/*.woff2 ../cache/*.js ../frontend/static/* .
 
 (cd ..; find Padova2025 -name "*.md" | xargs cat | ./frontend/generate-input-tips.pl) > ui.js
 cat ../frontend/ui.js >> ui.js

@@ -113,7 +113,7 @@ in
           root = "/home/user/www";
           extraConfig = ''
             expires 15m;
-            if ($request_uri ~* "\.(woff2|css)$") {
+            if ($request_uri ~* "\.(woff2|css|svg)$") {
               expires 365d;
             }
           '';

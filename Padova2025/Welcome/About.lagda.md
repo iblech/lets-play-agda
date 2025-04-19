@@ -1,8 +1,24 @@
 # About this project
 
 ::: Todo :::
-Mention streak, open source dependencies, ...
+Mention streak...
 :::
+
+
+## Credits
+
+This interactive Agda tutorial builds on awesome free software projects:
+
+<div class="logos">
+<a href="https://www.linux.org/"><img src="images/linux.svg" alt="Linux"></a>
+<a href="https://www.gnu.org/"><img src="images/gnu.svg" alt="GNU"></a>
+<a href="https://perl.org/"><img src="images/perl.svg" alt="Perl"></a>
+<a href="https://nixos.org/"><img src="images/nixos.svg" alt="NixOS"></a>
+<a href="https://nginx.org/"><img src="images/nginx.svg" alt="nginx"></a>
+<a href="https://xtermjs.org/"><img src="images/xtermjs.svg" alt="xterm.js"></a>
+<a href="https://github.com/tsl0922/ttyd"><img src="images/ttyd.svg" alt="ttyd"></a>
+<a href="https://github.com/containers/bubblewrap"><img src="images/bubblewrap.svg" alt="bubblewrap"></a>
+</div>
 
 
 ## Download
