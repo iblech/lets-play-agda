@@ -34,7 +34,9 @@ let
     src = ./.;
     nativeBuildInputs = [ ouragda pkgs.makeWrapper ];
     buildPhase = ''
-      agda --safe --cubical-compatible Padova2025/Index.lagda.md
+      # no --safe or --cubical-compatible here, as we want people to be
+      # able to play around with unsafe features
+      agda Padova2025/Index.lagda.md
     '';
     patchPhase = ''
       patchShebangs .
