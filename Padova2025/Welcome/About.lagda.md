@@ -7,6 +7,8 @@ Mention streak...
 
 ## Credits
 
+### Open source dependencies
+
 This interactive Agda tutorial builds on awesome free software projects:
 
 <div class="logos">
@@ -19,6 +21,13 @@ This interactive Agda tutorial builds on awesome free software projects:
 <a href="https://github.com/tsl0922/ttyd"><img src="images/ttyd.svg" alt="ttyd"></a>
 <a href="https://github.com/containers/bubblewrap"><img src="images/bubblewrap.svg" alt="bubblewrap"></a>
 </div>
+
+
+### Similar projects for other languages
+
+- [Holbert](https://liamoc.net/holbert/)
+- [Lean Game Server](https://adam.math.hhu.de/)
+- [Rocq interactive online system](https://coq.vercel.app/)
 
 
 ## Download
