@@ -50,7 +50,7 @@ if [ -z "$quick" ]; then
   find Padova2025 -name '*agda*' | grep -v "#" | xargs perl -i -pwe '
     s/^--\s*EX:\s*(.*)$/module _ where private\n  open import Padova2025.Equality.Definition\n  lets-play-agda-test : $1\n  lets-play-agda-test = refl\n/g;
   '
-  agda --safe --cubical-compatible Padova2025/Index.lagda.md
+  agda --safe --cubical-compatible --exact-split -WnoUnsupportedIndexedMatch Padova2025/Index.lagda.md
   # We allow people to play with unsafe features.
   # But we hold ourselves to the higher standard of --safe --cubical-compatible.
 fi
