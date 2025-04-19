@@ -50,12 +50,26 @@ function createIframe(block, id) {
 
   iframe.onload = function () {
     iframe.contentWindow.document.addEventListener('keydown', function (e) {
-      if((e.altKey || e.ctrlKey) && e.keyCode == 13) {
+      if(e.altKey && e.keyCode == 13) {
         if(document.fullscreenElement) {
           document.exitFullscreen();
         } else {
           iframe.requestFullscreen();
         }
+      }
+
+      // For reasons regarding terminal standard, xterm.js cannot forward a couple of
+      // events with Ctrl pressed to the application. As a workaround, reraise those
+      // events without Ctrl pressed, and have Emacs accept those new shortcuts.
+      if(e.ctrlKey && (e.key == ',' || e.key == '.' || e.key == '=' || e.key == ';')) {
+        iframe.contentWindow.document.getElementsByClassName("xterm-helper-textarea")[0].dispatchEvent(
+          new KeyboardEvent('keydown', {
+            'key':     e.key,
+            'code':    e.code,
+            'keyCode': e.keyCode,
+            'which':   e.which
+          })
+        );
       }
     }, true);
 

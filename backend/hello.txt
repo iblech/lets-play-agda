@@ -1,23 +1,25 @@
-"C-" means "Ctrl". If C-c is intercepted by your browser, try C-o instead.
+"C-" means "Ctrl", "M-" means "Alt".
+If C-c is intercepted by your browser, try C-o instead.
 
-┌─ GENERAL ─────────────────────────┐    ┌─ SYMBOLS ────────────────┐
-│ C-z       = enable Vi keybinds    │    │ ℕ = \bN                  │
-│ C-+       = increase font size    │    │ α = \alpha or \Ga        │
-│ C-Return  = fullscreen mode       │    │ → = \r     or \to        │
-│ C-x 1     = maximize window       │    │ · = \cdot                │
-│ C-g       = abort command         │    │ ∷ = \::                  │
-└───────────────────────────────────┘    │ ≡ = \==                  │
-                                         │ ≤ = \<=                  │
-┌─ AGDA ────────────────────────────┐    │ ⊥ = \bot                 │
-│ C-c C-l   = load file             │    └──────────────────────────┘
-│ C-c C-c   = case split            │    Use M-x describe-char to
-│ C-c C-SPC = check hole            │    lookup input method for
-│ C-c ,     = show context          │    symbol under cursor.
-│ C-c .     = show context and goal │
-│ C-c C-r   = refine goal           │    If you experience weird
-│ C-c C-d   = display type          │    layout issues, try C-Return.
-│ C-c C-v   = evaluate expression   │
-└───────────────────────────────────┘
+┌─ GENERAL ─────────────────────────┐                ┌─ SYMBOLS ────────────────┐
+│ C-z       = enable Vi keybinds    │                │ ℕ = \bN                  │
+│ C-+       = increase font size    │                │ α = \alpha or \Ga        │
+│ M-Return  = fullscreen mode       │                │ → = \r     or \to        │
+│ C-x 1     = maximize window       │                │ · = \cdot                │
+│ C-g       = abort command         │                │ ∷ = \::                  │
+└───────────────────────────────────┘                │ ≡ = \==                  │
+                                                     │ ≤ = \<=                  │
+┌─ AGDA ────────────────────────────────────────┐    │ ⊥ = \bot                 │
+│ C-c C-l   = load file                         │    └──────────────────────────┘
+│ C-c C-c   = case split                        │    Use M-x describe-char to
+│ C-c C-SPC = check hole                        │    lookup input method for
+│ C-c C-,   = show context                      │    symbol under cursor.
+│ C-c C-.   = show context and type of proposal │
+│ C-c C-r   = refine goal                       │    If you experience weird
+│ C-c C-a   = automatic mode                    │    layout issues, try M-Return.
+│ C-c C-d   = display type                      │
+│ C-c C-v   = evaluate expression               │
+└───────────────────────────────────────────────┘
 
 For copying text, hold the Shift key while selecting the text with the mouse.
 To get back to your file, press C-x C-Left.
