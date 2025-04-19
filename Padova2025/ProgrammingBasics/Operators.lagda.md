@@ -80,6 +80,9 @@ In a similar vein, implement the logical OR operator.
 
 ```
 infixr 5 _||_
+```
+
+```
 _||_ : Bool → Bool → Bool
 false || y = {--}y{--}
 true  || y = {--}true{--}

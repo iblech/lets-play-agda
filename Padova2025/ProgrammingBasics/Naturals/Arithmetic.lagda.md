@@ -153,6 +153,9 @@ Define squaring, without using the exponentiation operator introduced below.
 
 ```
 infixr 8 _²
+```
+
+```
 _² : ℕ → ℕ
 _² x = {--}x · x{--}
 
@@ -203,5 +206,3 @@ max (succ a) (succ b) = succ (max a b)
 -- EX: max three four ≡ four
 -- EX: max four  one  ≡ four
 ```
-
-
