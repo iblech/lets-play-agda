@@ -57,8 +57,13 @@ __DATA__
 ₁ _1
 ² ^2
 ₂ _2
+³ ^3
+₃ _3
+⁴ ^4
+₄ _4
 ⊥ bot
 · cdot
+∃ exists
 ℓ ell
 ¬ neg
 → to
@@ -67,4 +72,5 @@ __DATA__
 γ gamma
 λ lambda
 π pi
+Σ Sigma
 ω omega

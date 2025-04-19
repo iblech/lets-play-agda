@@ -12,6 +12,22 @@ data _⊎_ (A : Set) (B : Set) : Set where
   right : B → A ⊎ B
 ```
 
+```
+record Σ (A : Set) (B : A → Set) : Set where
+  constructor _,_
+  field
+    fst : A
+    snd : B fst
+
+open Σ public
+infixr 4 _,_
+
+∃-syntax : {A : Set} → (A → Set) → Set
+∃-syntax = Σ _
+
+syntax ∃-syntax (λ x → B) = ∃[ x ] B
+```
+
 
 ## Exercise: Even or odd
 
@@ -39,4 +55,44 @@ not-odd-implies-even : (x : ℕ) → ¬ Odd x → Even x
 not-odd-implies-even x p with even-or-odd x
 ... | left  q = q
 ... | right q = ⊥-elim (p q)
+```
+
+
+## Remark: A variety of formalizations of evenness
+
+[Back when introducing
+predicates](Padova2025.ProvingBasics.EvenOdd.html), we have chosen one
+particular definition of evenness. But other formalizations are also
+possible. Let us collect here all the auxiliary results showing that
+several of those notions coincide.
+
+```
+open import Padova2025.ProvingBasics.Equality.Base
+open import Padova2025.ProvingBasics.Equality.General
+open import Padova2025.ProvingBasics.Equality.NaturalNumbers
+```
+
+```
+Even₁ Even₂ Even₃ Even₄ : ℕ → Set
+
+Even₁ n = Even n
+Even₂ n = ¬ Odd n
+Even₃ n = Odd (succ n)
+Even₄ n = ∃[ m ] (n ≡ twice m)
+```
+
+```
+1⇒2 : {n : ℕ} → Even₁ n → Even₂ n
+2⇒1 : {n : ℕ} → Even₂ n → Even₁ n
+1⇒3 : {n : ℕ} → Even₁ n → Even₃ n
+3⇒1 : {n : ℕ} → Even₃ n → Even₁ n
+1⇒4 : {n : ℕ} → Even₁ n → Even₄ n
+4⇒1 : {n : ℕ} → Even₄ n → Even₁ n
+
+1⇒2 = even-and-odd
+2⇒1 = not-odd-implies-even _
+1⇒3 = succ-even
+3⇒1 = succ-even'
+1⇒4 p = half _ , even-twice p
+4⇒1 (m , p) = subst Even (sym p) (twice-even m)
 ```
