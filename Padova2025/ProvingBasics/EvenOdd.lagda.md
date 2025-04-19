@@ -64,6 +64,28 @@ succ-even base-even     = base-odd
 succ-even (step-even p) = step-odd (succ-even p)
 ```
 
+The following exercises cover several variations of this theme.
+
+```
+succ-odd : {a : ℕ} → Odd a → Even (succ a)
+-- Holify
+succ-odd base-odd     = step-even base-even
+succ-odd (step-odd p) = step-even (succ-odd p)
+```
+
+```
+succ-even' : {a : ℕ} → Odd (succ a) → Even a
+-- Holify
+succ-even' base-odd     = base-even
+succ-even' (step-odd p) = succ-odd p
+```
+
+```
+succ-odd' : {a : ℕ} → Even (succ a) → Odd a
+-- Holify
+succ-odd' (step-even p) = succ-even p
+```
+
 
 ## Exercise: Being zero
 

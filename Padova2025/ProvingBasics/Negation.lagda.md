@@ -101,5 +101,17 @@ Weird-is-empty : Weird → ⊥
 -- Holify
 Weird-is-empty (succ x) = Weird-is-empty x
 ```
-
 :::
+
+
+## Exercise: Ex falso quodlibet
+
+In (both classical and intutionistic, but not minimal) logic, from a
+contradiction any statement follows. In Agda, we have the parallel fact
+we have a function `⊥ → A` for any type `A`:
+
+```
+⊥-elim : {A : Set} → ⊥ → A
+-- Holify
+⊥-elim ()
+```
