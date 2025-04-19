@@ -158,3 +158,96 @@ nontriviality of the binomial theorem if the only tools available are
 the axioms and their basic consequences. There is a
 [ring solver](https://gist.github.com/andrejbauer/358722620c26c09d6be218bcd95ee654)
 which can generate the proof automatically.
+
+
+## Exercise: Summing with and without an accumulator
+
+```
+open import Padova2025.ProgrammingBasics.Lists
+```
+
+[Back when we have introduced lists](Padova2025.ProgrammingBasics.Lists.html#sum),
+we have implemented a `sum` function which sums the elements of a
+given list of natural numbers:
+
+```
+-- sum : List ℕ → ℕ
+-- sum []       = zero
+-- sum (x ∷ xs) = x + sum xs
+```
+
+An alternative, tail-recursive, implementation makes use of an accumulator:
+
+```
+sumAcc : ℕ → List ℕ → ℕ
+sumAcc acc []       = acc
+sumAcc acc (x ∷ xs) = sumAcc (acc + x) xs
+
+sum' : List ℕ → ℕ
+sum' = sumAcc zero
+```
+
+Let us prove that these two implementations yield identical results.
+
+```
+lemma-sumAcc : (acc : ℕ) (xs : List ℕ) → sumAcc acc xs ≡ acc + sum xs
+-- Holify
+lemma-sumAcc acc []       = sym (+-zero acc)
+lemma-sumAcc acc (x ∷ xs) = begin
+  sumAcc acc (x ∷ xs) ≡⟨⟩
+  sumAcc (acc + x) xs ≡⟨ lemma-sumAcc (acc + x) xs ⟩
+  (acc + x) + sum xs  ≡⟨ +-assoc acc x (sum xs) ⟩
+  acc + (x + sum xs)  ∎
+```
+
+```
+sum-sum' : (xs : List ℕ) → sum xs ≡ sum' xs
+-- Holify
+sum-sum' xs = sym (lemma-sumAcc zero xs)
+```
+
+
+## Exercise: Reversing with and without an accumulator
+
+Similarly to the previous exercise---there are two natural
+implementations of the `reverse` function on lists, not using or using
+an accumulator:
+
+```
+-- Without accumulator.
+-- reverse : {A : Set} → List A → List A
+-- reverse []       = []
+-- reverse (x ∷ xs) = reverse xs ∷ʳ x
+
+-- With accumulator.
+reverseAcc : {A : Set} → List A → List A → List A
+reverseAcc acc []       = acc
+reverseAcc acc (x ∷ xs) = reverseAcc (x ∷ acc) xs
+
+reverse' : {A : Set} → List A → List A
+reverse' = reverseAcc []
+```
+
+For the following proof, the function [snoc-++](Padova2025.ProvingBasics.Equality.Lists.html#snoc-++) is useful.
+
+```
+open import Padova2025.ProvingBasics.Equality.Lists
+```
+
+```
+lemma-reverseAcc : {A : Set} (acc : List A) (xs : List A) → reverseAcc acc xs ≡ reverse xs ++ acc
+-- Holify
+lemma-reverseAcc acc [] = refl
+lemma-reverseAcc acc (x ∷ xs) = begin
+  reverseAcc acc (x ∷ xs)  ≡⟨⟩
+  reverseAcc (x ∷ acc) xs  ≡⟨ lemma-reverseAcc (x ∷ acc) xs ⟩
+  reverse xs ++ (x ∷ acc)  ≡˘⟨ snoc-++ x (reverse xs) acc ⟩
+  (reverse xs ∷ʳ x) ++ acc ≡⟨⟩
+  reverse (x ∷ xs) ++ acc  ∎
+```
+
+```
+reverse-reverse' : {A : Set} (xs : List A) → reverse xs ≡ reverse' xs
+-- Holify
+reverse-reverse' xs = sym (trans (lemma-reverseAcc [] xs) (++-[] (reverse xs)))
+```

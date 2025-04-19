@@ -64,3 +64,23 @@ replicate-natural
 replicate-natural f zero     x = refl
 replicate-natural f (succ n) x = cong (f x ∷_) (replicate-natural f n x)
 ```
+
+
+## Exercise: Snocking and concatenation
+
+```
+snoc-++ : {A : Set} (a : A) (xs ys : List A) → (xs ∷ʳ a) ++ ys ≡ xs ++ (a ∷ ys)
+-- Holify
+snoc-++ a []       ys = refl
+snoc-++ a (x ∷ xs) ys = cong (x ∷_) (snoc-++ a xs ys)
+```
+
+
+## Exercise: Empty list neutral for concatenation
+
+```
+++-[] : {A : Set} (xs : List A) → xs ++ [] ≡ xs
+-- Holify
+++-[] []       = refl
+++-[] (x ∷ xs) = cong (x ∷_) (++-[] xs)
+```
