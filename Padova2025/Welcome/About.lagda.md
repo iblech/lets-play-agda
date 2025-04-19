@@ -59,9 +59,8 @@ Here is a list of Unicode symbols used in this course.
   };
 </script>
 
-<table id="char-table">
-  <tr><th style="text-align: left">Symbol</th><th style="text-align: left">Input method</th></tr>
-</table>
+<div style="column-count: 2"><table id="char-table">
+</table></div>
 
 <!--
 ```

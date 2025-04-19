@@ -63,4 +63,8 @@ __DATA__
 ¬ neg
 → to
 ˘ u{}
+α alpha
+γ gamma
+λ lambda
 π pi
+ω omega
