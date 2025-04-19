@@ -89,7 +89,9 @@ subst F refl s = s
 ## Exercise: Congruence for functions with two parameters
 
 ```
-cong₂ : {A B C : Set} {x x' : A} {y y' : B} → (f : A → B → C) → x ≡ x' → y ≡ y' → f x y ≡ f x' y'
+cong₂
+  : {A B C : Set} {x x' : A} {y y' : B}
+  → (f : A → B → C) → x ≡ x' → y ≡ y' → f x y ≡ f x' y'
 -- Holify
 cong₂ f refl refl = refl
 ```
