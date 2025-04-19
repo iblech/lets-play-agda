@@ -18,7 +18,6 @@ Frontend:
 Backend:
 - accept solution submissions
 - relay work in progress to the browser, for safekeeping
-- have container.nix run frontend/build.sh in compilePhase or similar
 - have basic type test
 - decouple solution verification from editing
 

@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+# Parameters:
+# $1 path to source files (containing Padova2025, backend etc.)
+# $2 Agda module name
+# $3 block id in the Agda file
+
 echo Spawning container...
 
 # XXX: --new-session?
@@ -15,8 +20,8 @@ exec bwrap \
   --setenv LANG en_US.UTF-8 \
   --setenv LOCALE_ARCHIVE "$LOCALE_ARCHIVE" \
   --setenv HOME /home/user \
-  --setenv AGDA_MODULENAME "$1" \
-  --setenv AGDA_BLOCKNAME "$2" \
+  --setenv AGDA_MODULENAME "$2" \
+  --setenv AGDA_BLOCKNAME "$3" \
   --unshare-all \
   --tmpfs /run \
   --dev /dev \
@@ -28,15 +33,18 @@ exec bwrap \
   --die-with-parent \
   --hostname box \
   --chdir / \
-  --overlay-src Padova2025 \
-  --tmp-overlay /home/user/Padova2025 \
-  --ro-bind-try backend/site-start.el /home/user/.emacs \
-  --ro-bind-try backend/hello.txt /home/user/.hello.txt \
+  --ro-bind "$1"/Padova2025 /home/user/Padova2025.orig \
+  --ro-bind "$1"/backend/site-start.el /home/user/.emacs \
+  --ro-bind "$1"/backend/hello.txt /home/user/.hello.txt \
   bash -c '
     set -e
     cd /home/user
     AGDA_INPUT_FILENAME="${AGDA_MODULENAME//\./\/}".lagda.md
     AGDA_OUTPUT_FILENAME="${AGDA_MODULENAME//\./\/}".agda
+
+    # the files in the "orig" directory are not writeable
+    cp -r Padova2025.orig Padova2025
+    chmod -R u+w Padova2025
 
     perl -we '\''
       while(1) {

@@ -14,4 +14,4 @@ exec ttyd \
   -b /__ttyd \
   -W \
   -a \
-  ./backend/run.sh
+  ./backend/run.sh .

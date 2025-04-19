@@ -1,9 +1,50 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
-let cache = builtins.fetchTarball {
-  url = "https://www.speicherleck.de/iblech/stuff/lets-play-agda-cache.tgz";
-  sha256 = "sha256:1jlv1a6dnl3kf41ws24ghn5gngfnh8i09aa1zk2dnbkf029gr98j";
-}; in
+let
+  cache = builtins.fetchTarball {
+    url = "https://www.speicherleck.de/iblech/stuff/lets-play-agda-cache.tgz";
+    sha256 = "sha256:1jlv1a6dnl3kf41ws24ghn5gngfnh8i09aa1zk2dnbkf029gr98j";
+  };
+
+  ouragda = pkgs.agda.withPackages (p: [ p.standard-library p.cubical p.agda-categories p._1lab p.generics p.functional-linear-algebra ]);
+  ouremacs = pkgs.emacs-nox.pkgs.withPackages (epkgs: [ epkgs.evil epkgs.tramp-theme epkgs.ahungry-theme epkgs.color-theme-sanityinc-tomorrow epkgs.use-proxy ]);
+
+  frontend-data = pkgs.stdenv.mkDerivation rec {
+    name = "lets-play-agda-frontend-data";
+    src = ./.;
+    nativeBuildInputs = with pkgs; [ lychee ouragda pandoc perl zip ];
+    postPatch = ''
+      patchShebangs .
+    '';
+    buildPhase = ''
+      cp -r --reflink=auto ${cache} cache
+      chmod -R u+w cache
+      ./frontend/build.sh
+    '';
+    installPhase = ''
+      mkdir -p $out
+      cp -r --reflink=auto out/* $out/
+    '';
+  };
+
+  backend-data = pkgs.stdenv.mkDerivation rec {
+    name = "lets-play-agda-backend-data";
+    src = ./.;
+    nativeBuildInputs = [ ouragda pkgs.makeWrapper ];
+    buildPhase = ''
+      agda --safe Padova2025/Index.lagda.md
+    '';
+    patchPhase = ''
+      patchShebangs .
+    '';
+    installPhase = ''
+      mkdir -p $out
+      cp -r --reflink=auto . $out/
+      wrapProgram $out/backend/run.sh \
+        --prefix PATH : ${lib.makeBinPath (with pkgs; [ bash bubblewrap inotify-tools ouragda ouremacs perl tmux ])}
+    '';
+  };
+in
 
 {
   services.journald.extraConfig = ''
@@ -24,51 +65,27 @@ let cache = builtins.fetchTarball {
     home = "/home/user";
   };
 
-  systemd.services.lets-play-agda = {
-    script = ''
-      cd /home/user
-      rm -rf lets-play-agda
-      cp -r --reflink=auto ${./.} lets-play-agda
-      chmod -R u+w lets-play-agda
-      cp -r --reflink=auto ${cache} lets-play-agda/cache
-      chmod -R u+w lets-play-agda/cache
-      cd lets-play-agda
-
-      ./frontend/build.sh
-      ./backend/boot.sh
-    '';
-    path = with pkgs; [
-      (emacs-nox.pkgs.withPackages (epkgs: [ epkgs.evil epkgs.tramp-theme epkgs.ahungry-theme epkgs.color-theme-sanityinc-tomorrow epkgs.use-proxy ]))
-      (agda.withPackages (p: [ p.standard-library p.cubical p.agda-categories p._1lab p.generics p.functional-linear-algebra ]))
-      bash
-      bubblewrap
-      curl
-      gnugrep
-      gnused
-      gnutar
-      gzip
-      inotify-tools
-      lychee
-      pandoc
-      perl
-      tmux
-      ttyd
-      util-linux
-      zip
-    ];
-    wantedBy = [ "multi-user.target" ];
-    serviceConfig.User = "user";
+  services.ttyd = {
+    enable = true;
+    clientOptions = {
+      disableReconnect = "true";
+      disableLeaveAlert = "true";
+      fontSize = "20";
+      theme = "{'background':'white'}";
+    };
+    writeable = true;
+    entrypoint = [ "-b" "/__ttyd" "-a" "${backend-data}/backend/run.sh" "${backend-data}" ];
+    user = "user";
   };
 
   services.nginx = {
     enable = true;
-    recommendedGzipSettings = true;
-    recommendedOptimisation = true;
     user = "user";
 
-    package = pkgs.nginxMainline.override {
-      modules = with pkgs.nginxModules; [ brotli zstd ];
-    };
+    recommendedGzipSettings = true;
+    recommendedOptimisation = true;
+
+    package = pkgs.nginxMainline.override { modules = with pkgs.nginxModules; [ brotli zstd ]; };
 
     # important to prevent annoying reconnects
     appendHttpConfig = ''
@@ -93,7 +110,7 @@ let cache = builtins.fetchTarball {
     virtualHosts.localhost = {
       locations = {
         "/" = {
-          root = "/home/user/lets-play-agda/out";
+          root = "/home/user/www";
           extraConfig = ''
             expires 15m;
             if ($request_uri ~* "\.(woff2|css)$") {
@@ -107,6 +124,15 @@ let cache = builtins.fetchTarball {
         };
       };
     };
+
+    # Bump the timestamps from the epoch used for /nix/store.
+    # Ideally we would use the timestamp of the source.
+    preStart = ''
+      rm -rf /home/user/www
+      cp -r ${frontend-data} /home/user/www
+      chmod -R u+w /home/user/www
+      find /home/user/www -type f -exec touch {} +
+    '';
   };
   systemd.services.nginx.serviceConfig.ProtectHome = "no";
 }
