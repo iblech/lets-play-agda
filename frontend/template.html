@@ -44,6 +44,7 @@
     }
 
     .footer, .footer a, .inessential, .inessential * { color: gray !important; }
+    noscript p { color: red !important; }
     .footer { font-size: smaller; }
     a { text-decoration: none; }
     .footer a { background-image: linear-gradient(#eeebee 0%, #eeebee 100%); background-repeat: repeat-x; background-position: 0 100%; background-size: 1px 1px; }
@@ -219,6 +220,12 @@ __SOLUTIONS__
 </aside>
 
 <aside class="footer">
+  <noscript><p>
+    The passive parts of this website work just fine with JavaScript disabled.
+    But for connecting to the server in order to actually play Agda, you need
+    to enable JavaScript.
+  </p></noscript>
+
   <p>Want to contribute?
   <a href="https://github.com/iblech/lets-play-agda/blob/main/__SOURCE__">Visit this file on GitHub.</a><br>
   <a href=".">Let's play Agda</a> was created by
