@@ -62,14 +62,6 @@ sub visit {
           <li>Case study: Dickson's lemma</li>
         </ol>
       </li>
-      <li>
-        Cubical Agda
-        <ol>
-          <li>Issues with standard Agda</li>
-          <li>A mathematical rosetta stone</li>
-          <li>First steps</li>
-        </ol>
-      </li>
 EOF
   }
 

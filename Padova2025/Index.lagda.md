@@ -8,5 +8,6 @@ open import Padova2025.Welcome
 open import Padova2025.ProgrammingBasics
 open import Padova2025.ProvingBasics
 open import Padova2025.VerifiedAlgorithms
+open import Padova2025.Cubical
 ```
 -->
