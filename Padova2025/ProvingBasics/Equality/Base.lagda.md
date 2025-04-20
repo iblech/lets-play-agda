@@ -31,6 +31,7 @@ formulating assumptions or results involing equality, we use `≡`.
 ```
 open import Padova2025.ProgrammingBasics.Naturals.Base
 open import Padova2025.ProgrammingBasics.Naturals.Arithmetic
+open import Padova2025.ProgrammingBasics.DependentFunctions
 ```
 
 With the definition of equality at hand, we can state and prove that `zero`
@@ -127,4 +128,17 @@ again.
 ```
 lemma-pred-succ : (a : ℕ) → pred (succ a) ≡ a
 lemma-pred-succ a = {--}refl{--}
+```
+
+
+## Unit tests
+
+If a definition is not used in the remainder of a development, Agda supports
+giving it the reusable dummy name "`_`". This feature is used in the Agda
+community to document expected results as rigorously verified unit tests,
+instead of merely putting examples in comments.
+
+```
+_ : twice two ≡ four
+_ = refl
 ```
