@@ -183,13 +183,13 @@ g ∘ f = λ x → g (f x)
 ∘-identityʳ f = refl
 ```
 
-Having established that the (small) types form a category, a category
+Having established that types form a category, a category
 theorist might ask about its categorical properties. For instance, in
 blackboard mathematics, the category $\mathrm{Set}$ has an initial
 object, namely the empty set $∅$: For every set $X$, there is exactly
 one map $∅ → X$.
 
-Does the category of (small) types have an initial object? How about a
+Does the category of types have an initial object? How about a
 terminal object?
 
 ::: More :::
@@ -198,7 +198,7 @@ terminal object?
 
 Agda does have the empty type `⊥`, and for every type `X` there is a
 map [`⊥-elim : ⊥ → X`](Padova2025.ProvingBasics.Negation.html#⊥-elim).
-Hence the category of (small) types has a *weakly initial object*.
+Hence the category of types has a *weakly initial object*.
 However, without function extensionality, we cannot show that any two
 functions of type `⊥ → X` are identical.
 
@@ -214,8 +214,8 @@ record 𝟙 : Set where
 ```
 
 Record types by default have
-[(their own version of) eta equality](https://agda.readthedocs.io/en/latest/language/record-types.html#eta-expansion). That
-is the reason why any two inhabitants are judgmentally equal:
+[(their own version of) eta equality](https://agda.readthedocs.io/en/latest/language/record-types.html#eta-expansion).
+That is the reason why any two inhabitants are judgmentally equal:
 
 ```
 _ : (x y : 𝟙) → x ≡ y
@@ -241,5 +241,20 @@ data 𝟙' : Set where
 𝟙'-isProp tt tt = refl
 -- But without the pattern match, 𝟙'-isProp x y = refl, there is a type error.
 ```
+
+
+### Category of setoids
+
+Even though the category of types is perhaps the first to reach out to
+when exploring the landscape of categories in Agda, the category of (small)
+*setoids* is for many applications actually much more sensible, less dependent
+on foundations (such as the availability or non-availability of function
+extensionality) and also much better behaved. For instance, the category of
+setoids is complete and cocomplete, locally cartesian closed, exact and extensive.
+It also validates a version of the axiom of choice. All of these assertions can be
+explored in great detail in the
+[categories library](https://github.com/agda/agda-categories) in the
+[module Categories.Category.Instance.Properties.Setoids and its
+submodules](https://agda.github.io/agda-categories/index.html).
 :::
 :::
