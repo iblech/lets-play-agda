@@ -165,7 +165,9 @@ ln -s Padova2025.Welcome.html index.html
 
 rm -rf toc.html Padova2025 solutions
 
-lychee --offline --include-fragments --include-verbatim .
+if [ -z "$quick" ]; then
+  lychee --offline --include-fragments --include-verbatim .
+fi
 
 cd ..
 rm -rf out
