@@ -26,6 +26,10 @@ infixr 4 _,_
 ∃-syntax = Σ _
 
 syntax ∃-syntax (λ x → B) = ∃[ x ] B
+
+infixr 2 _×_
+_×_ : (A : Set) (B : Set) → Set
+A × B = Σ A (λ _ → B)
 ```
 
 
