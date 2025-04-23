@@ -63,7 +63,7 @@ For instance, `map f (x ∷ y ∷ z ∷ [])` should reduce to `f x ∷ f y ∷ f
 ```
 mapV : {n : ℕ} {A B : Set} → (A → B) → Vector A n → Vector B n
 -- Holify
-mapV f [] = []
+mapV f []       = []
 mapV f (x ∷ xs) = f x ∷ mapV f xs
 ```
 
@@ -75,7 +75,7 @@ For instance, "zipWithV f (x ∷ y ∷ []) (a ∷ b ∷ [])" should evaluate to 
 ```
 zipWithV : {A B C : Set} {n : ℕ} → (A → B → C) → Vector A n → Vector B n → Vector C n
 -- Holify
-zipWithV f [] [] = []
+zipWithV f []       []       = []
 zipWithV f (x ∷ xs) (y ∷ ys) = f x y ∷ zipWithV f xs ys
 ```
 
@@ -87,7 +87,7 @@ For instance, `dropV one (a ∷ b ∷ c ∷ [])` should evaluate to `b ∷ c ∷
 ```
 dropV : {A : Set} {n : ℕ} (k : ℕ) → Vector A (k + n) → Vector A n
 -- Holify
-dropV zero xs = xs
+dropV zero     xs       = xs
 dropV (succ n) (x ∷ xs) = dropV n xs
 
 -- Tests
