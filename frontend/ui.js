@@ -77,10 +77,12 @@ function createIframe(block, id) {
       if(iframe.contentDocument.title.includes("SUCCESS")) {
         const encodedPayload = iframe.contentDocument.title.split(' ')[1];
         const decodedPayload = decodeURIComponent(atob(encodedPayload).split('').map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
+        recordActivity();
         recordCode(getAgdaModuleName(), id, decodedPayload);
         updateCode(iframe, id);
         localStorage.setItem(getAgdaModuleName() + "/" + id + "/success", "true");
         renderToc();
+        printActivity();
         attachReferenceSolution(iframe, id);
         confetti.start();
         window.setTimeout(confetti.stop, 1000);
