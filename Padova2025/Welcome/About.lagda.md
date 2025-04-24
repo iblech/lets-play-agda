@@ -30,10 +30,28 @@ This interactive Agda tutorial builds on awesome free software projects:
 - [Rocq interactive online system](https://coq.vercel.app/)
 
 
-## Download
+## Working locally
 
 In case you prefer to work with a local Agda installation, there is an
 [archive](Padova2025.zip) of all Agda code.
+
+[It is also possible to self-host Let's play Agda.](https://github.com/iblech/lets-play-agda/)
+
+
+## Backing up your data
+
+- For the interactive Agda elements of this project, you are connected to an
+  container including Agda running on a server of mine. This container is ephemeral,
+  your Agda code is not permanently stored on the server.
+
+- Instead, your solutions to Agda exercises are only stored in your browser's local
+  storage. This storage is in principle permanent but in practice prone to be
+  cleared, for instance when working in your browser's private mode or when
+  deleting "application data" of web sites. Hence you might want to
+  periodically [download your solutions](javascript:downloadLocalStorage()) for safekeeping.
+
+- You can [import backups by clicking here](javascript:importIntoLocalStorage()).
+  This will merge the backup's contents with the local storage.
 
 
 ## Unicode symbols
