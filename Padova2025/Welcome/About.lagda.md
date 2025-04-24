@@ -1,10 +1,5 @@
 # About this project
 
-::: Todo :::
-Mention streak...
-:::
-
-
 ## Credits
 
 ### Open source dependencies
@@ -52,6 +47,23 @@ In case you prefer to work with a local Agda installation, there is an
 
 - You can [import backups by clicking here](javascript:importIntoLocalStorage()).
   This will merge the backup's contents with the local storage.
+
+
+## Streak
+
+As soon as you have started filling in your first hole, a small calendar will
+appear in the lower left corner below the navigation. This calender allows you
+to monitor your progress. Like your Agda code, this activity log is only stored
+in your browser's local storage.
+
+<span class="daybox active"></span> Days on which you have been playing<br>
+<span class="daybox resting"></span> Days on which you have been resting<br>
+<span class="daybox inactive"></span> Days on which you have been inactive
+
+To better match night owls, a day is defined as ending at 5 am in the morning.
+For the case that this is useful to you, also your longest streak of continuous
+day-after-day activity is computed. Up two resting days in each 7-day time span
+do not interrupt a streak.
 
 
 ## Unicode symbols
