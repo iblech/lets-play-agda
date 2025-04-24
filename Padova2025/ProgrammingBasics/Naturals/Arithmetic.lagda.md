@@ -62,6 +62,8 @@ half (succ (succ n)) = succ (half n)
 -- EX: half zero ≡ zero
 -- EX: half (succ (succ (succ zero))) ≡ succ zero
 -- EX: half (succ (succ (succ (succ zero)))) ≡ succ (succ zero)
+-- EX: half (succ (succ (succ (succ (succ zero))))) ≡ succ (succ zero)
+-- EX: half (succ (succ (succ (succ (succ (succ zero)))))) ≡ succ (succ (succ zero))
 ```
 
 ::: Aside :::
