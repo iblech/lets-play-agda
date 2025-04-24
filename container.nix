@@ -1,3 +1,4 @@
+{ commit-id ? "main" }:
 { config, pkgs, lib, ... }:
 
 let
@@ -17,6 +18,7 @@ let
       patchShebangs .
     '';
     buildPhase = ''
+      echo ${lib.escapeShellArg commit-id} > COMMIT_ID
       cp -r --reflink=auto ${cache} cache
       chmod -R u+w cache
       ./frontend/build.sh
@@ -36,6 +38,7 @@ let
     buildPhase = ''
       # no --safe or --cubical-compatible here, as we want people to be
       # able to play around with unsafe features
+      echo ${lib.escapeShellArg commit-id} > COMMIT_ID
       agda Padova2025/Index.lagda.md
     '';
     patchPhase = ''

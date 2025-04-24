@@ -119,6 +119,7 @@
     nav .logo a { color: black; }
     nav .logo a:hover { background-image: none; }
     .logo span { font-size: 400%; }
+    nav .logo a.commit-id { font-weight: normal; color: grey; }
 
     main .logo {
       display: inline-block;
@@ -206,11 +207,12 @@
 
 <nav>
 <div class="logo">
-<a href=".">
-  <span>🐔</span><br>
-  Let's play Agda
-  <strong style="color: red">Beta</strong>
-</a>
+  <a href=".">
+    <span>🐔</span><br>
+    Let's play Agda
+    <strong style="color: red">Beta</strong>
+  </a><br>
+  <a class="commit-id" href="https://github.com/iblech/lets-play-agda/commit/__COMMIT_ID__">__COMMIT_ID_SHORT__</a>
 </div>
 
 __TOC__

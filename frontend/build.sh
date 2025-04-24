@@ -3,6 +3,7 @@
 set -e
 
 export quick="$1"
+export commit_id="$(cat COMMIT_ID || echo main)"
 
 mkdir -p cache
 
@@ -138,6 +139,8 @@ for i in *.md; do
       }
 
       s/__TITLE__/$ENV{title}/g;
+      s/__COMMIT_ID__/$ENV{commit_id}/g;
+      s/__COMMIT_ID_SHORT__/substr $ENV{commit_id}, 0, 7/eg;
       s/__BODY__/slurp($ENV{bodyfile})/eg;
       s/__TOC__/slurp("toc.html")/eg;
       s/__MODULENAME__/$ENV{modulename}/g;
