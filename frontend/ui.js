@@ -132,6 +132,7 @@ function attachEditor(block) {
 function attachReferenceSolution(block, id) {
   const solution = document.getElementById("reference-solution-" + id);
   if(solution === null) return;
+  solution.removeAttribute("id");  // Don't show button when solving an exercise a second time
 
   const showButton = document.createElement("a");
   showButton.className = "show-reference-solution";
