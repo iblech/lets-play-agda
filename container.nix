@@ -4,7 +4,7 @@
 let
   cache = builtins.fetchTarball {
     url = "https://www.speicherleck.de/iblech/stuff/lets-play-agda-cache.tgz";
-    sha256 = "sha256:1jlv1a6dnl3kf41ws24ghn5gngfnh8i09aa1zk2dnbkf029gr98j";
+    sha256 = "sha256:06vwyggaq7lamw508yy9wyknq1g9psx9rr91jzxn39kqa87arpxr";
   };
 
   ouragda = pkgs.agda.withPackages (p: [ p.standard-library p.cubical p.agda-categories p._1lab p.generics p.functional-linear-algebra ]);
@@ -13,7 +13,7 @@ let
   frontend-data = pkgs.stdenv.mkDerivation rec {
     name = "lets-play-agda-frontend-data";
     src = ./.;
-    nativeBuildInputs = with pkgs; [ lychee ouragda pandoc perl zip ];
+    nativeBuildInputs = with pkgs; [ lychee ouragda pandoc perl (python3.withPackages (p: [ p.brotli p.fonttools ])) zip ];
     postPatch = ''
       patchShebangs .
     '';
