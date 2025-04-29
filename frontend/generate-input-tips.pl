@@ -64,8 +64,10 @@ __DATA__
 ⊥ bot
 · cdot
 ∃ exists
+∈ in
 ℓ ell
 ¬ neg
+ö "o
 → to
 ˘ u{}
 α alpha

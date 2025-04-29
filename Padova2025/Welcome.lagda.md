@@ -90,5 +90,6 @@ module Padova2025.Welcome where
 import Padova2025.Welcome.About
 import Padova2025.Welcome.GettingAgda
 import Padova2025.Welcome.References
+import Padova2025.Welcome.Rosetta
 ```
 -->
