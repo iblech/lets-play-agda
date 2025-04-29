@@ -84,7 +84,7 @@ function createIframe(block, id) {
         renderToc();
         printActivity();
         attachReferenceSolution(iframe, id);
-        confetti.start();
+        showConfetti();
         window.setTimeout(confetti.stop, 1000);
       }
     }).observe(
@@ -465,6 +465,11 @@ function importIntoLocalStorage() {
   };
 
   input.click();
+}
+
+function showConfetti() {
+  confetti.start();
+  window.setTimeout(confetti.stop, 1000);
 }
 
 attachEditors();

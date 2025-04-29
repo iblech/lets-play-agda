@@ -17,6 +17,9 @@ This interactive Agda tutorial builds on awesome free software projects:
 <a href="https://github.com/containers/bubblewrap"><img src="images/bubblewrap.svg" alt="bubblewrap"></a>
 </div>
 
+The [confetti animation](javascript:showConfetti()) is by
+[Elias Ruiz Monserrat](https://gist.github.com/elrumo/3055a9163fd2d0d19f323db744b0a094).
+
 
 ### Similar projects for other languages
 
@@ -76,7 +79,7 @@ instance `\alpha` will produce a Greek `α`.
 Here is a list of Unicode symbols used in this course.
 
 
-<script id="char-loader">
+<script>
   window.onload = function () {
     let table = document.getElementById("char-table");
 
