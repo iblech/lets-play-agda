@@ -2,6 +2,16 @@
 
 ## Credits
 
+::: Todo :::
+Acknowledge participants at the Chaos Communication Congress, ALGAR summer
+school, Proof and Computation etc. and of course in Padova
+:::
+
+Pull requests were contributed by:
+
+- Matteo Cusin
+
+
 ### Open source dependencies
 
 This interactive Agda tutorial builds on awesome free software projects:
