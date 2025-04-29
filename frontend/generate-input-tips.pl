@@ -38,7 +38,7 @@ my @pairs;
 
 for my $char (sort keys %seen) {
   if(exists $commands{$char}) {
-    push @pairs, "\"$char\": \"" . join(" or ", map { "\\\\$_" } sort @{$commands{$char}}) . "\"";
+    push @pairs, "\"$char\": \"" . join(" or ", map { "\Q\\$_" } sort @{$commands{$char}}) . "\"";
   } else {
     print STDERR "No input method found for: '$char'\n"
       unless $ignore{$char};
