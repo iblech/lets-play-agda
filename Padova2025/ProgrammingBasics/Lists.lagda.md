@@ -130,7 +130,7 @@ map f (x ∷ xs) = f x ∷ map f xs
 
 ## Exercise: Snocking
 
-For instance, `(a ∷ b ∷ c ∷ []) ∷ʳ z` should reduce to `a ∷ b ∷ c ∷ z`.
+For instance, `(a ∷ b ∷ c ∷ []) ∷ʳ z` should reduce to `a ∷ b ∷ c ∷ z ∷ []`.
 
 ```
 _∷ʳ_ : {A : Set} → List A → A → List A
