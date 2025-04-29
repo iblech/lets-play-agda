@@ -46,7 +46,7 @@ replicate : (A : Set) → (n : ℕ) → A → Vector A n
 -- Read a type `A`, a number `n`, an element `x : A` as input
 -- and output a length-`n` list of copies of `x`.
 
-five-dimensional-zero-vector      = repliacte ℕ 5 zero
+five-dimensional-zero-vector      = replicate ℕ 5 zero
 three-dimensional-all-ones-vector = replicate ℕ 3 one
 ```
 
