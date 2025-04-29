@@ -167,14 +167,25 @@ cat ../frontend/ui.js >> ui.js
 ln -s Padova2025.Welcome.html index.html
 rm -rf toc.html Padova2025 solutions
 
+function do_sri {
+  file="$1"
+  hashsum="$(sha256sum "$1" | cut -d' ' -f1)"
+  newname="${file%.*}-$hashsum.${file##*.}"
+  mv "$file" "$newname"
+  sed -i -e "s+$file+$newname+g" *.html *.js
+  # we should escape the regex pattern, but for our purposes it will be good enough
+}
+
 if [ -z "$quick" ]; then
   echo
   echo "* Subsetting font..."
   find . -type f ! \( -name "*.zip" -o -name "*.woff2" \) -print0 | xargs -0 cat | pyftsubset ../cache/juliamono.ttf --text-file=/dev/stdin --output-file=juliamono.woff2 --flavor=woff2
-  hashsum="$(sha256sum juliamono.woff2 | cut -d' ' -f1)"
-  mv juliamono.woff2 juliamono-$hashsum.woff2
-  sed -i -e "s+juliamono\.woff2+juliamono-$hashsum.woff2+g" *.html *.js
+  do_sri juliamono.woff2
 fi
+
+for i in Agda.css ui.js confetti.js; do
+  do_sri $i
+done
 
 if [ -z "$quick" ]; then
   echo
