@@ -12,14 +12,14 @@ Add the following to your `/etc/nixos/configuration.nix`:
 
     containers.lets-play-agda = {
       config =
-	let lets-play-agda = builtins.fetchTarball {
-	  url = "https://github.com/iblech/lets-play-agda/archive/main.tar.gz";
-	}; in
-	{ config, pkgs, ... }:
-	{
-	  imports = [ (import "${lets-play-agda}/container.nix" {}) ];
-	  system.stateVersion = "${config.system.nixos.release}";
-	};
+        let lets-play-agda = builtins.fetchTarball {
+          url = "https://github.com/iblech/lets-play-agda/archive/main.tar.gz";
+        }; in
+        { config, pkgs, ... }:
+        {
+          imports = [ (import "${lets-play-agda}/container.nix" {}) ];
+          system.stateVersion = "${config.system.nixos.release}";
+        };
       ephemeral = true;
       autoStart = true;
       privateNetwork = true;
