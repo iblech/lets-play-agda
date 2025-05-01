@@ -17,7 +17,7 @@ Add the following to your `/etc/nixos/configuration.nix`:
         }; in
         { config, pkgs, ... }:
         {
-          imports = [ (import "${lets-play-agda}/container.nix" {}) ];
+          imports = [ (import "${lets-play-agda}/nix/container.nix" {}) ];
           system.stateVersion = "${config.system.nixos.release}";
         };
       ephemeral = true;

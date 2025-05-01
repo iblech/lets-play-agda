@@ -2,56 +2,8 @@
 { config, pkgs, lib, ... }:
 
 let
-  cache = builtins.fetchTarball {
-    url = "https://www.speicherleck.de/iblech/stuff/lets-play-agda-cache.tgz";
-    sha256 = "sha256:06vwyggaq7lamw508yy9wyknq1g9psx9rr91jzxn39kqa87arpxr";
-  };
-
-  ouragda = pkgs.agda.withPackages (p: [ p.standard-library p.cubical p.agda-categories p._1lab p.generics p.functional-linear-algebra ]);
-  ouremacs = pkgs.emacs-nox.pkgs.withPackages (epkgs: [ epkgs.evil epkgs.tramp-theme epkgs.ahungry-theme epkgs.color-theme-sanityinc-tomorrow epkgs.use-proxy ]);
-
-  frontend-data = pkgs.stdenv.mkDerivation rec {
-    name = "lets-play-agda-frontend-data";
-    src = ./.;
-    nativeBuildInputs = with pkgs; [ lychee ouragda pandoc perl (python3.withPackages (p: [ p.brotli p.fonttools ])) zip ];
-    postPatch = ''
-      patchShebangs .
-    '';
-    buildPhase = ''
-      echo ${lib.escapeShellArg commit-id} > COMMIT_ID
-      cp -r --reflink=auto ${cache} cache
-      chmod -R u+w cache
-      ./frontend/build.sh
-    '';
-    installPhase = ''
-      mkdir -p $out
-      cp -r --reflink=auto out/* $out/
-    '';
-    # See pkgs/build-support/agda/default.nix for explanation
-    LC_ALL = lib.optionalString (!pkgs.stdenv.hostPlatform.isDarwin) "C.UTF-8";
-  };
-
-  backend-data = pkgs.stdenv.mkDerivation rec {
-    name = "lets-play-agda-backend-data";
-    src = ./.;
-    nativeBuildInputs = [ ouragda pkgs.makeWrapper ];
-    buildPhase = ''
-      # no --safe or --cubical-compatible here, as we want people to be
-      # able to play around with unsafe features
-      echo ${lib.escapeShellArg commit-id} > COMMIT_ID
-      agda Padova2025/Index.lagda.md
-    '';
-    patchPhase = ''
-      patchShebangs .
-    '';
-    installPhase = ''
-      mkdir -p $out
-      cp -r --reflink=auto . $out/
-      wrapProgram $out/backend/run.sh \
-        --prefix PATH : ${lib.makeBinPath (with pkgs; [ bash bubblewrap inotify-tools ouragda ouremacs perl tmux ])}
-    '';
-    LC_ALL = lib.optionalString (!pkgs.stdenv.hostPlatform.isDarwin) "C.UTF-8";
-  };
+  frontend = pkgs.callPackage ./frontend-package.nix { commit-id = commit-id; };
+  backend  = pkgs.callPackage ./backend-package.nix  { commit-id = commit-id; };
 in
 
 {
@@ -82,7 +34,7 @@ in
       theme = "{'background':'white'}";
     };
     writeable = true;
-    entrypoint = [ "-b" "/__ttyd" "-a" "${backend-data}/backend/run.sh" "${backend-data}" ];
+    entrypoint = [ "-b" "/__ttyd" "-a" "${backend}/backend/run.sh" "${backend}" ];
     user = "user";
   };
 
@@ -137,7 +89,7 @@ in
     # Ideally we would use the timestamp of the source.
     preStart = ''
       rm -rf /home/user/www
-      cp -r ${frontend-data} /home/user/www
+      cp -r ${frontend} /home/user/www
       chmod -R u+w /home/user/www
       find /home/user/www -type f -exec touch {} +
     '';
