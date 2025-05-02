@@ -143,6 +143,7 @@ for i in *.md; do
       s/__COMMIT_ID_SHORT__/substr $ENV{commit_id}, 0, 7/eg;
       s/__BODY__/slurp($ENV{bodyfile})/eg;
       s/__TOC__/slurp("toc.html")/eg;
+      s/__AGDA_CSS__/slurp("Agda.css")/eg;
       s/__MODULENAME__/$ENV{modulename}/g;
       s/__SOURCE__/$ENV{source}/g;
       s/__SOLUTIONS__/slurp("solutions\/$ENV{modulename}.md")/eg
@@ -161,11 +162,12 @@ wait
 
 echo
 echo "* Copying static files..."
-cp --reflink=auto -r ../cache/*.woff2 ../cache/*.js ../frontend/static/* .
+cp --reflink=auto -r ../cache/*.woff2 ../frontend/static/* .
 (cd ..; find Padova2025 -name "*.md" | xargs cat | ./frontend/generate-input-tips.pl) > ui.js
 cat ../frontend/ui.js >> ui.js
+cat ../cache/confetti.js >> ui.js
 ln -s Padova2025.Welcome.html index.html
-rm -rf toc.html Padova2025 solutions
+rm -rf toc.html Agda.css Padova2025 solutions
 
 function do_sri {
   file="$1"
@@ -183,7 +185,7 @@ if [ -z "$quick" ]; then
   do_sri juliamono.woff2
 fi
 
-for i in Agda.css ui.js confetti.js; do
+for i in ui.js; do
   do_sri $i
 done
 
