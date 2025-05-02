@@ -5,6 +5,11 @@
 ./frontend/boot.sh &
 
 while :; do
+  rm -f COMMIT_ID
+  if git diff --quiet && git diff --cached --quiet; then
+    git rev-parse HEAD > COMMIT_ID
+  fi
+
   time ./frontend/build.sh "$1"
   echo -en "\007"
 
