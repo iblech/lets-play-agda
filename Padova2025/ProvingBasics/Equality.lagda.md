@@ -6,6 +6,7 @@ module Padova2025.ProvingBasics.Equality where
 
 ```
 import Padova2025.ProvingBasics.Equality.Base
+import Padova2025.ProvingBasics.Equality.FirstSteps
 import Padova2025.ProvingBasics.Equality.General
 import Padova2025.ProvingBasics.Equality.Booleans
 import Padova2025.ProvingBasics.Equality.NaturalNumbers

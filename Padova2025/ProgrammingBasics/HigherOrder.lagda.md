@@ -84,7 +84,9 @@ Endo X = {--}X → X{--}
 
 -- Tests
 module _ where private
-  open import Padova2025.Equality.Definition
+  open import Agda.Primitive
+  data _≡_ {ℓ : Level} {X : Set ℓ} : X → X → Set ℓ where
+    refl : {x : X} → x ≡ x
 
   test : (X : Set) → Endo X ≡ (X → X)
   test X = refl

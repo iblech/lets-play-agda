@@ -53,7 +53,7 @@ In Agda, we prove a proposition by constructing a program which computes a
 suitable witness. This approach is the celebrated *propositions as types*
 philosophy:
 
-<pre><a href="Padova2025.ProvingBasics.Equality.Base.html#grande-teorema">grande-teorema</a>   : 2 + 2 ≡ 4
+<pre><a href="Padova2025.ProvingBasics.Equality.FirstSteps.html#grande-teorema">grande-teorema</a>   : 2 + 2 ≡ 4
 <a href="Padova2025.ProvingBasics.Equality.Reasoning.html#binomial-theorem">binomial-theorem</a> : (x : ℕ) (y : ℕ) → (x + y) ² ≡ x ² + 2 · x · y + y ²
 <a href="Padova2025.VerifiedAlgorithms.InsertionSort.PostHoc.html#theorem">sort-correct</a>     : (xs : List ℕ) → IsSorted (sort xs)</pre>
 

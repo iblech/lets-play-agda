@@ -86,7 +86,7 @@ open import Padova2025.ProvingBasics.Negation
 ```
 
 [Earlier we have informally
-argued](Padova2025.ProvingBasics.Equality.Base.html#example-one-not-zero) that
+argued](Padova2025.ProvingBasics.Equality.FirstSteps.html#example-one-not-zero) that
 there is no value of type `one ≡ zero`. Now let us formally prove that if there
 was such a value, a contradiction would ensue.
 

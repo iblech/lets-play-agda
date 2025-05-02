@@ -109,7 +109,7 @@ _&&'_ true  y = y
 
 -- Tests
 module _ where private
-  open import Padova2025.Equality.Definition
+  open import Padova2025.ProvingBasics.Equality.Base
 
   test₁ : (y : Bool) → (false &&' y) ≡ false
   test₁ y = refl

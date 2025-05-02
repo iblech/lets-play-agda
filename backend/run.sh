@@ -73,7 +73,7 @@ exec bwrap \
           my $tests;
           if($code =~ s/^(-- Tests.*)$//ms) {
             $tests = $1;
-            $tests =~ s/^--\s*EX:\s*(.*)$/module _ where private\n  open import Padova2025.Equality.Definition\n  lets-play-agda-test : $1\n  lets-play-agda-test = refl\n/gm;
+            $tests =~ s/^--\s*EX:\s*(.*)$/module _ where private\n  open import Padova2025.ProvingBasics.Equality.Base\n  lets-play-agda-test : $1\n  lets-play-agda-test = refl\n/gm;
           }
           $code =~ s/\{--\}.*?\{--\}/{!!}/gs;
           $code =~ s#\n-- Holify\n([^ ]*).*$#\n$1 = {!!}\n#s;
