@@ -193,6 +193,35 @@ even-twice (step-even p) = cong (λ a → succ (succ a)) (even-twice p)
 ```
 
 
+## Exercise: An impossible twice situation
+
+```
+impossible-twice : {x y : ℕ} → twice x ≡ succ (twice y) → ⊥
+-- Holify
+impossible-twice {succ x} {y} p = impossible-twice (sym (succ-injective p))
+```
+
+
+## Exercise: Twice as a homomorphism
+
+```
+twice-homo : (x y : ℕ) → twice (x + y) ≡ twice x + twice y
+-- Holify
+twice-homo zero     y = refl
+twice-homo (succ x) y = cong succ (cong succ (twice-homo x y))
+```
+
+
+## Exercise: Injectivity of twice
+
+```
+twice-injective : {x y : ℕ} → twice x ≡ twice y → x ≡ y
+-- Holify
+twice-injective {zero}   {zero}   p = p
+twice-injective {succ x} {succ y} p = cong succ (twice-injective (succ-injective (succ-injective p)))
+```
+
+
 ## Exercise: Two deciders of evenness
 
 ```
