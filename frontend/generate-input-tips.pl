@@ -62,6 +62,7 @@ __DATA__
 ⁴ ^4
 ₄ _4
 ⊥ bot
+ć 'c
 · cdot
 ∃ exists
 ∈ in
