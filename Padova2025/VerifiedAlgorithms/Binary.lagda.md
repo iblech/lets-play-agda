@@ -234,3 +234,51 @@ add₀-correct (true ∷ xs) (true ∷ ys) = begin
   succ (twice (decode xs)) + succ (twice (decode ys)) ≡⟨⟩
   decode (true ∷ xs) + decode (true ∷ ys)             ∎
 ```
+
+
+## Exercise: Commutativity of binary addition
+
+Let us check, without using that addition of natural numbers is
+commutative, that `add₀` is commutative:
+
+```
+add₀-comm : (xs ys : BitString) → add₀ xs ys ≡ add₀ ys xs
+-- Holify
+add₀-comm []           []           = refl
+add₀-comm []           (y     ∷ ys) = refl
+add₀-comm (x     ∷ xs) []           = refl
+add₀-comm (false ∷ xs) (false ∷ ys) = cong (false ∷_) (add₀-comm xs ys)
+add₀-comm (false ∷ xs) (true  ∷ ys) = cong (true ∷_)  (add₀-comm xs ys)
+add₀-comm (true  ∷ xs) (false ∷ ys) = cong (true ∷_)  (add₀-comm xs ys)
+add₀-comm (true  ∷ xs) (true  ∷ ys) = cong (false ∷_) (cong succ₀ (add₀-comm xs ys))
+```
+
+Alternatively, we could also translate to the unary model and use the
+commutativity of `_+_`:
+
+```
+add₀-comm' : (xs ys : BitString) → add₀ xs ys ≈ add₀ ys xs
+-- Holify
+add₀-comm' xs ys = unique
+  (begin
+    decode (add₀ xs ys)   ≡⟨ add₀-correct xs ys ⟩
+    decode xs + decode ys ≡⟨ +-comm (decode xs) (decode ys) ⟩
+    decode ys + decode xs ≡˘⟨ add₀-correct ys xs ⟩
+    decode (add₀ ys xs)   ∎
+   )
+```
+
+As a curiosity, we can rederive commutativity of addition in the unary model, by
+translating to binary representations and using commutativity of `add₀`:
+
+```
++-comm' : (x y : ℕ) → x + y ≡ y + x
+-- Holify
++-comm' x y = begin
+  x + y                                 ≡˘⟨ cong₂ _+_ (decode-encode x) (decode-encode y) ⟩
+  decode (encode x) + decode (encode y) ≡˘⟨ add₀-correct (encode x) (encode y) ⟩
+  decode (add₀ (encode x) (encode y))   ≡⟨ cong decode (add₀-comm (encode x) (encode y)) ⟩
+  decode (add₀ (encode y) (encode x))   ≡⟨ add₀-correct (encode y) (encode x) ⟩
+  decode (encode y) + decode (encode x) ≡⟨ cong₂ _+_ (decode-encode y) (decode-encode x) ⟩
+  y + x                                 ∎
+```
