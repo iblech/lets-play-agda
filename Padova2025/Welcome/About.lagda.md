@@ -2,14 +2,45 @@
 
 ## Credits
 
-::: Todo :::
-Acknowledge participants at the Chaos Communication Congress, ALGAR summer
-school, Proof and Computation etc. and of course in Padova
-:::
+Over the years, the structure and contents of this course have been shaped by
+and greatly benefited from feedback of participants at
+
+- the Chaos Communication Congress
+  ([2018](https://events.ccc.de/congress/2018/wiki/index.php/Session:Formalizing_mathematics_in_the_proof_assistant_Agda),
+  [2019](https://events.ccc.de/congress/2019/wiki/index.php/Session:Formalizing_mathematics_in_the_proof_assistant_Agda),
+  [2023](https://events.ccc.de/congress/2023/hub/en/event/formalizing-mathematics-in-the-proof-assistant-agd/),
+  [2024](https://events.ccc.de/congress/2024/hub/en/event/wondrous-mathematics-how-a-group-of-theorists-reso/)),
+- the Curry Club Augsburg
+  ([2019](https://curry-club-augsburg.de/posts/2019-02-19-treffen-47.html), 2021),
+- two Dagstuhl meetings
+  ([2021](https://www.dagstuhl.de/de/seminars/seminar-calendar/seminar-details/21472),
+  [2024](https://www.dagstuhl.de/de/seminars/seminar-calendar/seminar-details/24021)),
+- the [2022 ALGAR summer school](https://www.uantwerpen.be/en/summer-winter-schools/algar/programme/previous-editions/2022/content-description/),
+- the Proof and Computation autumn school
+  ([2022](https://www.mathematik.uni-muenchen.de/~schwicht/pc22.php),
+  [2023](https://www.mathematik.uni-muenchen.de/~schwicht/pc23.php),
+  [2024](https://www.mathematik.uni-muenchen.de/~schwicht/pc24.php)),
+- two minicourses at the University of Verona
+  ([2022](https://ct.quasicoherent.io/),
+  [2024](https://rt.quasicoherent.io/))
+
+-- and in particular by the students at the University of Padova
+([2020](https://agdapad.quasicoherent.io/~Agda_in_Padova/),
+[2021](https://agdapad.quasicoherent.io/~AgdaInPadova/),
+[2022](https://agdapad.quasicoherent.io/~AgdaPadova/),
+[2023](https://agdapad.quasicoherent.io/~Padova/),
+[2024](https://agdapad.quasicoherent.io/~Padova2024/),
+[2025](https://agdapad.quasicoherent.io/~Padova2025/)). It was set in motion by
+a course of [Martín Escardó](https://martinescardo.github.io/) at the [2018 installment of Proof and
+Computation](https://www.mathematik.uni-muenchen.de/~schwicht/pc18.php),
+where I have learned Agda with help from [Anja Petković Komel](https://anjapetkovic.com/)
+and later [Matthias Ritter](https://mathoverflow.net/users/166281/matthias-hutzler).
 
 Pull requests were contributed by:
 
 - Matteo Cusin
+
+These helped to substantially improve the presentation of this course.
 
 
 ### Open source dependencies
