@@ -6,7 +6,6 @@ Frontend:
 - explain how to explore on one's own, beyond the provided exercises
 - show confetti animation in full screen mode
 - fix font
-- collapse navigation
 - fix fullscreen mode in Firefox
 - warn on accidental close
 

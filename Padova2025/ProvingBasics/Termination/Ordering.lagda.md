@@ -2,6 +2,8 @@
 module Padova2025.ProvingBasics.Termination.Ordering where
 ```
 
+# The standard ordering on the natural numbers
+
 ```
 open import Padova2025.ProgrammingBasics.Naturals.Base
 open import Padova2025.ProgrammingBasics.Naturals.Arithmetic

@@ -2,7 +2,7 @@
 module Padova2025.ProvingBasics.Termination where
 ```
 
-# Termination and well-founded recursion 🚧
+# Well-founded recursion 🚧
 
 ::: Todo :::
 Placeholder

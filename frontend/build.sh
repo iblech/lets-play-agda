@@ -138,11 +138,27 @@ for i in *.md; do
         return scalar <$fh>;
       }
 
+      sub toc {
+        my $module = shift;
+
+        my $toc = slurp("toc.html");
+        $toc =~ s#(<input id="nav-([^"]*)")#
+          my ($html, $id) = ($1,$2);
+          if($module =~ /^\Q$id/) {
+            "$html checked";
+          } else {
+            $html;
+          }
+        #eg;
+
+        return $toc;
+      }
+
       s/__TITLE__/$ENV{title}/g;
       s/__COMMIT_ID__/$ENV{commit_id}/g;
       s/__COMMIT_ID_SHORT__/substr $ENV{commit_id}, 0, 7/eg;
       s/__BODY__/slurp($ENV{bodyfile})/eg;
-      s/__TOC__/slurp("toc.html")/eg;
+      s/__TOC__/toc($ENV{modulename})/eg;
       s/__AGDA_CSS__/slurp("Agda.css")/eg;
       s/__MODULENAME__/$ENV{modulename}/g;
       s/__SOURCE__/$ENV{source}/g;
