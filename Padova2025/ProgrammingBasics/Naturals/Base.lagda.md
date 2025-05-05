@@ -4,6 +4,9 @@ module Padova2025.ProgrammingBasics.Naturals.Base where
 
 # Definition
 
+In the previous chapter, we have defined the finite type of Booleans. Agda also
+supports infinite types. The natural numbers are the primordial example, and we
+will explore them now.
 The type of natural numbers is brought into existence with the following three
 lines of Agda code.
 

@@ -1,5 +1,5 @@
 ```
-module Padova2025.ProgrammingBasics.DependentFunctions.SyntacticSugar where
+module Padova2025.ProgrammingBasics.SyntacticSugar where
 ```
 
 # Syntactic sugar

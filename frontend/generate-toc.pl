@@ -11,6 +11,7 @@ sub src {
 }
 
 my %seen;
+$seen{$_}++ for qw< Padova2025.ProvingBasics.Equality.Reasoning.Core >;
 
 sub visit {
   my ($level, $module) = @_;
@@ -21,17 +22,31 @@ sub visit {
   my $title;
   my $childs;
   my $in_code;
+  my $print_title;
+  my $has_printed_title;
   while(defined(my $line = <$fh>)) {
     if(not $title and $line =~ /^#\s*(.*?)(?:\s*\/\/.*)?$/) {
-      $title++;
+      $title = $1;
       my $name = $1;
-      unless($level == 0) {
-        if($name =~ s/\s*🚧//) {
-          print "  " x $level, "<li>$name";
+      $print_title = sub {
+        my $has_children = shift;
+
+        return if $level == 0;
+        return if $has_printed_title++;
+
+        my $under_construction = $title =~ /🚧/;
+
+        if($has_children) {
+          my $checked = $level <= 1 && !$under_construction ? " checked" : "";
+          print "  " x $level, "<li><input$checked id=\"nav-$module\" type=\"checkbox\"><label for=\"nav-$module\">$title</label>";
         } else {
-          print "  " x $level, "<li><a href=\"$module.html\">$name</a>";
+          if($name =~ s/ 🚧//) {
+            print "  " x $level, "<li>$name";
+          } else {
+            print "  " x $level, "<li><a href=\"$module.html\">$name</a>";
+          }
         }
-      }
+      };
     }
 
     if($line =~ /```/) {
@@ -40,19 +55,27 @@ sub visit {
 
     if($in_code and $line =~ /^(?:open\s+)?import\s+([^\s]*)/) {
       unless($seen{$1}) {
-        print "<ol>\n" unless $childs++;
+        unless($childs++) {
+          $print_title->(1);
+          print "<ol>\n";
+        }
         visit($level + 1, $1);
       }
     }
   }
 
+  die "--$module--" unless $print_title;
+  $print_title->(0);
+
   if($level == 0) {
     print <<EOF;
       <li>
-        Computational content of classical logic
+        <input id="nav-computational-content" type="checkbox">
+        <label for="nav-computational-content">Computational content of classical logic</label>
         <ol>
           <li>
-            Convenient fictions
+            <input id="nav-convenient-fictions" type="checkbox">
+            <label for="nav-convenient-fictions">Convenient fictions</label>
             <ol>
               <li>Minimas</li>
               <li>Drinkers</li>
@@ -60,6 +83,14 @@ sub visit {
           </li>
           <li>Sarcastic interpretation of classical logic</li>
           <li>Case study: Dickson's lemma</li>
+        </ol>
+      </li>
+      <li>
+        <input id="nav-recreational" type="checkbox">
+        <label for="nav-recreational">Recreational mathematics</label>
+        <ol>
+          <li>Fun with the axiom of choice</li>
+          <li>The final digit of Graham's number</li>
         </ol>
       </li>
 EOF

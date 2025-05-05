@@ -81,7 +81,3 @@ K X Y x y = x
 -- Tests
 -- EX: K ℕ ℕ zero one ≡ zero
 ```
-
-```
-import Padova2025.ProgrammingBasics.DependentFunctions.SyntacticSugar
-```

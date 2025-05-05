@@ -107,27 +107,27 @@ Again, we could also write the type signature as `pred : (x : ℕ) → ℕ`.
 
 ## Exercise: Subtraction
 
-Define (cut-off) subtraction. For instance `one - one` and `one - two` should
+Define (cut-off) subtraction. For instance `one ∸ one` and `one ∸ two` should
 both result in `zero`.
 
 ```
-infixl 6 _-_
+infixl 6 _∸_
 ```
 
 ```
-_-_ : ℕ → ℕ → ℕ
-zero   - b      = {--}zero{--}
-succ a - zero   = {--}succ a{--}
-succ a - succ b = {--}a - b{--}
+_∸_ : ℕ → ℕ → ℕ  -- enter `∸` as `\.-`
+zero   ∸ b      = {--}zero{--}
+succ a ∸ zero   = {--}succ a{--}
+succ a ∸ succ b = {--}a ∸ b{--}
 
 -- Tests
--- EX: (one - one)    ≡ zero
--- EX: (one - two)    ≡ zero
--- EX: (four - zero)  ≡ four
--- EX: (four - one)   ≡ three
--- EX: (four - two)   ≡ two
--- EX: (four - three) ≡ one
--- EX: (four - four)  ≡ zero
+-- EX: (one  ∸ one)   ≡ zero
+-- EX: (one  ∸ two)   ≡ zero
+-- EX: (four ∸ zero)  ≡ four
+-- EX: (four ∸ one)   ≡ three
+-- EX: (four ∸ two)   ≡ two
+-- EX: (four ∸ three) ≡ one
+-- EX: (four ∸ four)  ≡ zero
 ```
 
 

@@ -166,6 +166,23 @@ reverse (x ∷ xs) = reverse xs ∷ʳ x
 ```
 
 
+## Exercise: Countdown
+
+Implement a function `downFrom` which reads a number `n` as input and outputs the length-`n` list
+of numbers from `n` (exclusively) to `0` (inclusively). For instance, `downFrom three` should
+reduce to `two ∷ one ∷ zero ∷ []`.
+
+```
+downFrom : ℕ → List ℕ
+-- Holify
+downFrom zero     = []
+downFrom (succ n) = n ∷ downFrom n
+
+-- Tests
+-- EX: downFrom three ≡ two ∷ one ∷ zero ∷ []
+```
+
+
 ## Exercise: A higher-kinded function
 
 The Agda expressions `List ℕ`, `List Bool` and so on denote certain types, i.e.

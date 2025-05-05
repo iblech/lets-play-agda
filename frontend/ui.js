@@ -124,7 +124,7 @@ function attachEditor(block) {
   }
 
   updateCode(block, id);
-  if(location.href.includes("localhost") || getCode(getAgdaModuleName(), id) !== null) {
+  if(location.href.includes("localhost") || location.href.includes("solutions") || getCode(getAgdaModuleName(), id) !== null) {
     attachReferenceSolution(block, id);
   }
 }
@@ -141,6 +141,7 @@ function attachReferenceSolution(block, id) {
     if(
       getCode(getAgdaModuleName(), id) !== null ||
       location.href.includes("localhost")       ||
+      location.href.includes("solutions")       ||
       window.confirm("Please confirm that you would like to peek at the reference solution.")
     ) {
       showButton.after(solution);

@@ -3,7 +3,7 @@
 ## Credits
 
 Over the years, the structure and contents of this course have been shaped by
-and greatly profited from feedback of participants at
+and greatly benefited from feedback of participants at
 
 - the Chaos Communication Congress
   ([2018](https://events.ccc.de/congress/2018/wiki/index.php/Session:Formalizing_mathematics_in_the_proof_assistant_Agda),
