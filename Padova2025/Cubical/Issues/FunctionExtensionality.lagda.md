@@ -184,7 +184,7 @@ g ∘ f = λ x → g (f x)
 ```
 
 Having established that types form a category, a category
-theorist might ask about its categorical properties. For instance, in
+theorist might enquire about its categorical properties. For instance, in
 blackboard mathematics, the category $\mathrm{Set}$ has an initial
 object, namely the empty set $∅$: For every set $X$, there is exactly
 one map $∅ → X$.

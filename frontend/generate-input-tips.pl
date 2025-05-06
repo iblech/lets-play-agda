@@ -50,6 +50,9 @@ print join ", ", @pairs;
 print "};\n\n";
 
 __DATA__
+│ ---
+╱ ---
+╲ ---
 ⟨ <
 ⟩ >
 ₀ _0
@@ -71,6 +74,7 @@ __DATA__
 ö "o
 → to
 ˘ u{}
+│ vbar
 α alpha
 γ gamma
 λ lambda

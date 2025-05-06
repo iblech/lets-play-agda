@@ -11,7 +11,7 @@ sub src {
 }
 
 my %seen;
-$seen{$_}++ for qw< Padova2025.ProvingBasics.Equality.Reasoning.Core >;
+$seen{$_}++ for qw< Padova2025.ProvingBasics.Equality.Reasoning.Core Agda.Primitive >;
 
 sub visit {
   my ($level, $module) = @_;
@@ -56,6 +56,7 @@ sub visit {
     if($in_code and $line =~ /^(?:open\s+)?import\s+([^\s]*)/) {
       unless($seen{$1}) {
         unless($childs++) {
+          die "--$module--" unless $print_title;
           $print_title->(1);
           print "<ol>\n";
         }

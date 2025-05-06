@@ -2,11 +2,12 @@
 module Padova2025.ProvingBasics.Connectives where
 ```
 
+# Logical connectives 🚧
+
 ```
 open import Padova2025.ProgrammingBasics.Lists
+open import Agda.Primitive
 ```
-
-# Logical connectives 🚧
 
 ```
 -- In Haskell, Either A B
@@ -17,7 +18,7 @@ data _⊎_ (A : Set) (B : Set) : Set where
 ```
 
 ```
-record Σ (A : Set) (B : A → Set) : Set where
+record Σ {ℓ ℓ' : Level} (A : Set ℓ) (B : A → Set ℓ') : Set (ℓ ⊔ ℓ') where
   constructor _,_
   field
     fst : A
@@ -26,7 +27,7 @@ record Σ (A : Set) (B : A → Set) : Set where
 open Σ public
 infixr 4 _,_
 
-∃-syntax : {A : Set} → (A → Set) → Set
+∃-syntax : {ℓ ℓ' : Level} {A : Set ℓ} → (A → Set ℓ') → Set (ℓ ⊔ ℓ')
 ∃-syntax = Σ _
 
 syntax ∃-syntax (λ x → B) = ∃[ x ] B
