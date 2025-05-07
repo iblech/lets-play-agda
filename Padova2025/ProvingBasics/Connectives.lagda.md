@@ -167,7 +167,7 @@ Without having to pattern match on a value `w` of type `Σ A P`, such a value is
 judgmentally equal to `(fst w , snd w)`.
 
 Secondly, we allow the type `A` and the values of the `P` function to be larger
-kind of types, types in `Set₁` or higher, instead of restricting to the base
+kinds of types, i.e. types in `Set₁` or higher, instead of restricting to the base
 universe `Set`. This extra generality is useful for later developments. It
 would be a nuisance to have to redefine the dependent pair construction then.
 :::
@@ -195,6 +195,13 @@ infinitary-de-morgan₁ f (x , p) = f x p
 infinitary-de-morgan₂ : {A : Set} {P : A → Set} → ¬ ∃[ x ] P x → ((x : A) → ¬ P x)
 -- Holify
 infinitary-de-morgan₂ f x p = f (x , p)
+```
+
+```
+∃-∨ : {A B : Set} {P : B → Set} → ∃[ x ] (P x ⊎ B) → (∃[ x ] P x) ⊎ B
+-- Holify
+∃-∨ (x , left  p) = left  (x , p)
+∃-∨ (x , right b) = right b
 ```
 
 
@@ -255,6 +262,53 @@ A × B = Σ A (λ _ → B)
 
 ### Exercise: Tautologies involving conjunction
 
+```
+∧-comm : {A B : Set} → A × B → B × A
+-- Holify
+∧-comm (x , y) = (y , x)
+```
+
+```
+∧-assoc : {A B C : Set} → (A × B) × C → A × (B × C)
+-- Holify
+∧-assoc ((x , y) , z) = (x , (y , z))
+```
+
+```
+curry : {A B C : Set} → (A × B → C) → (A → (B → C))
+-- Holify
+curry f x y = f (x , y)
+-- Alternatively: curry f = λx → λy → f (x , y)
+```
+
+```
+uncurry : {A B C : Set} → (A → (B → C)) → (A × B → C)
+uncurry f (x , y) = f x y
+```
+
+```
+∧-map : {A A' B B' : Set} → (A → A') → (B → B') → A × B → A' × B'
+-- Holify
+∧-map f g (x , y) = (f x , g y)
+```
+
+```
+∧-diag : {A : Set} → A → A × A
+-- Holify
+∧-diag x = (x , x)
+```
+
+```
+∧-not : {A : Set} → A × ⊥ → ⊥
+-- Holify
+∧-not = snd
+```
+
+```
+frobenius : {A B : Set} {P : A → Set} → ∃[ x ] (P x × B) → (∃[ x ] P x) × B
+-- Holify
+frobenius (x , (p , b)) = (x , p) , b
+```
 
 
 ## All and Any
