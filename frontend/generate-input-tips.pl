@@ -64,9 +64,11 @@ __DATA__
 ₃ _3
 ⁴ ^4
 ₄ _4
+á 'a
 ⊥ bot
 ć 'c
 · cdot
+é 'e
 ∃ exists
 ∈ in
 ℓ ell
