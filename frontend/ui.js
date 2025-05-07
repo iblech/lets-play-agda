@@ -108,6 +108,8 @@ function attachEditor(block) {
   block.classList.add("exercise");
   const id = block.innerText.split(/\s+/)[0];
 
+  updateCode(block, id);
+
   for(const holeMarker of block.getElementsByClassName("Hole")) {
     const editButton = document.createElement("a");
     editButton.className = "edit";
@@ -121,11 +123,10 @@ function attachEditor(block) {
       printActivity();
     };
     holeMarker.insertAdjacentElement("afterend", editButton);
-  }
 
-  updateCode(block, id);
-  if(location.href.includes("localhost") || location.href.includes("solutions") || getCode(getAgdaModuleName(), id) !== null) {
-    attachReferenceSolution(block, id);
+    if(location.href.includes("localhost") || location.href.includes("solutions") || getCode(getAgdaModuleName(), id) !== null) {
+      attachReferenceSolution(editButton, id);
+    }
   }
 }
 
