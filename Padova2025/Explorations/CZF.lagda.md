@@ -10,6 +10,7 @@ open import Padova2025.ProgrammingBasics.Naturals.Base
 open import Padova2025.ProvingBasics.Negation
 open import Padova2025.ProvingBasics.Connectives
 open import Padova2025.ProvingBasics.Termination.Gas
+open import Agda.Primitive
 ```
 
 Set theory and type theory in all their flavors can both be used as foundations
@@ -71,7 +72,8 @@ pair x y = sup {Bool} f  -- a root node with two children
   f true  = y
 ```
 
-The following function is supposed to map a set `x` to the singleton set `{ x }`.
+The following function is supposed to map a set `x` to the singleton set `{ x }`,
+i.e. a tree `x` to a tree whose root has exactly one child, namely `x`.
 
 ```
 singleton : V → V
@@ -86,6 +88,20 @@ and output the ordered _Kuratowski pair_ `{ {x}, {x,y} }`.
 kuratowski : V → V → V
 -- Holify
 kuratowski x y = pair (singleton x) (pair x y)
+```
+
+For some results below, the following two projection functions are nice to have.
+They allow us to access the indexing type or the family without having to
+pattern match on the set in question.
+
+```
+Index : V → Set
+Index (sup {I} f) = I
+```
+
+```
+fam : (x : V) → Index x → V
+fam (sup {I} f) = f
 ```
 
 
@@ -152,6 +168,8 @@ _≈_ : V → V → Set
 sup {I} f ≈ sup {J} g =
   ((i : I) → ∃[ j ] (f i ≈ g j)) ×
   ((j : J) → ∃[ i ] (g j ≈ f i))
+-- "Every child `f i` is equivalent to one of the children of `sup g`,
+-- and vice versa."
 ```
 
 ```
@@ -192,7 +210,7 @@ type `Y`, or it has some other type (or is just ill-typed).
 
 ```
 _∈_ : V → V → Set
-x ∈ sup f = ∃[ i ] (f i ≈ x)
+x ∈ y = ∃[ i ] (fam y i ≈ x)
 -- "x is an element of sup f iff it is equivalent to one of the
 -- children of sup f."
 ```
@@ -209,14 +227,28 @@ cong-∈' : {x y z : V} → x ≈ y → x ∈ z → y ∈ z
 cong-∈' {sup f} {sup g} {sup h} p (q , q') = q , ≈-trans q' p
 ```
 
+As a basic sanity check, every child `f i` is an element of `sup f`; the
+following is a convenience function for some of the proofs below.
+
+```
+∈-basic : {x : V} → (i : Index x) → fam x i ∈ x
+-- Holify
+∈-basic {sup {I} f} i = i , ≈-refl
+```
+
 
 ## Axiom of extensionality
 
 ```
 infix 4 _↔_
-_↔_ : Set → Set → Set
+_↔_ : {ℓ ℓ' : Level} → Set ℓ → Set ℓ' → Set (ℓ ⊔ ℓ')
 A ↔ B = (A → B) × (B → A)
 ```
+
+A basic principle in set theory is that sets are determined by their elements:
+Two sets are equal if and only if they have the same elements. Our
+sets-as-trees model of set theory validates this principle (if we replace
+strict equality by `_≈_`).
 
 ```
 extensionality₁ : {x y : V} → ((z : V) → z ∈ x ↔ z ∈ y) → x ≈ y
@@ -247,13 +279,31 @@ pairing-axiom : (x y : V) → ∃[ z ] (x ∈ z × y ∈ z)
 pairing-axiom x y = pair x y , ((false , ≈-refl) , (true , ≈-refl))
 ```
 
+```
+union : V → V
+-- Holify
+union (sup {I} f) = sup {Σ I (λ i → Index (f i))} λ (i , j) → fam (f i) j
+```
+
+```code
+union-axiom : (x : V) → ∃[ y ] ((z : V) → z ∈ y ↔ ∃[ w ] (z ∈ w × w ∈ x))
+union-axiom x = ?
+-- TODO: Format as exercise
+```
+
+<!--
+union-axiom x@(sup {I} f) = union x , λ { z@(sup g)
+  → (λ { ((i , j) , eq) → f i , cong-∈' {z = f i} eq (∈-basic {f i} j) , i , ≈-refl })
+  , λ { (w , q@(j , eq') , i , eq) → ((i , {!fst ?!})) , ≈-trans {!!} eq' } }
+-->
+
 
 ## In the vincinity of Russell's paradox
 
 ```
 no-set-contains-itself : (v : V) → v ∈ v → ⊥
 -- Holify
-no-set-contains-itself (sup f) p@(i , eq) = no-set-contains-itself (f i) (cong-∈ (≈-sym eq) (cong-∈' (≈-sym eq) p))
+no-set-contains-itself (sup f) p@(i , eq) = no-set-contains-itself (f i) (cong-∈ (≈-sym eq) (cong-∈' {z = sup f} (≈-sym eq) p))
 ```
 
 It is tempting to introduce a set `u` of all sets, as follows:
@@ -279,3 +329,7 @@ u∈u = u , ≈-refl
 contradiction : ⊥
 contradiction = no-set-contains-itself u u∈u
 ```
+
+::: Todo :::
+Make this explorable in a submodule
+:::
