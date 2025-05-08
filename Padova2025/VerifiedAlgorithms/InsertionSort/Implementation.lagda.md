@@ -1,6 +1,6 @@
 ```
 open import Padova2025.ProgrammingBasics.Lists
-open import Padova2025.ProvingBasics.Connectives
+open import Padova2025.ProvingBasics.Connectives.Disjunction
 
 module Padova2025.VerifiedAlgorithms.InsertionSort.Implementation
   (A : Set) (_≤_ : A → A → Set) (cmp? : (x y : A) → x ≤ y ⊎ y ≤ x) where

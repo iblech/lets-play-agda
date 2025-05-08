@@ -11,7 +11,8 @@ open import Padova2025.ProgrammingBasics.Lists
 open import Padova2025.ProvingBasics.Equality.Base
 open import Padova2025.ProvingBasics.Termination.Ordering
 open import Padova2025.ProvingBasics.Termination.Gas
-open import Padova2025.ProvingBasics.Connectives
+open import Padova2025.ProvingBasics.Connectives.Disjunction
+open import Padova2025.ProvingBasics.Connectives.More
 ```
 
 ```

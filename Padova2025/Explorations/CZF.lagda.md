@@ -8,7 +8,8 @@ module Padova2025.Explorations.CZF where
 open import Padova2025.ProgrammingBasics.Booleans
 open import Padova2025.ProgrammingBasics.Naturals.Base
 open import Padova2025.ProvingBasics.Negation
-open import Padova2025.ProvingBasics.Connectives
+open import Padova2025.ProvingBasics.Connectives.Existential
+open import Padova2025.ProvingBasics.Connectives.Conjunction
 open import Padova2025.ProvingBasics.Termination.Gas
 open import Agda.Primitive
 ```
