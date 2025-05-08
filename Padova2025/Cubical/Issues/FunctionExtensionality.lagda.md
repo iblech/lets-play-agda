@@ -150,6 +150,7 @@ Let `f`, `g` and `h` be composable functions. Then we definitely have
 
 ::: More :::
 ```
+open import Padova2025.ProgrammingBasics.HigherOrder
 open import Padova2025.ProgrammingBasics.DependentFunctions
 ```
 
@@ -158,12 +159,6 @@ does have *eta equality*: Every function `f` is judgmentally equal to
 the lambda `λ x → f x`. This principle is enough to verify that the
 (small) types form a category, up to true propositional equality
 and not only up to pointwise equality.
-
-```
-infixr 9 _∘_
-_∘_ : {X Y Z : Set} → (Y → Z) → (X → Y) → (X → Z)
-g ∘ f = λ x → g (f x)
-```
 
 ```
 ∘-assoc : {X Y Z W : Set} → (f : X → Y) (g : Y → Z) (h : Z → W) → (h ∘ g) ∘ f ≡ h ∘ (g ∘ f)

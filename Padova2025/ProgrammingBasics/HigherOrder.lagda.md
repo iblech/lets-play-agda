@@ -91,3 +91,19 @@ module _ where private
   test : (X : Set) → Endo X ≡ (X → X)
   test X = refl
 ```
+
+
+## Exercise: Composition of functions
+
+Implement the higher-order function which inputs two composable functions and
+outputs their composition.
+
+```
+infixr 9 _∘_
+_∘_ : {X Y Z : Set} → (Y → Z) → (X → Y) → (X → Z)
+-- Holify
+_∘_ g f = λ x → g (f x)
+
+-- Tests
+-- EX: not ∘ not ≡ λ x → not (not x)
+```

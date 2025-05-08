@@ -21,6 +21,15 @@ _×_ : {ℓ ℓ' : Level} → Set ℓ → Set ℓ' → Set (ℓ ⊔ ℓ')
 A × B = Σ A (λ _ → B)
 ```
 
+In particular, the functions [`fst`](Padova2025.ProvingBasics.Connectives.Existential.html#Σ) and
+[`snd`](Padova2025.ProvingBasics.Connectives.Existential.html#Σ)
+work also for these non-dependent products. Let us export these
+functions for users importing this module.
+
+```
+open Padova2025.ProvingBasics.Connectives.Existential using (fst; snd) public
+```
+
 
 ## Exercise: Tautologies involving conjunction
 
@@ -76,6 +85,24 @@ frobenius : {A B : Set} {P : A → Set} → ∃[ x ] (P x × B) → (∃[ x ] P 
 frobenius (x , (p , b)) = (x , p) , b
 ```
 
+
+## Exercise: Zero sum
+
+```
+open import Padova2025.ProgrammingBasics.Naturals.Base
+open import Padova2025.ProgrammingBasics.Naturals.Arithmetic
+open import Padova2025.ProvingBasics.Equality.Base
+open import Padova2025.ProvingBasics.Equality.NaturalNumbers
+```
+
+Prove that if a sum of natural numbers is zero, both summands are zero.
+
+```
+sum-zero : (a b : ℕ) → a + b ≡ zero → a ≡ zero × b ≡ zero
+-- Holify
+sum-zero zero     b p = refl , p
+sum-zero (succ a) b ()
+```
 
 <!--
 de Morgan

@@ -41,8 +41,8 @@ data _⊎_ (A : Set) (B : Set) : Set where
 
 In other words, the elements of `A ⊎ B` are of the form `left x` for some `x : A`,
 or `right y` for some `y : B`. The computational reading is that `left` is a
-function which inputs an element of type `A` and outputs an element of type `A
-⊎ B`, and similarly with `right`. The logical reading is that `A` implies `A or B`.
+function which inputs an element of type `A` and outputs an element of type `A ⊎ B`,
+and similarly with `right`. The logical reading is that `A` implies `A or B`.
 The type of witnesses that a number `n` is even or odd is then `Even n ⊎ Odd n`.
 
 
@@ -127,4 +127,72 @@ even-or-odd (succ (succ x)) with even-or-odd x
 not-odd-implies-even : (x : ℕ) → ¬ Odd x → Even x
 -- Holify
 not-odd-implies-even x p = ∨-not₂ (even-or-odd x) p
+```
+
+
+## Exercise: Successor of predecessor, revisited
+
+```
+open import Padova2025.ProgrammingBasics.Naturals.Arithmetic
+open import Padova2025.ProvingBasics.Equality.Base
+```
+
+[We have already examined](Padova2025.ProvingBasics.Equality.NaturalNumbers.html#lemma-succ-pred')
+the equation $\mathsf{succ}(\mathsf{pred}(a)) = a$, which only holds for
+positive natural numbers. Let us now prove the following variant:
+
+```
+lemma-succ-pred'' : (a : ℕ) → succ (pred a) ≡ a ⊎ a ≡ zero
+-- Holify
+lemma-succ-pred'' zero     = right refl
+lemma-succ-pred'' (succ a) = left  refl
+```
+
+
+## Exercise: Decidability of equality
+
+```
+open import Padova2025.ProvingBasics.Equality.General
+open import Padova2025.ProvingBasics.Equality.NaturalNumbers
+open import Padova2025.ProgrammingBasics.HigherOrder
+```
+
+Every natural number is either zero, or not. This assertion is trivial
+in classical mathematics for general logical reasons, as it is just an
+instance of the [law of excluded middle](https://en.wikipedia.org/wiki/Law_of_excluded_middle)
+($A ∨ ¬A$). But there is also a direct proof, a proof which we can implement
+in Agda without having to postulate the law of excluded middle
+and thereby destroying Agda's by-default constructive mode.
+
+```
+zero? : (x : ℕ) → (x ≡ zero) ⊎ ¬ (x ≡ zero)
+-- Holify
+zero? zero     = left  refl
+zero? (succ x) = right λ ()
+```
+
+Unlike a proof relying on the law of excluded middle, this proof can
+be *run*---try it, within the Agda editing session, press `C-c C-v`
+and then input something like `zero? four`. The `zero?` function will
+then determine whether `four` is zero, and compute a corresponding
+witness.
+
+::: Aside :::
+This proof is a rare instance of an induction proof where the
+induction step does not use the induction hypothesis.
+:::
+
+More generally, we have the result that any two numbers are equal or not:
+
+```
+eq? : (a b : ℕ) → (a ≡ b) ⊎ ¬ (a ≡ b)
+-- Holify
+eq? zero     zero     = left refl
+eq? zero     (succ b) = right λ ()
+eq? (succ a) zero     = right λ ()
+eq? (succ a) (succ b) = ∨-map (cong succ) (λ f → f ∘ succ-injective) (eq? a b)
+-- Alternatively:
+-- eq? (succ a) (succ b) with eq? a b
+-- ... | left  a≡b = left (cong succ a≡b)
+-- ... | right a≢b = right λ p → a≢b (succ-injective p)
 ```
