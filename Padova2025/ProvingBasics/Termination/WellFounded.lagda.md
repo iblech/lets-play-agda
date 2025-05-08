@@ -15,6 +15,7 @@ module _ {X : Set} (_<_ : X → X → Set) where
 
 ```
 open import Padova2025.ProgrammingBasics.Naturals.Base
+open import Padova2025.ProgrammingBasics.Naturals.Arithmetic
 open import Padova2025.ProvingBasics.Termination.Ordering
   hiding (_<_) renaming (_<'_ to _<_; base' to base; step' to step)
 ```
@@ -60,6 +61,23 @@ lemma-three-is-accessible = acc λ
   ; (step p) → acc-inverse _<_ (ℕ-wf n) p
   }
 ```
+
+
+## Exercise: Binary digits
+
+```
+digits₄ : ℕ → ℕ
+digits₄ x = go x (ℕ-wf x)
+  where
+  go : (x : ℕ) → (gas : Acc _<_ x) → ℕ
+  go zero       p       = {--}zero{--}
+  go x@(succ _) (acc f) = {--}succ (go (half x) (f (<⇒<' (half-< _)))){--}
+```
+
+Unlike with using natural numbers as gas as in
+[`digits₃`](Padova2025.ProvingBasics.Termination.Gas.html#digits₃),
+no bailout case is needed. This recursion will always reach its base
+case---and no extra proof of this fact is needed.
 
 
 ## Exercise: Well-founded relations are irreflexive
