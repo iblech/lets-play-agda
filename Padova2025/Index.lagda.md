@@ -4,11 +4,11 @@
 ```
 module Padova2025.Index where
 
-open import Padova2025.Welcome
-open import Padova2025.ProgrammingBasics
-open import Padova2025.ProvingBasics
-open import Padova2025.VerifiedAlgorithms
-open import Padova2025.Cubical
-open import Padova2025.Explorations
+import Padova2025.Welcome
+import Padova2025.ProgrammingBasics
+import Padova2025.ProvingBasics
+import Padova2025.VerifiedAlgorithms
+import Padova2025.Cubical
+import Padova2025.Explorations
 ```
 -->

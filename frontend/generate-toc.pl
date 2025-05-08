@@ -53,7 +53,7 @@ sub visit {
       $in_code = ! $in_code;
     }
 
-    if($in_code and $line =~ /^(?:open\s+)?import\s+([^\s]*)/) {
+    if($in_code and $line =~ /^import\s+([^\s]*)/) {
       unless($seen{$1}) {
         unless($childs++) {
           die "--$module--" unless $print_title;

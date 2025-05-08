@@ -15,7 +15,8 @@ module _ {X : Set} (_<_ : X → X → Set) where
 
 ```
 open import Padova2025.ProgrammingBasics.Naturals.Base
-open import Padova2025.ProvingBasics.Termination.Ordering hiding (_<_) renaming (_<'_ to _<_; base' to base; step' to step)
+open import Padova2025.ProvingBasics.Termination.Ordering
+  hiding (_<_) renaming (_<'_ to _<_; base' to base; step' to step)
 ```
 
 ```
@@ -47,6 +48,9 @@ lemma-three-is-accessible = acc λ
   }
 ```
 
+
+## The natural numbers are well-founded
+
 ```
 ℕ-wf : (n : ℕ) → Acc _<_ n
 -- Holify
@@ -55,4 +59,17 @@ lemma-three-is-accessible = acc λ
   { base     → ℕ-wf n
   ; (step p) → acc-inverse _<_ (ℕ-wf n) p
   }
+```
+
+
+## Exercise: Well-founded relations are irreflexive
+
+```
+open import Padova2025.ProvingBasics.Negation
+```
+
+```
+wf⇒irr : {X : Set} → (R : X → X → Set) → (a : X) → Acc R a → ¬ (R a a)
+-- Holify
+wf⇒irr R a (acc f) p = wf⇒irr R a (f p) p
 ```

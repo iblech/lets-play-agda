@@ -120,6 +120,24 @@ twice-inflationary (succ a) = ≤-trans (succ-inflationary (succ a)) (succ-monot
 ```
 
 
+## Exercise: Halving
+
+```
+half-≤ : (x : ℕ) → half x ≤ x
+-- Holify
+half-≤ zero            = z≤n
+half-≤ (succ zero)     = z≤n
+half-≤ (succ (succ x)) = succ-monotone (≤-trans (half-≤ x) (succ-inflationary x))
+```
+
+```
+half-< : (x : ℕ) → half (succ x) < succ x
+-- Holify
+half-< zero     = s≤s z≤n
+half-< (succ x) = succ-monotone (succ-monotone (half-≤ x))
+```
+
+
 ## Infinitude of the even numbers
 
 ```

@@ -2,7 +2,7 @@
 module Padova2025.ProvingBasics.Termination.Gas where
 ```
 
-# Gas 🚧
+# Gas
 
 ```
 data Maybe (A : Set) : Set where

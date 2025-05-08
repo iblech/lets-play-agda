@@ -42,6 +42,9 @@ three = succ two
 
 four : ℕ
 four = succ three
+
+five : ℕ
+five = succ four
 ```
 
 ::: Aside :::

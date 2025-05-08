@@ -2,13 +2,10 @@
 module Padova2025.ProvingBasics.Termination where
 ```
 
-# Well-founded recursion 🚧
-
-::: Todo :::
-Placeholder
-:::
+# Well-founded recursion
 
 ```
+import Padova2025.ProvingBasics.Termination.Intro
 import Padova2025.ProvingBasics.Termination.Ordering
 import Padova2025.ProvingBasics.Termination.Gas
 import Padova2025.ProvingBasics.Termination.WellFounded

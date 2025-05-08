@@ -5,9 +5,9 @@ module Padova2025.VerifiedAlgorithms where
 # Verified algorithms 🚧
 
 ```
-open import Padova2025.VerifiedAlgorithms.PostHocVerification
-open import Padova2025.VerifiedAlgorithms.CorrectByConstruction
-open import Padova2025.VerifiedAlgorithms.Binary
-open import Padova2025.VerifiedAlgorithms.InsertionSort
-open import Padova2025.VerifiedAlgorithms.PL
+import Padova2025.VerifiedAlgorithms.PostHocVerification
+import Padova2025.VerifiedAlgorithms.CorrectByConstruction
+import Padova2025.VerifiedAlgorithms.Binary
+import Padova2025.VerifiedAlgorithms.InsertionSort
+import Padova2025.VerifiedAlgorithms.PL
 ```
