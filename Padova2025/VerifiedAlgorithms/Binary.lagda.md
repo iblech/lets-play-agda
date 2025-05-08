@@ -13,7 +13,6 @@ these operations correct with respect to the unary model.
 ```
 open import Padova2025.ProgrammingBasics.Naturals.Base
 open import Padova2025.ProgrammingBasics.Naturals.Arithmetic
-open import Padova2025.ProgrammingBasics.DependentFunctions
 open import Padova2025.ProgrammingBasics.Booleans
 open import Padova2025.ProgrammingBasics.Lists
 open import Padova2025.ProvingBasics.Negation

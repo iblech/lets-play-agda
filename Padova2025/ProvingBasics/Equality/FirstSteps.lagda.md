@@ -14,7 +14,6 @@ open import Padova2025.ProvingBasics.Equality.Base
 ```
 open import Padova2025.ProgrammingBasics.Naturals.Base
 open import Padova2025.ProgrammingBasics.Naturals.Arithmetic
-open import Padova2025.ProgrammingBasics.DependentFunctions
 ```
 
 With the definition of equality at hand, we can state and prove that `zero`

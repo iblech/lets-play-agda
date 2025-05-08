@@ -133,11 +133,7 @@ succ-injective = cong pred
 ## Exercise: Twice even
 
 State and prove that for every number `a`, the number
-[`twice a`](Padova2025.ProgrammingBasics.DependentFunctions.html#twice) is even.
-
-```
-open import Padova2025.ProgrammingBasics.DependentFunctions
-```
+[`twice a`](Padova2025.ProgrammingBasics.Naturals.Arithmetic.html#twice) is even.
 
 ```
 twice-even : (a : ℕ) → Even (twice a)

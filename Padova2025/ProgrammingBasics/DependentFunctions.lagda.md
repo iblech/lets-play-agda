@@ -52,9 +52,17 @@ three-dimensional-all-ones-vector = replicate ℕ 3 one
 
 ::: Aside :::
 Some people prefer to use the notation for dependent functions also in the
-non-dependent case. They can:
+non-dependent case. For instance, instead of...
 
+```code
+twice : ℕ → ℕ
+twice zero     = zero
+twice (succ x) = succ (succ (twice x))
 ```
+
+...we can also write:
+
+```code
 twice : (x : ℕ) → ℕ
 twice zero     = zero
 twice (succ x) = succ (succ (twice x))

@@ -9,8 +9,16 @@ open import Padova2025.ProgrammingBasics.Naturals.Base
 ```
 
 Beyond the definition of the natural numbers, a canonical next step is to
-define basic arithmetic. For instance, addition can be defined by pattern
-matching as follows.
+define basic arithmetic. For instance, the doubling function can be defined by
+pattern matching as follows.
+
+```
+twice : ℕ → ℕ
+twice zero     = zero
+twice (succ x) = succ (succ (twice x))
+```
+
+A more involved example is provided by addition:
 
 ```
 infixl 6 _+_

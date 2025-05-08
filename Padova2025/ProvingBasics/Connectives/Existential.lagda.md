@@ -91,7 +91,6 @@ several of those notions coincide.
 ```
 open import Padova2025.ProgrammingBasics.Naturals.Base
 open import Padova2025.ProgrammingBasics.Naturals.Arithmetic
-open import Padova2025.ProgrammingBasics.DependentFunctions
 open import Padova2025.ProvingBasics.EvenOdd
 open import Padova2025.ProvingBasics.Equality.Base
 open import Padova2025.ProvingBasics.Equality.General
