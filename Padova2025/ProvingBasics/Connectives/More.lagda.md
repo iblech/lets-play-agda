@@ -20,6 +20,13 @@ data Any {A : Set} (P : A → Set) : List A → Set where
   there : {x : A} {xs : List A} → Any P xs → Any P (x ∷ xs)
 ```
 
+```
+All-map : {A : Set} {P Q : A → Set} {xs : List A} → ({x : A} → P x → Q x) → All P xs → All Q xs
+-- Holify
+All-map f []       = []
+All-map f (p ∷ ps) = f p ∷ All-map f ps
+```
+
 
 ## Exercise: Zero sum, revisited
 
@@ -52,6 +59,33 @@ sum-zero'' : (xs : List ℕ) → All (_≡ zero) xs → sum xs ≡ zero
 sum-zero'' []          []         = refl
 sum-zero'' (zero ∷ xs) (refl ∷ p) = sum-zero'' xs p
 ```
+
+
+## Infinitude of the natural numbers
+
+```
+open import Padova2025.ProvingBasics.Connectives.Existential
+open import Padova2025.ProvingBasics.Equality.General
+```
+
+One among several ways to express that there are infinitely many natural numbers is as follows:
+For every finite list of natural numbers, there is a natural number not in that list. We can
+formalize and prove this assertion as follows.
+
+::: Todo :::
+Prepare exercise
+:::
+
+<!--
+```code
+ℕ-infinite : (xs : List ℕ) → ∃[ x ] All (_≢ x) xs
+ℕ-infinite xs = succ (sum xs) , lemma xs
+  where
+  lemma : (xs : List ℕ) → All (_≢ succ (sum xs)) xs
+  lemma []       = []
+  lemma (x ∷ xs) = {!!} ∷ All-map {!!} (lemma xs)
+```
+-->
 
 
 ## Decidable truth values

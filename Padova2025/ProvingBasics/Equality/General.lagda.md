@@ -100,3 +100,16 @@ cong₂ f refl refl = refl
 -- EXERCISE: Think about the expression "(⊥ ≡ ℕ)". Is it well-defined?
 -- What would be its meaning?
 -->
+
+
+## Inequality
+
+We can introduce inequality as follows.
+
+```
+open import Padova2025.ProvingBasics.Negation
+
+infix 4 _≢_
+_≢_ : {X : Set} → X → X → Set
+a ≢ b = ¬ (a ≡ b)
+```

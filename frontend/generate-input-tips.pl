@@ -76,6 +76,7 @@ __DATA__
 → to
 ∃ exists
 ∈ in
+∶ \:
 ⊥ bot
 │ ---
 │ vbar

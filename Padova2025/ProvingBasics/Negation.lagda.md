@@ -22,6 +22,7 @@ maps witnesses of $P$ to witnesses of ↯, i.e. to values of type `⊥`.
 We can also introduce the negation symbol in Agda:
 
 ```
+infix 3 ¬_
 ¬_ : Set → Set  -- enter `¬` as `\neg`
 ¬ P = (P → ⊥)
 ```

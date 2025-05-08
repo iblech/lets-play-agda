@@ -42,15 +42,63 @@ universe `Set`. This extra generality is useful for later developments. It
 would be a nuisance to have to redefine the dependent pair construction then.
 :::
 
+```
+open import Padova2025.ProgrammingBasics.Naturals.Base
+open import Padova2025.ProvingBasics.EvenOdd
+```
+
+For instance, the type `Σ ℕ Even` is the type of witnesses that there exists an
+even number. This type is populated by infinitely many inhabitants, such as the
+following two.
+
+```
+there-exist-even-numbers : Σ ℕ Even
+there-exist-even-numbers = (zero , base-even)
+
+there-exist-even-numbers' : Σ ℕ Even
+there-exist-even-numbers' = (two , two-even)
+```
+
 
 ## Syntactic sugar
 
+In blackboard mathematics, we write less succinctly but more evocatively
+"$\exists(x \in \mathbb{N}).\ \mathrm{Even}(x)$" instead of `Σ ℕ Even`.
+Thanks to a particular Agda feature, we can mimic this notation in Agda,
+as we can define custom syntax:
+
+::: More :::
 ```
+infix 2 ∃-syntax
+infix 2 Σ-syntax
 ∃-syntax : {ℓ ℓ' : Level} {A : Set ℓ} → (A → Set ℓ') → Set (ℓ ⊔ ℓ')
 ∃-syntax = Σ _
+Σ-syntax : {ℓ ℓ' : Level} (A : Set ℓ) → (A → Set ℓ') → Set (ℓ ⊔ ℓ')
+Σ-syntax = Σ
+-- These are just ordinary functions, to be used in the syntax declarations below.
 
 syntax ∃-syntax (λ x → P) = ∃[ x ] P
+-- With this declaration, the right hand side (where `P` is an Agda term which
+-- will usually contain `x` as a free variable) is an abbreviation for the left
+-- hand side.
+
+syntax Σ-syntax A (λ x → P) = Σ[ x ∈ A ] P
 ```
+:::
+
+We can then express existential disjunction as follows.
+
+```
+there-exist-even-numbers'' : ∃[ n ] Even n
+there-exist-even-numbers'' = four , step-even two-even
+
+there-exist-even-numbers''' : Σ[ n ∈ ℕ ] Even n
+there-exist-even-numbers''' = succ (succ four) , step-even (step-even two-even)
+```
+
+It is a bit unfortunate that we cannot use the colon symbol and have to
+resort to `∈`. Some people use the colon-lookalike `∶` (which is distinct
+from the actual colon `:`), but this alternative is also confusing.
 
 
 ## Exercise: Tautologies involving existential quantification
@@ -61,13 +109,13 @@ open import Padova2025.ProvingBasics.Connectives.Disjunction
 ```
 
 ```
-infinitary-de-morgan₁ : {A : Set} {P : A → Set} → ((x : A) → ¬ P x) → ¬ ∃[ x ] P x
+infinitary-de-morgan₁ : {A : Set} {P : A → Set} → ((x : A) → ¬ P x) → ¬ (∃[ x ] P x)
 -- Holify
 infinitary-de-morgan₁ f (x , p) = f x p
 ```
 
 ```
-infinitary-de-morgan₂ : {A : Set} {P : A → Set} → ¬ ∃[ x ] P x → ((x : A) → ¬ P x)
+infinitary-de-morgan₂ : {A : Set} {P : A → Set} → ¬ (∃[ x ] P x) → ((x : A) → ¬ P x)
 -- Holify
 infinitary-de-morgan₂ f x p = f (x , p)
 ```
@@ -89,9 +137,7 @@ possible. Let us collect here all the auxiliary results showing that
 several of those notions coincide.
 
 ```
-open import Padova2025.ProgrammingBasics.Naturals.Base
 open import Padova2025.ProgrammingBasics.Naturals.Arithmetic
-open import Padova2025.ProvingBasics.EvenOdd
 open import Padova2025.ProvingBasics.Equality.Base
 open import Padova2025.ProvingBasics.Equality.General
 open import Padova2025.ProvingBasics.Equality.NaturalNumbers
