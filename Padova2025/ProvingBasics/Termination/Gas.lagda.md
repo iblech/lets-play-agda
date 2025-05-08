@@ -152,7 +152,8 @@ example-digits-computation = from-just (digits₃' five)
 
 ```
 open import Padova2025.ProgrammingBasics.Booleans
-open import Padova2025.ProgrammingBasics.Naturals.DecisionProcedures
+open import Padova2025.ProvingBasics.Connectives.Disjunction
+open import Padova2025.ProvingBasics.Termination.Ordering
 ```
 
 The following snippet of code is intended to implement division, but
@@ -162,9 +163,9 @@ terminate in case the divisor is zero).
 ```code
 infix 7 _/_
 _/_ : ℕ → ℕ → ℕ
-a / b with <? a b
-... | false = succ ((a ∸ b) / b)
-... | true  = zero
+a / b with ≤-<-connex b a
+... | left  b≤a = succ ((a ∸ b) / b)
+... | right a<b = zero
 ```
 
 Use the brittle gas technique introduced in this module to provide a
@@ -180,9 +181,9 @@ _/_ a b = go a a
   where
   go : (gas : ℕ) → (x : ℕ) → ℕ
   go zero       x = zero  -- bailout
-  go (succ gas) x with <? x b
-  ... | false = succ (go gas (x ∸ b))
-  ... | true  = zero
+  go (succ gas) x with ≤-<-connex b x
+  ... | left  b≤x = succ (go gas (x ∸ b))
+  ... | right x<b = zero
 
 -- Tests
 -- EX: two   / one   ≡ two
@@ -214,9 +215,9 @@ version.
 ```code
 infix 7 _%_
 _%_ : ℕ → ℕ → ℕ
-a / b with <? a b
-... | false = (a ∸ b) % b
-... | true  = a
+a % b with ≤-<-connex b a
+... | left  b≤a = (a ∸ b) % b
+... | right a<b = a
 ```
 
 ```
@@ -227,9 +228,9 @@ _%_ a b = go a a
   where
   go : (gas : ℕ) → (x : ℕ) → ℕ
   go zero       x = zero  -- bailout
-  go (succ gas) x with <? x b
-  ... | false = go gas (x ∸ b)
-  ... | true  = x
+  go (succ gas) x with ≤-<-connex b x
+  ... | left  b≤x = go gas (x ∸ b)
+  ... | right x<b = x
 
 -- Tests
 -- EX: two   % one   ≡ zero

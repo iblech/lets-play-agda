@@ -7,4 +7,5 @@ module Padova2025.ProvingBasics.Termination.WellFounded where
 ```
 import Padova2025.ProvingBasics.Termination.WellFounded.Base
 import Padova2025.ProvingBasics.Termination.WellFounded.Scheme
+import Padova2025.ProvingBasics.Termination.WellFounded.Examples
 ```

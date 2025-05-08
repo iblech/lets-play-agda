@@ -138,6 +138,27 @@ half-< (succ x) = succ-monotone (succ-monotone (half-≤ x))
 ```
 
 
+## Exercise: Subtraction decreases
+
+```
+open import Padova2025.ProvingBasics.EvenOdd
+```
+
+```
+monus-≤ : (a b : ℕ) → a ≥ b → a ∸ b ≤ a
+-- Holify
+monus-≤ a        zero     z≤n       = ≤-refl
+monus-≤ (succ a) (succ b) (s≤s a≥b) = ≤-trans (monus-≤ a b a≥b) (succ-inflationary a)
+```
+
+```
+monus-< : (a b : ℕ) → IsPositive b → a ≥ b → a ∸ b < a
+monus-< (succ a) (succ zero)     b≥0  (s≤s a≥b) = ≤-refl
+monus-< (succ a) (succ (succ b)) b≥-1 (s≤s a>b) =
+  ≤-trans (monus-< a (succ b) (case-succ b) a>b) (succ-inflationary a)
+```
+
+
 ## Infinitude of the even numbers
 
 ```

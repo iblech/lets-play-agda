@@ -124,8 +124,8 @@ infixl 6 _∸_
 
 ```
 _∸_ : ℕ → ℕ → ℕ  -- enter `∸` as `\.-`
-zero   ∸ b      = {--}zero{--}
-succ a ∸ zero   = {--}succ a{--}
+a      ∸ zero   = {--}a{--}
+zero   ∸ succ b = {--}zero{--}
 succ a ∸ succ b = {--}a ∸ b{--}
 
 -- Tests
