@@ -26,7 +26,7 @@ if [ ! -e cache/confetti.js ]; then
 fi
 
 if [ ! -e cache/agda-input.el ]; then
-  curl https://raw.githubusercontent.com/agda/agda/refs/heads/master/src/data/emacs-mode/agda-input.el > \
+  curl https://raw.githubusercontent.com/agda/agda/refs/tags/v2.7.0.1/src/data/emacs-mode/agda-input.el > \
     cache/agda-input.el
 fi
 
@@ -34,7 +34,7 @@ sha256sum -c <<EOF
 f47be20f9140e3e7f56fe1e552704084b713434377f6f2bad74d5d6ea358278e  cache/inria-sans.woff2
 3e521304357b22b90c02d003e8fa4fb7b49c1267e6459240fd06b2d1900e36c1  cache/juliamono.ttf
 86856036d4e9f9c3b822961f26b972cd86560d07137d7f75abb32705aea49843  cache/confetti.js
-f5dd77ce2d35ffe604286ca0dc2d89b65bf8425dcdbafb32aee2a461976b0b76  cache/agda-input.el
+da6646b2e4d2d932293a2e277ee38b14dcc08bd73fd5e12464c2221c64db23b9  cache/agda-input.el
 EOF
 
 rm -rf out-wip

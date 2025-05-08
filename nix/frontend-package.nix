@@ -5,7 +5,7 @@ let
 
   cache = builtins.fetchTarball {
     url = "https://www.speicherleck.de/iblech/stuff/lets-play-agda-cache.tgz";
-    sha256 = "sha256:06vwyggaq7lamw508yy9wyknq1g9psx9rr91jzxn39kqa87arpxr";
+    sha256 = "sha256:099shj6p6i96p9l43b15z36ghhiq45pq6i33bbhyh39pfiyxfk56";
   };
 in
 
