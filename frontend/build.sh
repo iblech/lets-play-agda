@@ -44,6 +44,16 @@ cp --reflink=auto -t out-wip -r Padova2025
 
 cd out-wip
 
+function generate_zip {
+  # Fix timestamps so zip creation is deterministic
+  find "$1" -print | xargs touch -d @0
+  find "$1" -not -name "*.agdai" -not -name "*.swp" -not -name "*~" -not -name "*#*" | LC_ALL=C sort | TZ=UTC xargs zip -X -9 -
+}
+
+if [ -z "$quick" ]; then
+  generate_zip Padova2025 > Padova2025-solutions.zip
+fi
+
 if [ -z "$quick" ]; then
   echo
   echo "* Checking solutions..."
@@ -100,9 +110,7 @@ find Padova2025 -name '*agda*' | grep -v "#" | xargs perl -i -pwe '
 agda --allow-unsolved-metas --html --html-highlight=code Padova2025/Index.lagda.md
 
 if [ -z "$quick" ]; then
-  # Deterministically generate zip file
-  find Padova2025 -print | xargs touch -d @0
-  find Padova2025 -not -name "*.agdai" -not -name "*.swp" | sort | TZ=UTC xargs zip -X -9 Padova2025.zip
+  generate_zip Padova2025 > Padova2025.zip
 fi
 
 mv html/* .
