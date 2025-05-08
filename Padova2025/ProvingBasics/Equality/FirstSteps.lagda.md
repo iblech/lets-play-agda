@@ -44,7 +44,7 @@ be used in the following proof:
 
 ```
 trivial : (b : ℕ) → zero + b ≡ b
--- fully parenthesized: lemma : (b : ℕ) → ((zero + b) ≡ b)
+-- fully parenthesized: trivial : (b : ℕ) → ((zero + b) ≡ b)
 trivial b = refl
 ```
 
@@ -52,10 +52,10 @@ This piece of code can (as all pieces of Agda code!) be both read in a logical
 and in a computational sense:
 
 > (logical reading) \
-> "lemma" is the result that for every number `b`, `zero + b` equals `b`.
+> "trivial" is the result that for every number `b`, `zero + b` equals `b`.
 >
 > (computational reading) \
-> "lemma" is a function which reads as input a number `b`, and outputs a
+> "trivial" is a function which reads as input a number `b`, and outputs a
 > witness that `zero + b` equals `b`.
 
 It is also true that `a + zero` equals `a`. However, this identity does not
