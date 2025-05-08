@@ -8,6 +8,7 @@ Frontend:
 - fix font
 - fix fullscreen mode in Firefox
 - warn on accidental close
+- check solutions with --safe again
 
 Backend:
 - accept solution submissions
@@ -17,9 +18,12 @@ Backend:
 
 Content:
 - common pitfalls
-  - adding a variable, forgetting C-c C-l
+  - not being in a hole when case splitting
+  - adding a variable, but then forgetting C-c C-l
   - weird yellow
   - "Cannot split on local variable"
+  - input method cycling
+  - forgetting variables on the left
 - universe lifting
 - uncountability
 - axiom of choice
@@ -34,3 +38,6 @@ Content:
 - proof scripts
 - cite https://pujet.fr/pdf/uniquechoice_slides.pdf
 - named implicit arguments
+- anonymous functions, sections
+- reference Greg Egan, Ted Chiang
+- non-wellfounded models of set theory
