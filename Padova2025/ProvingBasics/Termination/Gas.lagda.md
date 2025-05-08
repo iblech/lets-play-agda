@@ -38,7 +38,7 @@ is quite involved.
 
 ```code
 digits₃-eq : (x : ℕ) → digits₃ (succ x) ≡ succ (digits₃ (half (succ x)))
-digits₃-eq x = ?
+digits₃-eq x = {!!}
 ```
 
 A much better way is provided by the [more sophisticated kind of
@@ -145,4 +145,111 @@ example-digits-computation = from-just (digits₃' five)
 
 -- Tests
 -- EX: example-digits-computation ≡ three
+```
+
+
+## Exercise: Division and modulo
+
+```
+open import Padova2025.ProgrammingBasics.Booleans
+open import Padova2025.ProgrammingBasics.Naturals.DecisionProcedures
+```
+
+The following snippet of code is intended to implement division, but
+fails to satisfy the termination checker (and indeed, does not
+terminate in case the divisor is zero).
+
+```code
+infix 7 _/_
+_/_ : ℕ → ℕ → ℕ
+a / b with <? a b
+... | false = succ ((a ∸ b) / b)
+... | true  = zero
+```
+
+Use the brittle gas technique introduced in this module to provide a
+terminating and correct version of division. You do not need to verify
+that your implementation is indeed correct. In case the divisor is zero,
+your function may compute whatever you like.
+
+```
+infix 7 _/_
+_/_ : ℕ → ℕ → ℕ
+-- Holify
+_/_ a b = go a a
+  where
+  go : (gas : ℕ) → (x : ℕ) → ℕ
+  go zero       x = zero  -- bailout
+  go (succ gas) x with <? x b
+  ... | false = succ (go gas (x ∸ b))
+  ... | true  = zero
+
+-- Tests
+-- EX: two   / one   ≡ two
+-- EX: two   / two   ≡ one
+-- EX: two   / three ≡ zero
+-- EX: two   / four  ≡ zero
+-- EX: two   / five  ≡ zero
+-- EX: three / one   ≡ three
+-- EX: three / two   ≡ one
+-- EX: three / three ≡ one
+-- EX: three / four  ≡ zero
+-- EX: three / five  ≡ zero
+-- EX: four  / one   ≡ four
+-- EX: four  / two   ≡ two
+-- EX: four  / three ≡ one
+-- EX: four  / four  ≡ one
+-- EX: four  / five  ≡ zero
+-- EX: five  / one   ≡ five
+-- EX: five  / two   ≡ two
+-- EX: five  / three ≡ one
+-- EX: five  / four  ≡ one
+-- EX: five  / five  ≡ one
+```
+
+Similarly, the following code is supposed to implement the modulo
+operation, but fails the termination checker; provide a terminating
+version.
+
+```code
+infix 7 _%_
+_%_ : ℕ → ℕ → ℕ
+a / b with <? a b
+... | false = (a ∸ b) % b
+... | true  = a
+```
+
+```
+infix 7 _%_
+_%_ : ℕ → ℕ → ℕ
+-- Holify
+_%_ a b = go a a
+  where
+  go : (gas : ℕ) → (x : ℕ) → ℕ
+  go zero       x = zero  -- bailout
+  go (succ gas) x with <? x b
+  ... | false = go gas (x ∸ b)
+  ... | true  = x
+
+-- Tests
+-- EX: two   % one   ≡ zero
+-- EX: two   % two   ≡ zero
+-- EX: two   % three ≡ two
+-- EX: two   % four  ≡ two
+-- EX: two   % five  ≡ two
+-- EX: three % one   ≡ zero
+-- EX: three % two   ≡ one
+-- EX: three % three ≡ zero
+-- EX: three % four  ≡ three
+-- EX: three % five  ≡ three
+-- EX: four  % one   ≡ zero
+-- EX: four  % two   ≡ zero
+-- EX: four  % three ≡ one
+-- EX: four  % four  ≡ zero
+-- EX: four  % five  ≡ four
+-- EX: five  % one   ≡ zero
+-- EX: five  % two   ≡ one
+-- EX: five  % three ≡ two
+-- EX: five  % four  ≡ one
+-- EX: five  % five  ≡ zero
 ```

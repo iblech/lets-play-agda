@@ -59,6 +59,14 @@ while `≤? four two` should reduce to `false`.
 -- EX: ≤? four two  ≡ false
 ```
 
+Building on `≤?`, we can implement a decision procedure for the strict
+less-than relation:
+
+```
+<? : ℕ → ℕ → Bool
+<? a b = ≤? (succ a) b
+```
+
 
 ## Exercise: Even and odd numbers
 
