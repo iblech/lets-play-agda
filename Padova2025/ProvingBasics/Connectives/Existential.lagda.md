@@ -12,7 +12,7 @@ predicate `P : A → Set`, the following dependent pair type.
 ```code
 infixr 4 _,_
 data Σ (A : Set) (P : A → Set) : Set where
-  _,_ : (fst : A) → (snd : P a) → Σ A P
+  _,_ : (fst : A) → (snd : P fst) → Σ A P
 ```
 
 ::: Aside :::
