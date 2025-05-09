@@ -7,4 +7,5 @@ module Padova2025.Explorations.Uncountability where
 ```
 import Padova2025.Explorations.Uncountability.Lawvere
 import Padova2025.Explorations.Uncountability.Applications
+import Padova2025.Explorations.Uncountability.Impossible
 ```
