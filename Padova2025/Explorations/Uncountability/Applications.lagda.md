@@ -27,6 +27,7 @@ Cantor = ℕ → Bool
 We will prove it uncountable in two senses.
 
 ```
+-- A strong notions of two functions being distinct.
 _#_ : {A B : Set} → (A → B) → (A → B) → Set
 f # g = ∃[ a ] f a ≢ g a
 ```
@@ -43,44 +44,67 @@ IsWeaklySplitSurjective _≈_ f = (y : _) → ∃[ x ] y ≈ f x
 
 ```
 fixpoint-free : {x : Bool} → not x ≡ x → ⊥
+-- Holify
 fixpoint-free {false} ()
 fixpoint-free {true}  ()
 ```
 
 ```
 fixpoint-free' : ¬ (∃[ x ] not x ≡ x)
+-- Holify
 fixpoint-free' (x , eq) = fixpoint-free eq
 ```
 
+The following is the strongest form of the result that the Cantor space is
+uncountable: For every potential enumeration `f : ℕ → Cantor`, there is
+a sequence `α : Cantor` such that for every number `n`, there is a position
+at which the sequences `α` and `f n` differ.
+
 ```
-Cantor-uncountable₀ : (f : ℕ → Cantor) → Σ[ α ∈ Cantor ] ((n : ℕ) → α # f n)
-Cantor-uncountable₀ f = (λ i → not (f i i)) , (λ n → (n , fixpoint-free))
+uncountable₀ : (f : ℕ → Cantor) → Σ[ α ∈ Cantor ] ((n : ℕ) → α # f n)
+-- Holify
+uncountable₀ f = (λ i → not (f i i)) , (λ n → (n , fixpoint-free))
+```
+
+We can then gradually weaken the result, in order to obtain statements
+which are more readily recognizable as uncountability assertions.
+
+```
+uncountable₁ : (f : ℕ → Cantor) → Σ[ α ∈ Cantor ] ¬ (∃[ n ] α ≗ f n)
+-- Holify
+uncountable₁ f with uncountable₀ f
+... | α , p = α , λ (n , eq) → snd (p n) (eq (fst (p n)))
 ```
 
 ```
-Cantor-uncountable₁ : (f : ℕ → Cantor) → Σ[ α ∈ Cantor ] ¬ (∃[ n ] α ≗ f n)
-Cantor-uncountable₁ f = (λ i → not (f i i)) , (λ (n , eq) → fixpoint-free (eq n))
+uncountable₂ : (f : ℕ → Cantor) → Σ[ α ∈ Cantor ] ¬ (∃[ n ] α ≡ f n)
+-- Holify
+uncountable₂ f with uncountable₁ f
+... | α , p = α , λ (n , eq) → p (n , λ x → cong (λ g → g x) eq)
 ```
 
 ```
-Cantor-uncountable₂ : (f : ℕ → Cantor) → Σ[ α ∈ Cantor ] ¬ (∃[ n ] α ≡ f n)
-Cantor-uncountable₂ f = (λ i → not (f i i)) , (λ (n , eq) → fixpoint-free (cong (λ g → g n) eq))
-```
-
-```
-Cantor-uncountable₁' : ¬ (Σ[ f ∈ (ℕ → Cantor) ] IsWeaklySplitSurjective _≗_ f)
-Cantor-uncountable₁' (f , weak-split-surjectivity) = fixpoint-free' (fix₀ weak-split-surjectivity)
+uncountable₁' : ¬ (Σ[ f ∈ (ℕ → Cantor) ] IsWeaklySplitSurjective _≗_ f)
+-- Holify
+uncountable₁' (f , weak-split-surjectivity) = fixpoint-free' (fix₀ weak-split-surjectivity)
   where
   open L f not
+-- Alternatively as a consequence of uncountable₁:
+-- uncountable₁' (f , weak-split-surjectivity) with uncountable₁ f
+-- ... | α , p = p (weak-split-surjectivity α)
 ```
 
 ```
-Cantor-uncountable₂' : ¬ (Σ[ f ∈ (ℕ → Cantor) ] IsSplitSurjective f)
-Cantor-uncountable₂' (f , split-surjectivity) = fixpoint-free' (fix₀ weak-split-surjectivity)
+uncountable₂' : ¬ (Σ[ f ∈ (ℕ → Cantor) ] IsSplitSurjective f)
+-- Holify
+uncountable₂' (f , split-surjectivity) = fixpoint-free' (fix₀ weak-split-surjectivity)
   where
   weak-split-surjectivity : IsWeaklySplitSurjective _≗_ f
   weak-split-surjectivity h = fst (split-surjectivity h) , λ n → cong (λ g → g n) (snd (split-surjectivity h))
   open L f not
+-- Alternatively as a consequence of uncountable₂:
+-- uncountable₂' (f , split-surjectivity) with uncountable₂ f
+-- ... | α , p = p (split-surjectivity α)
 ```
 
 
