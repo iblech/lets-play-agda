@@ -93,6 +93,14 @@ Bool-hasDrinkers P = P false , {--}B.part₂ P{--}
 
 ## Infinite yet searchable types
 
+```
+open import Padova2025.ProgrammingBasics.Lists
+open import Padova2025.ProgrammingBasics.Naturals.Base
+open import Padova2025.ProgrammingBasics.Operators
+open import Padova2025.ProvingBasics.Termination.Gas
+open import Padova2025.Explorations.Uncountability.Applications
+```
+
 Amazingly, beyond the finite types, *there do exist infinite types which are searchable*.
 
 - In any flavor of constructive mathematics where
@@ -100,9 +108,35 @@ Amazingly, beyond the finite types, *there do exist infinite types which are sea
   is available, such as Cubical Agda, the "one-point compactification of the natural numbers",
   roughly speaking `ℕ` with an added point `∞`, is searchable.
 
-- In some flavors, even the Cantor space is searchable---its uncountability notwithstanding.
+- In some flavors, even the [Cantor space](Padova2025.Explorations.Uncountability.Applications.html#Cantor)
+  is searchable---its uncountability notwithstanding.
 
 This shocking fact has been thoroughly explored by Martín Escardó. To jump into this fascinating
 area, have a look at [this classic post on Andrej Bauer's blog](https://math.andrej.com/2007/09/28/seemingly-impossible-functional-programs/),
 [this Agda code](https://martinescardo.github.io/TypeTopology/TypeTopology.GenericConvergentSequenceCompactness.html) or
 [these slides](https://www.ioc.ee/~tarmo/tsem16/escardo2605-slides.pdf).
+
+A miniature toy version (blithely employing a recursion which
+will be but cannot be shown to be terminating) is available in the following
+module.
+
+```
+open import Padova2025.Explorations.Uncountability.Impossible.Toy
+```
+
+This module exports a function `root : (Cantor → Bool) → Maybe List`
+which should either return `just xs` with `xs` the first five terms
+of a root of the input predicate, or `nothing` in case no root
+exists. When applied to predicates defined in the empty context,
+not using any assumptions or postulates, the `root` function always works
+correctly, though this meta-assertion is not provable in Agda.
+
+Try it yourself: Fill in the hole as you wish; press `C-c C-v`; enter `root
+example`; observe the results. For instance, if `examples xs` is defined
+as `not (xs zero) || xs one || not (xs two)`, then `root example` will
+reduce to `just (true ∷ false ∷ true ∷ false ∷ false ∷ [])`.
+
+```
+example : Cantor → Bool
+example xs = {--}true{--}
+```
