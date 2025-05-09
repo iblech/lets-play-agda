@@ -113,3 +113,17 @@ infix 4 _≢_
 _≢_ : {X : Set} → X → X → Set
 a ≢ b = ¬ (a ≡ b)
 ```
+
+
+## Pointwise equality
+
+We will also use the notion that two functions have the same values,
+called *pointwise equality*. ([We will later discuss](Padova2025.Cubical.Issues.FunctionExtensionality.html)
+the relation of this notion to the more basic notion that two functions
+are identical.)
+
+```
+infix 4 _≗_
+_≗_ : {A B : Set} → (A → B) → (A → B) → Set
+f ≗ g = (x : _) → f x ≡ g x
+```

@@ -6,4 +6,5 @@ module Padova2025.Explorations where
 
 ```
 import Padova2025.Explorations.CZF
+import Padova2025.Explorations.Uncountability
 ```

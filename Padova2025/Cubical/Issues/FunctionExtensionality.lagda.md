@@ -106,13 +106,9 @@ does-not-reduce-to-a-numeral = check does-not-reduce-to-refl
 ## Avoiding function extensionality
 
 For many purposes, function extensionality can easily be avoided by
-employing pointwise equality instead of true `_≡_`, as follows.
+employing [pointwise equality](Padova2025.ProvingBasics.Equality.General.html#_≗_) instead of true `_≡_`, as follows.
 
 ```
-infix 4 _≗_
-_≗_ : {X Y : Set} → (X → Y) → (X → Y) → Set
-f ≗ g = (x : _) → f x ≡ g x
-
 all-same₁₂' : example₁ ≗ example₂
 all-same₁₂' = all-same₁₂
 ```
