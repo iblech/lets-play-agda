@@ -8,10 +8,12 @@ module Padova2025.ProvingBasics.Termination.Ordering where
 open import Padova2025.ProgrammingBasics.Naturals.Base
 open import Padova2025.ProgrammingBasics.Naturals.Arithmetic
 open import Padova2025.ProgrammingBasics.Lists
+open import Padova2025.ProvingBasics.Negation
 open import Padova2025.ProvingBasics.Connectives.Disjunction
 open import Padova2025.ProvingBasics.Connectives.More
 open import Padova2025.ProvingBasics.Equality.Base
 open import Padova2025.ProvingBasics.Equality.General
+open import Padova2025.ProvingBasics.Equality.NaturalNumbers
 ```
 
 In this module, we introduce the standard ordering `_≤_` on the
@@ -56,6 +58,18 @@ n ≥ m = m ≤ n
 -- Holify
 ≤-antisymm z≤n     z≤n     = refl
 ≤-antisymm (s≤s p) (s≤s q) = cong succ (≤-antisymm p q)
+```
+
+```
+<-irreflexive : {a : ℕ} → a < a → ⊥
+-- Holify
+<-irreflexive (s≤s p) = <-irreflexive p
+```
+
+```
+≡⇒≤ : {a b : ℕ} → a ≡ b → a ≤ b
+-- Holify
+≡⇒≤ refl = ≤-refl
 ```
 
 
@@ -117,6 +131,14 @@ twice-inflationary : (a : ℕ) → a ≤ twice a
 -- Holify
 twice-inflationary zero     = z≤n
 twice-inflationary (succ a) = ≤-trans (succ-inflationary (succ a)) (succ-monotone (succ-monotone (twice-inflationary a)))
+```
+
+```
++-monotone : {a a' b b' : ℕ} → a ≤ b → a' ≤ b' → a + a' ≤ b + b'
+-- Holify
++-monotone z≤n     z≤n     = z≤n
++-monotone z≤n     (s≤s q) = ≤-trans (succ-monotone (+-monotone z≤n q)) (≡⇒≤ (sym (+-succ _ _)))
++-monotone (s≤s p) q       = succ-monotone (+-monotone p q)
 ```
 
 
@@ -182,6 +204,27 @@ Even-infinite x = twice x , twice-inflationary x , twice-even x
 -- Even-infinite x with even-or-odd x
 -- ... | left  xeven = x      , ≤-refl              , xeven
 -- ... | right xodd  = succ x , succ-inflationary x , succ-odd xodd
+```
+
+
+## Infinitude of the natural numbers
+
+```
+open import Padova2025.ProvingBasics.Connectives.Existential
+```
+
+One among several ways to express that there are infinitely many
+natural numbers is as follows: For every finite list of natural
+numbers, there is a natural number not in that list. We can formalize
+and prove this assertion as follows.
+
+```
+ℕ-infinite : (xs : List ℕ) → ∃[ x ] x ∉ xs
+ℕ-infinite xs = succ (sum xs) , λ p → <-irreflexive (go p)
+  where
+  go : {xs : List ℕ} {y : ℕ} → y ∈ xs → y < succ (sum xs)
+  go (here  refl) = {--}succ-monotone (≤-trans (≡⇒≤ (sym (+-zero _))) (+-monotone ≤-refl z≤n)){--}
+  go (there p)    = {--}≤-trans (go p) (succ-monotone (+-monotone z≤n ≤-refl)){--}
 ```
 
 

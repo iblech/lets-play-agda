@@ -116,3 +116,29 @@ we have a function `⊥ → A` for any type `A`:
 -- Holify
 ⊥-elim ()
 ```
+
+
+## Exercise: Double negation
+
+In classical mathematics, the double negation $\neg \neg A$ of a statement
+is equivalent to $A$ again. Constructive mathematics, which is the default mode
+of Agda, allows us to see finer distinctions; in general, $\neg \neg A$
+is not equivalent to $A$. (We will explore the differences between these two
+statements in detail later.)
+
+While we do not have, in Agda, that $\neg \neg A \Rightarrow A$ (unless we
+add this principle as a postulate), we have the converse implication.
+
+```
+dni : {A : Set} → A → ¬ ¬ A
+-- Holify
+dni x = λ k → k x
+```
+
+As a corollary, triple negation implies (and is hence equivalent to) single negation.
+
+```
+triple-to-one : {A : Set} → ¬ ¬ ¬ A → ¬ A
+-- Holify
+triple-to-one p = λ x → p (dni x)
+```

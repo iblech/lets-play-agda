@@ -196,3 +196,22 @@ eq? (succ a) (succ b) = ∨-map (cong succ) (λ f → f ∘ succ-injective) (eq?
 -- ... | left  a≡b = left (cong succ a≡b)
 -- ... | right a≢b = right λ p → a≢b (succ-injective p)
 ```
+
+
+## Exercise: An oracle in the double negation monad
+
+The following two tautologies are of supreme importance for the purpose of
+extracting constructive content from classical proofs, and also quite cryptic
+on first encounter.
+
+```
+oracle : {A : Set} → ¬ ¬ (A ⊎ ¬ A)
+-- Holify
+oracle f = f (right (λ x → f (left x)))
+```
+
+```
+¬¬-bind : {A B : Set} → ¬ ¬ A → (A → ¬ ¬ B) → ¬ ¬ B
+-- Holify
+¬¬-bind m f = λ k → m (λ x → f x k)
+```

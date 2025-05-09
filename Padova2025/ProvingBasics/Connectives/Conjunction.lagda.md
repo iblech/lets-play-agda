@@ -86,6 +86,40 @@ frobenius (x , (p , b)) = (x , p) , b
 ```
 
 
+## Exercise: De Morgan's laws
+
+```
+open import Padova2025.ProvingBasics.Connectives.Disjunction
+```
+
+Verify the following three of the four De Morgan's laws.
+
+```
+de-morgan₁ : {A B : Set} → ¬ A × ¬ B → ¬ (A ⊎ B)
+-- Holify
+de-morgan₁ (f , g) (left  x) = f x
+de-morgan₁ (f , g) (right y) = g y
+```
+
+```
+de-morgan₂ : {A B : Set} → ¬ (A ⊎ B) → ¬ A × ¬ B
+-- Holify
+de-morgan₂ f = (λ x → f (left x)), (λ y → f (right y))
+```
+
+```
+de-morgan₃ : {A B : Set} → ¬ A ⊎ ¬ B → ¬ (A × B)
+-- Holify
+de-morgan₃ (left  f) = λ (x , y) → f x
+de-morgan₃ (right g) = λ (x , y) → g y
+```
+
+The fourth one, `¬ (A × B) → ¬ A ⊎ ¬ B`, would destroy the ability of
+constructive mathematics to make finer distinctions between negative and
+positive assertions. As Agda is by default a constructive system, the fourth
+law is not provable in Agda.
+
+
 ## Exercise: Zero sum
 
 ```
@@ -103,7 +137,3 @@ sum-zero : (a b : ℕ) → a + b ≡ zero → a ≡ zero × b ≡ zero
 sum-zero zero     b p = refl , p
 sum-zero (succ a) b ()
 ```
-
-<!--
-de Morgan
--->

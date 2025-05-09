@@ -6,7 +6,12 @@ module Padova2025.ProvingBasics.Connectives.More where
 
 ```
 open import Padova2025.ProgrammingBasics.Lists
+open import Padova2025.ProvingBasics.Negation
+open import Padova2025.ProvingBasics.Equality.Base
 ```
+
+The predicate `All P xs` expresses that `P` holds for all elements of the list
+`xs`.
 
 ```
 data All {A : Set} (P : A → Set) : List A → Set where
@@ -14,17 +19,68 @@ data All {A : Set} (P : A → Set) : List A → Set where
   _∷_ : {x : A} {xs : List A} → P x → All P xs → All P (x ∷ xs)
 ```
 
+The predicate `Any P xs` expresses that `P` holds for at least one element of
+the list.
+
 ```
 data Any {A : Set} (P : A → Set) : List A → Set where
   here  : {x : A} {xs : List A} → P x → Any P (x ∷ xs)
   there : {x : A} {xs : List A} → Any P xs → Any P (x ∷ xs)
 ```
 
+As an application, `Any` can be used to define the membership predicate:
+
+```
+infix 4 _∈_ _∉_
+_∈_ : {A : Set} → A → List A → Set
+x ∈ xs = Any (x ≡_) xs
+
+_∉_ : {A : Set} → A → List A → Set
+x ∉ xs = ¬ (x ∈ xs)
+```
+
+
+## Exercise: All and Any as functors
+
 ```
 All-map : {A : Set} {P Q : A → Set} {xs : List A} → ({x : A} → P x → Q x) → All P xs → All Q xs
 -- Holify
 All-map f []       = []
 All-map f (p ∷ ps) = f p ∷ All-map f ps
+```
+
+```
+Any-map : {A : Set} {P Q : A → Set} {xs : List A} → ({x : A} → P x → Q x) → Any P xs → Any Q xs
+-- Holify
+Any-map f (here  p) = here (f p)
+Any-map f (there v) = there (Any-map f v)
+```
+
+
+## Exercise: De Morgan's laws
+
+Related to the exercise [on De Morgan's
+laws](Padova2025.ProvingBasics.Connectives.Conjunction.html#exercise-de-morgans-laws)
+in the binary case.
+
+```
+de-morgan₁ : {A : Set} {P : A → Set} {xs : List A} → All (λ x → ¬ P x) xs → ¬ Any P xs
+-- Holify
+de-morgan₁ (¬p ∷ ¬ps) (here  p) = ¬p p
+de-morgan₁ (¬p ∷ ¬ps) (there q) = de-morgan₁ ¬ps q
+```
+
+```
+de-morgan₂ : {A : Set} {P : A → Set} {xs : List A} → ¬ Any P xs → All (λ x → ¬ P x) xs
+-- Holify
+de-morgan₂ {xs = []}     ¬any = []
+de-morgan₂ {xs = x ∷ xs} ¬any = (λ p → ¬any (here p)) ∷ de-morgan₂ (λ v → ¬any (there v))
+```
+
+```
+de-morgan₃ : {A : Set} {P : A → Set} {xs : List A} → Any (λ x → ¬ P x) xs → ¬ All P xs
+de-morgan₃ (here  ¬p) (p ∷ ps) = ¬p p
+de-morgan₃ (there v)  (p ∷ ps) = de-morgan₃ v ps
 ```
 
 
@@ -59,33 +115,6 @@ sum-zero'' : (xs : List ℕ) → All (_≡ zero) xs → sum xs ≡ zero
 sum-zero'' []          []         = refl
 sum-zero'' (zero ∷ xs) (refl ∷ p) = sum-zero'' xs p
 ```
-
-
-## Infinitude of the natural numbers
-
-```
-open import Padova2025.ProvingBasics.Connectives.Existential
-open import Padova2025.ProvingBasics.Equality.General
-```
-
-One among several ways to express that there are infinitely many natural numbers is as follows:
-For every finite list of natural numbers, there is a natural number not in that list. We can
-formalize and prove this assertion as follows.
-
-::: Todo :::
-Prepare exercise
-:::
-
-<!--
-```code
-ℕ-infinite : (xs : List ℕ) → ∃[ x ] All (_≢ x) xs
-ℕ-infinite xs = succ (sum xs) , lemma xs
-  where
-  lemma : (xs : List ℕ) → All (_≢ succ (sum xs)) xs
-  lemma []       = []
-  lemma (x ∷ xs) = {!!} ∷ All-map {!!} (lemma xs)
-```
--->
 
 
 ## Decidable truth values
