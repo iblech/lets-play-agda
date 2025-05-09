@@ -47,7 +47,9 @@ cd out-wip
 function generate_zip {
   # Fix timestamps so zip creation is deterministic
   find "$1" -print | xargs touch -d @0
-  find "$1" -not -name "*.agdai" -not -name "*.swp" -not -name "*~" -not -name "*#*" | LC_ALL=C sort | TZ=UTC xargs zip -X -9 -
+  find "$1" -not -name "*.agdai" -not -name "*.swp" -not -name "*~" -not -name "*#*" | \
+    LC_ALL=C sort | \
+    TZ=UTC xargs zip --quiet -X -9 -
 }
 
 if [ -z "$quick" ]; then
