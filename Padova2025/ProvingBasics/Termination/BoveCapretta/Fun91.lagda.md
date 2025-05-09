@@ -1,5 +1,5 @@
 ```
-module Padova2025.ProvingBasics.Termination.Fun91 where
+module Padova2025.ProvingBasics.Termination.BoveCapretta.Fun91 where
 ```
 
 # The 91 function
@@ -40,7 +40,7 @@ with the comment "Termination checking failed".
 ## Representing the function
 
 To represent this function in Agda, we follow the same approach as in
-the [previous module](Padova2025.ProvingBasics.Termination.Intricate0.html).
+the [previous module](Padova2025.ProvingBasics.Termination.BoveCapretta.Intricate0.html).
 
 ```
 data Def : ℕ → Set

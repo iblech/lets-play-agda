@@ -153,6 +153,7 @@ monus-≤ (succ a) (succ b) (s≤s a≥b) = ≤-trans (monus-≤ a b a≥b) (suc
 
 ```
 monus-< : (a b : ℕ) → IsPositive b → a ≥ b → a ∸ b < a
+-- Holify
 monus-< (succ a) (succ zero)     b≥0  (s≤s a≥b) = ≤-refl
 monus-< (succ a) (succ (succ b)) b≥-1 (s≤s a>b) =
   ≤-trans (monus-< a (succ b) (case-succ b) a>b) (succ-inflationary a)

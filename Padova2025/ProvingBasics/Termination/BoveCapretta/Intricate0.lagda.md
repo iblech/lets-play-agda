@@ -1,5 +1,5 @@
 ```
-module Padova2025.ProvingBasics.Termination.Intricate0 where
+module Padova2025.ProvingBasics.Termination.BoveCapretta.Intricate0 where
 ```
 
 # An intricate zero function
@@ -62,7 +62,7 @@ all0 (succ n) (step p q) = all0 (f₀ n p) q
 
 ## Verifying totality
 
-This insight is enough to conclude that the function is defined on all
+The insight expressed by `all0` is enough to conclude that the function is defined on all
 inputs.
 
 ```
@@ -77,4 +77,31 @@ With totality in place, we can finally define `f` as follows.
 ```
 f : ℕ → ℕ
 f n = f₀ n (total n)
+```
+
+
+## Verifying the definition equation
+
+We can also verify that the defining equation holds:
+
+```
+Def-prop : {x : ℕ} → (p q : Def x) → p ≡ q
+-- Holify
+Def-prop base base = refl
+Def-prop (step p p') (step q q') with p | Def-prop p q
+... | .q | refl = cong (step q) (Def-prop p' q')
+-- Alternatively, after adding {-# BUILTIN EQUALITY _≡_ #-}:
+-- Def-prop (step p p') (step q q') rewrite Def-prop p q
+--   = cong (step q) (Def-prop p' q')
+```
+
+```
+f₀-extensional : (x : ℕ) (p q : Def x) → f₀ x p ≡ f₀ x q
+-- Holify
+f₀-extensional x p q = cong (f₀ x) (Def-prop p q)
+```
+
+```
+f-eq : (x : ℕ) → f (succ x) ≡ f (f x)
+f-eq x = f₀-extensional (f x) _ _
 ```

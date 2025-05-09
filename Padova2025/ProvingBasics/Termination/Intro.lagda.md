@@ -140,8 +140,7 @@ open import Padova2025.ProvingBasics.Termination.Gas
 open import Padova2025.ProvingBasics.Termination.WellFounded
 
 -- Option 5
-open import Padova2025.ProvingBasics.Termination.Intricate0
-open import Padova2025.ProvingBasics.Termination.Fun91
+open import Padova2025.ProvingBasics.Termination.BoveCapretta
 ```
 
 But first, we have a look at the standard ordering relation on the
