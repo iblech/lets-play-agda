@@ -40,4 +40,5 @@ Content:
 - named implicit arguments
 - anonymous functions, sections
 - reference Greg Egan, Ted Chiang
-- non-wellfounded models of set theory
+- non-wellfounded models of set theory, i.e. https://git.app.uib.no/hott/hott-set-theory/-/blob/master/src/hott-set-theory-everything.agda?ref_type=heads
+- cite https://unimath.github.io/agda-unimath/set-theory.html
