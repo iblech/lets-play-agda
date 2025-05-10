@@ -23,8 +23,10 @@ on.
 ```
 :::
 
-Let us call a type `X` *searchable* iff decidable predicate `P : X → Bool`
-has a root (attains the value `false`) or alternatively is constantly `true`.
+A *root* of a decidable predicate `P : X → Bool` is a value `x : X` such that
+`P x ≡ false` (as with roots of `ℕ`-valued functions). Let us call a type `X`
+*searchable* iff every decidable predicate `P : X → Bool` has a root or
+alternatively is constantly `true`.
 
 ```
 Searchable : Set → Set

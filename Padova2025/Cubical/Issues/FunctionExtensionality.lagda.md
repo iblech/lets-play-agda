@@ -56,7 +56,7 @@ _ = ?
 On the other hand, in Agda we can also not prove the three functions above to
 be distinct, that is we cannot write down terms of type `exampleᵢ ≡ exampleⱼ → ⊥`.
 Agda is (like any other reasonable formal system) incomplete. This particular
-instance of incompleteness is particularly worrying to some, as it pertains
+instance of incompleteness is particularly worrying to some, as it pertains to
 such a basic part of Agda. The equality type is underspecified.
 
 **A principle.**
