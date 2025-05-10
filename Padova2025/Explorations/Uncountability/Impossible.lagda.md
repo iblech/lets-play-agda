@@ -93,7 +93,7 @@ Bool-hasDrinkers P = P false , {--}B.part₂ P{--}
 ```
 
 
-## Infinite yet searchable types
+## Infinite yet searchable types?
 
 ```
 open import Padova2025.ProgrammingBasics.Lists
@@ -132,6 +132,19 @@ of a root of the input predicate, or `nothing` in case no root
 exists. When applied to predicates defined in the empty context,
 not using any assumptions or postulates, the `root` function always works
 correctly, though this meta-assertion is not provable in Agda.
+
+::: Aside :::
+More precisely, the recursion employed be the `root` function terminates in case the
+input function is uniformly continuous. It is a meta-theorem about certain
+flavors of Martin-Löf type theory that every term of type `Cantor → Bool` in
+the empty context is indeed uniformly continuous, and one can entertain the
+idea that this result also holds for Agda (which however strictly speaking is
+ill-specified). See
+[this note](https://guilhem.jaber.fr/NoteForcingTypeTheory.pdf) by Thierry Coquand
+and Guilhem Jaber for details and
+[the PhD thesis](https://theses.hal.science/tel-04617881v1/document/) of Martin
+Baillon for many new results and pointers to the literature.
+:::
 
 Try it yourself: Fill in the hole as you wish; press `C-c C-v`; enter `root
 example`; observe the results. For instance, if `examples xs` is defined
