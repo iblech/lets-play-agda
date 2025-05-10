@@ -31,8 +31,9 @@ and greatly benefited from feedback of participants at
 [2023](https://agdapad.quasicoherent.io/~Padova/),
 [2024](https://agdapad.quasicoherent.io/~Padova2024/),
 [2025](https://agdapad.quasicoherent.io/~Padova2025/)). It was set in motion by
-a course of [Martín Escardó](https://martinescardo.github.io/) at the [2018 installment of Proof and
-Computation](https://www.mathematik.uni-muenchen.de/~schwicht/pc18.php),
+[a course](https://martinescardo.github.io/pc2018/pc2018.pdf) of
+[Martín Escardó](https://martinescardo.github.io/) at the
+[2018 installment of Proof and Computation](https://www.mathematik.uni-muenchen.de/~schwicht/pc18.php),
 where I have learned Agda with help from [Anja Petković Komel](https://anjapetkovic.com/)
 and later [Matthias Ritter](https://mathoverflow.net/users/166281/matthias-hutzler).
 
