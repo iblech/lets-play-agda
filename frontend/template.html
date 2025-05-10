@@ -27,14 +27,13 @@
 
     body {
       font-family: "Inria Sans", "Trebuchet MS", sans-serif;
-      font-size: 1.3rem;
       margin-top: 0;
       display: grid;
       grid-template-areas: "main" "nav";
     }
 
     nav { grid-area: nav; }
-    main { grid-area: main; max-width: 50em; }
+    main { grid-area: main; max-width: min(50em,97vw); }
 
     .char-table { column-count: 2; }
 
@@ -42,6 +41,7 @@
       body {
         grid-template-columns: 17em 1fr;
         grid-template-areas: "nav main";
+        font-size: 1.3rem;
       }
 
       nav { position: sticky; overflow-y: auto; top: 0; height: 100vh; align-self: start; }
@@ -63,6 +63,12 @@
     pre, code {
       font-family: "JuliaMono", monospace;
       font-variant-ligatures: none;  /* so that "->" is rendered correctly */
+    }
+    pre {
+      overflow-x: auto;
+      max-width: 100%;
+      padding-bottom: 2px;  /* so that edit buttons are still part of the pre
+      element and don't cause vertical scrollbars */
     }
     .Background { font-family: "Inria Sans", "Trebuchet MS", sans-serif; }
     .Markup     { display: none; }
