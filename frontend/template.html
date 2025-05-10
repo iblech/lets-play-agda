@@ -41,6 +41,8 @@
         grid-template-columns: 17em 1fr;
         grid-template-areas: "nav main";
       }
+
+      nav { position: sticky; overflow-y: auto; top: 0; height: 100vh; align-self: start; }
     }
 
     .footer, .footer a, .inessential, .inessential * { color: gray !important; }
@@ -107,12 +109,10 @@
       filter: blur(0.1rem);
     }
 
-    nav { position: sticky; overflow-y: auto; top: 0; height: 100vh; align-self: start; }
     nav li { list-style-type: "🗃️ "; margin-left: 0; }
     nav ol { padding-left: 1.5em; }
-    nav > ol { display: contents; }
-    nav li:not(:has(> ol, > a)) { list-style-type: none; }
-    nav > ol > li { margin-top: 1em; }
+    nav > ol { list-style: none; padding-left: 0; }
+    nav > ol > li { margin-top: 1em; list-style-type: none; }
     nav > ol > li > label { font-weight: bold; }
     .list-style-type-none li { list-style-type: none; }
     .status-0 { list-style-type: "⬜ "; }
