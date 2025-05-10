@@ -36,6 +36,8 @@
     nav { grid-area: nav; }
     main { grid-area: main; max-width: 50em; }
 
+    .char-table { column-count: 2; }
+
     @media (min-width: 768px) { 
       body {
         grid-template-columns: 17em 1fr;
@@ -43,6 +45,8 @@
       }
 
       nav { position: sticky; overflow-y: auto; top: 0; height: 100vh; align-self: start; }
+
+      .char-table { column-count: 4; }
     }
 
     .footer, .footer a, .inessential, .inessential * { color: gray !important; }
@@ -225,6 +229,7 @@
     th { text-align: left; }
     col { width: auto !important; }  /* see Pandoc #8139 */
 
+    /* Agda CSS */
     __AGDA_CSS__
   </style>
 </head><body>

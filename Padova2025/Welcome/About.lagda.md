@@ -120,7 +120,6 @@ instance `\alpha` will produce a Greek `α`.
 
 Here is a list of Unicode symbols used in this course.
 
-
 <script>
   window.onload = function () {
     let table = document.getElementById("char-table");
@@ -143,7 +142,7 @@ Here is a list of Unicode symbols used in this course.
   };
 </script>
 
-<div style="column-count: 2"><table id="char-table">
+<div class="char-table"><table id="char-table">
 </table></div>
 
 <!--
