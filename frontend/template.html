@@ -64,11 +64,13 @@
       font-family: "JuliaMono", monospace;
       font-variant-ligatures: none;  /* so that "->" is rendered correctly */
     }
-    pre {
-      overflow-x: auto;
-      max-width: 100%;
-      padding-bottom: 3px;  /* so that edit buttons are still part of the pre
-      element and don't cause vertical scrollbars */
+    @media (max-width: 767px) {
+      pre {
+        overflow-x: auto;
+        max-width: 100%;
+        padding-bottom: 3px;  /* so that edit buttons are still part of the pre
+        element and don't cause vertical scrollbars */
+      }
     }
     .Background { font-family: "Inria Sans", "Trebuchet MS", sans-serif; }
     .Markup     { display: none; }
