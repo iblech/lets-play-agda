@@ -18,7 +18,7 @@ discovered. We will discuss this expansion in the context of Cubical Agda.
 | An unsound proof attempt | A term which does not type-check |
 | Leaving a part of a proof attempt to be filled in later | Leaving a hole `?` |
 | Realizing a missing assumption | Adding an extra argument |
-| Assertion that $x = y$ | Type `x ≡ y` (a standard equality type) |
+| Assertion that $x = y$ | Type `x ≡ y` (a certain standard equality type) |
 | Trivially equal by inspection | Witness `refl` |
 | Arguing by induction | Defining a recursive function |
 | Induction hypothesis | Recursive function call |
