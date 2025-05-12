@@ -12,6 +12,14 @@ import Padova2025.ComputationalContent.DoubleNegation
 import Padova2025.ComputationalContent.Fictions.Minima
 ```
 
+The purpose of this module is to give a constructive proof of (a baby
+version of) Dickson's lemma, using a constructively preposterous
+assertion as a central ingredient, namely the claim that every
+function `ℕ → ℕ` has a minimum.
+
+In its basic form, Dickson's lemma states that for every map `α : ℕ → ℕ`,
+there is a number `i` such that `α i ≤ α (succ i)`.
+
 ```
 Dickson : (ℕ → ℕ) → Set
 Dickson α = Σ[ i ∈ ℕ ] α i ≤ α (succ i)

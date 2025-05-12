@@ -14,15 +14,6 @@ open import Padova2025.ProvingBasics.Equality.General
 import Padova2025.ProvingBasics.Equality.Booleans as B
 ```
 
-::: Aside :::
-Let us switch the [`with ... in ...` syntactic
-sugar](https://agda.readthedocs.io/en/stable/language/with-abstraction.html#with-abstraction-equality)
-on.
-```
-{-# BUILTIN EQUALITY _≡_ #-}
-```
-:::
-
 A *root* of a decidable predicate `P : X → Bool` is a value `x : X` such that
 `P x ≡ false` (as with roots of `ℕ`-valued functions). Let us call a type `X`
 *searchable* iff every decidable predicate `P : X → Bool` has a root or

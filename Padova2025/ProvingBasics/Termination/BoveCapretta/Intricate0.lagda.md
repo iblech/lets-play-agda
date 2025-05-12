@@ -116,7 +116,7 @@ Def-prop : {x : ℕ} → (p q : Def x) → p ≡ q
 Def-prop base base = refl
 Def-prop (step p p') (step q q') with p | Def-prop p q
 ... | .q | refl = cong (step q) (Def-prop p' q')
--- Alternatively, after adding {-# BUILTIN EQUALITY _≡_ #-}:
+-- Alternatively, thanks to the syntactic sugar enabled by {-# BUILTIN EQUALITY _≡_ #-}:
 -- Def-prop (step p p') (step q q') rewrite Def-prop p q
 --   = cong (step q) (Def-prop p' q')
 ```

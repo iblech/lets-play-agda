@@ -127,3 +127,15 @@ infix 4 _≗_
 _≗_ : {A B : Set} → (A → B) → (A → B) → Set
 f ≗ g = (x : _) → f x ≡ g x
 ```
+
+
+# TODO: with in exercise
+
+::: Aside :::
+Let us switch the [`with ... in ...` syntactic
+sugar](https://agda.readthedocs.io/en/stable/language/with-abstraction.html#with-abstraction-equality)
+on.
+```
+{-# BUILTIN EQUALITY _≡_ #-}
+```
+:::
