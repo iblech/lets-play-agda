@@ -42,6 +42,10 @@ Pull requests were contributed by:
 - Matteo Cusin
 
 These helped to substantially improve the presentation of this course.
+Furthermore, feedback of the following persons was influential and greatly
+appreciated:
+
+- Fredrik Nordvall Forsberg
 
 
 ### Open source dependencies
