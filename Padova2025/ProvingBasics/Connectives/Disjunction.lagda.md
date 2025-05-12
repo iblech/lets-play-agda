@@ -205,9 +205,9 @@ extracting constructive content from classical proofs, and also quite cryptic
 on first encounter.
 
 ```
-oracle : {A : Set} → ¬ ¬ (A ⊎ ¬ A)
+¬¬-oracle : {A : Set} → ¬ ¬ (A ⊎ ¬ A)
 -- Holify
-oracle f = f (right (λ x → f (left x)))
+¬¬-oracle f = f (right (λ x → f (left x)))
 ```
 
 ```

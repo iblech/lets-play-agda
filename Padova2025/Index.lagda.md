@@ -10,5 +10,6 @@ import Padova2025.ProvingBasics
 import Padova2025.VerifiedAlgorithms
 import Padova2025.Cubical
 import Padova2025.Explorations
+import Padova2025.ComputationalContent
 ```
 -->

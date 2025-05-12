@@ -71,22 +71,6 @@ sub visit {
   if($level == 0) {
     print <<EOF;
       <li>
-        <input id="nav-computational-content" type="checkbox">
-        <label for="nav-computational-content">Computational content of classical logic</label>
-        <ol>
-          <li>
-            <input id="nav-convenient-fictions" type="checkbox">
-            <label for="nav-convenient-fictions">Convenient fictions</label>
-            <ol>
-              <li>Minimas</li>
-              <li>Drinkers</li>
-            </ol>
-          </li>
-          <li>Sarcastic interpretation of classical logic</li>
-          <li>Case study: Dickson's lemma</li>
-        </ol>
-      </li>
-      <li>
         <input id="nav-recreational" type="checkbox">
         <label for="nav-recreational">Recreational mathematics</label>
         <ol>

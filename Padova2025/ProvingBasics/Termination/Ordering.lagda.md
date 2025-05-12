@@ -134,6 +134,22 @@ twice-inflationary (succ a) = ≤-trans (succ-inflationary (succ a)) (succ-monot
 ```
 
 ```
+max-inflationaryₗ : (a b : ℕ) → a ≤ max a b
+-- Holify
+max-inflationaryₗ zero     b        = z≤n
+max-inflationaryₗ (succ a) zero     = ≤-refl
+max-inflationaryₗ (succ a) (succ b) = s≤s (max-inflationaryₗ a b)
+```
+
+```
+max-inflationaryᵣ : (a b : ℕ) → b ≤ max a b
+-- Holify
+max-inflationaryᵣ zero     b        = ≤-refl
+max-inflationaryᵣ (succ a) zero     = z≤n
+max-inflationaryᵣ (succ a) (succ b) = s≤s (max-inflationaryᵣ a b)
+```
+
+```
 +-monotone : {a a' b b' : ℕ} → a ≤ b → a' ≤ b' → a + a' ≤ b + b'
 -- Holify
 +-monotone z≤n     z≤n     = z≤n
