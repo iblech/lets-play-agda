@@ -79,6 +79,7 @@ de-morgan₂ {xs = x ∷ xs} ¬any = (λ p → ¬any (here p)) ∷ de-morgan₂ 
 
 ```
 de-morgan₃ : {A : Set} {P : A → Set} {xs : List A} → Any (λ x → ¬ P x) xs → ¬ All P xs
+-- Holify
 de-morgan₃ (here  ¬p) (p ∷ ps) = ¬p p
 de-morgan₃ (there v)  (p ∷ ps) = de-morgan₃ v ps
 ```

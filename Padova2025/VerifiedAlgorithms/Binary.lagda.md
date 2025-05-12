@@ -133,8 +133,8 @@ data _≈_ : BitString → BitString → Set where
   -- "Equivalent because both strings just consist of zeros."
 
   cons : {xs ys : BitString} {b : Bool} → xs ≈ ys → b ∷ xs ≈ b ∷ ys
-  -- "Equivalent because both strings start the same, and then
-  -- continue in an equivalent manner."
+  -- "Equivalent because both strings have the same least significant digit,
+  -- and then continue in an equivalent manner."
 ```
 
 As a warm-up, let us prove that equivalent bit strings represent the

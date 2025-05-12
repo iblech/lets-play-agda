@@ -46,6 +46,32 @@ f₀ zero     _          = zero
 f₀ (succ x) (step p q) = f₀ (f₀ x p) q
 ```
 
+As a warmup, we can prove that the numbers `zero`, `one`, `two` and
+`three` indeed belong to the domain:
+
+```
+defined-on-input-zero : Def zero
+-- Holify
+defined-on-input-zero = base
+```
+
+```
+defined-on-input-one : Def one
+defined-on-input-one = step {--}defined-on-input-zero{--} {--}defined-on-input-zero{--}
+```
+
+```
+defined-on-input-two : Def two
+-- Holify
+defined-on-input-two = step defined-on-input-one defined-on-input-zero
+```
+
+```
+defined-on-input-three : Def three
+-- Holify
+defined-on-input-three = step defined-on-input-two defined-on-input-zero
+```
+
 
 ## Conditionally evaluating the function
 
