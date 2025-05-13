@@ -51,14 +51,15 @@ In constructive mathematics, we embrace almost all axioms and rules of
 inference of classical mathematics, but we do not use the law of excluded
 middle ($A \vee \neg A$), we do not use the law of double negation elimination
 ($\neg\neg A \Rightarrow A$) and we do not use the axiom of choice. But on the
-other hand we also do not postulate their negations, instead we remain
+other hand we also do not postulate their negations: Instead we remain
 neutrally agnostic about those principles. Hence every constructive proof is
-also a valid classical proof.
+also a valid classical proof. (Amazingly, a specific kind of converse holds as
+well, but not in a literal sense.)
 
 Constructive mathematics has a couple of unique features:
 
-* Constructive proofs are more informative. For instance, constructively we may
-  not establish that an equation has a solution by merely verifying that it is
+* Constructive proofs are more informative. For instance, constructively we are
+  not allowed to establish that an equation has a solution by merely verifying that it is
   impossible for the equation to not have a solution. Instead, a constructive
   proof of existence needs to provide a witness, i.e. a pair of a value and a
   witness that the value indeed solves the equation.
@@ -70,8 +71,8 @@ Constructive mathematics has a couple of unique features:
   double negation. These finer distinctions in turn have algorithmic and
   geometric consequences.)
 
-* Every constructive result has an algorithmic interpretation: Every
-  constructive proof can be run as a computer program. Every constructive proof
+* Every constructive result has an algorithmic interpretation---every
+  constructive proof can be run as a computer program. For instance: Every constructive proof
   of the existence of a solution to an equation can be run as an algorithm
   computing such a solution. As Agda is by default a constructive system, we
   have observed this connection between logic and computability numerous times.
@@ -96,13 +97,47 @@ Constructive mathematics has a couple of unique features:
 
 ## The surprising success of Hilbert's failed program
 
-- Can every classical proof be constructivized? No but yes
-- Examples of convenient fictions and their usage:
-  - Minima for Dickson's lemma
-  - Infinitary pigeonhole for finitary pigeonhole
-  - Maximal ideals for results in commutative algebra
-- Embedding classical logic into constructive logic
+Can every result of classical mathematics be constructivized? Taken literally,
+this question has a clear-cut negative answer. Many results are known to admit
+only classical proofs, as they imply nonconstructive principles:
 
-::: Todo :::
-Expand.
-:::
+- Over Zermelo--Fraenkel set theory, the statement that every vector space has
+  a basis implies the axiom of choice.
+- Over Zermelo--Fraenkel set theory, the statement that every commutative ring
+  has a maximal ideal implies the axiom of choice.
+- Over intuitionistic Zermelo--Fraenkel set theory, the statement that every
+  inhabited set of natural numbers contains a minimal element implies the law
+  of excluded middle.
+
+But these observations are just the beginning of a grander story. Hilbert made
+a distinction between *abstract results*---typically of an infrastructural
+nature---and *concrete results*, which concern more tangible mathematical
+objects such as natural numbers. While many abstract results cannot be proven
+constructively, their concrete consequences often can.
+
+- The result that every function ℕ → ℕ has a minimal value is not available in
+  constructive mathematics, yet its consequence Dickson's lemma is.
+- The infinitary pigeonhole principle (stating that every infinite binary
+  sequence contains infinitely many `false` terms or infinitely many `true`
+  terms) is not available in constructive mathematics, yet its consequence the
+  finitary pigeonhole principle is.
+- The result that every commutative ring has a maximal ideal is not available
+  in constructive mathematics, yet consequences about matrices are: For
+  instance we do constructively have that only over the zero ring a matrix with
+  more rows than columns can be surjective.
+
+Classical proofs can in many cases be mined for constructive and hence computational content;
+*classical proofs can thus be regarded as blueprints for more informative
+constructive proofs*. In many cases, there are even formal meta-theorems
+backing this philosophy, guaranteeing the feasibility of this extraction
+endeavor. In this refined sense, Hilbert's program has been widely successful,
+and auxiliary objects which can only be obtained by transfinite means, such as
+minima of infinite sequences or maximal ideals, can be viewed as *convenient
+fictions*: They are not strictly speaking available in constructive mathematics,
+but they might as well be, because their consequences are.
+
+The following modules are devoted to studying a particularly versatile
+constructivization technique based on the *double negation monad*. This method
+can be used to eliminate applications of the law of excluded middle from
+classical proofs. (For eliminating applications of the axiom of choice, other
+techniques are used, often based on formal topology or topos theory.)
