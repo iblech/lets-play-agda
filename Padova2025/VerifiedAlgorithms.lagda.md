@@ -2,7 +2,7 @@
 module Padova2025.VerifiedAlgorithms where
 ```
 
-# Verified algorithms 🚧
+# Verified algorithms
 
 ```
 import Padova2025.VerifiedAlgorithms.PostHocVerification

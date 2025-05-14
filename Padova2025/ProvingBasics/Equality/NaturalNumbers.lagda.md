@@ -130,6 +130,16 @@ succ-injective = cong pred
 ```
 
 
+## Exercise: Half twice
+
+```
+half-twice : (x : ℕ) → half (twice x) ≡ x
+-- Holify
+half-twice zero     = refl
+half-twice (succ x) = cong succ (half-twice x)
+```
+
+
 ## Exercise: Twice even
 
 State and prove that for every number `a`, the number
