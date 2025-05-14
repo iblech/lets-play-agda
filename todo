@@ -9,12 +9,14 @@ Frontend:
 - fix fullscreen mode in Firefox
 - warn on accidental close
 - check solutions with --safe again
+- show keywords of solutions as hints
 
 Backend:
 - accept solution submissions
 - relay work in progress to the browser, for safekeeping
 - have basic type test
 - decouple solution verification from editing
+- support reactions to exercises
 
 Content:
 - common pitfalls
@@ -26,7 +28,6 @@ Content:
   - forgetting variables on the left
 - universe lifting
 - axiom of choice
-- disjunction
 - infinitude of primes
 - gaps in primes
 - cong! macro
@@ -43,3 +44,5 @@ Content:
 - cite https://unimath.github.io/agda-unimath/set-theory.html
 - lambda
 - show as hints all used functions
+- computational content
+  - https://rt.quasicoherent.io/solutions/Verona2024.Basics.Minima.html
