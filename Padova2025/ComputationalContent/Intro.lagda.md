@@ -49,7 +49,7 @@ the alternative flavor of *constructive mathematics*, they are not.
 
 In constructive mathematics, we embrace almost all axioms and rules of
 inference of classical mathematics, but we do not use the law of excluded
-middle ($A \vee \neg A$), we do not use the law of double negation elimination
+middle ($A \vee \neg A$), we do not use the [(equivalent)](Padova2025.ProvingBasics.Connectives.Disjunction.html#LEM⇒DNE) law of double negation elimination
 ($\neg\neg A \Rightarrow A$) and we do not use the axiom of choice. But on the
 other hand we also do not postulate their negations: Instead we remain
 neutrally agnostic about those principles. Hence every constructive proof is

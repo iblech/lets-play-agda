@@ -76,6 +76,24 @@ wf⇒irr R a (acc f) p = wf⇒irr R a (f p) p
 ```
 
 
+## Exercise: No infinite descending sequences
+
+```
+no-descending-sequences : {X : Set} {_<_ : X → X → Set} → (α : ℕ → X) → ((n : ℕ) → α (succ n) < α n) → Acc _<_ (α zero) → ⊥
+-- Holify
+no-descending-sequences {X} {_<_} α desc (acc f) = no-descending-sequences α' desc' (f (desc zero))
+  where
+  α' : ℕ → X
+  α' n = α (succ n)
+  desc' : (n : ℕ) → α' (succ n) < α' n
+  desc' n = desc (succ n)
+```
+
+::: Todo :::
+Add remark about converse.
+:::
+
+
 ## Exercise: Binary digits
 
 ```

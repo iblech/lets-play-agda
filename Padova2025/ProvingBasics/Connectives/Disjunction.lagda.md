@@ -215,3 +215,20 @@ on first encounter.
 -- Holify
 ¬¬-bind m f = λ k → m (λ x → f x k)
 ```
+
+
+## Exercise: Law of excluded middle and double negation elimination
+
+```
+LEM⇒DNE : ((A : Set) → A ⊎ ¬ A) → ((B : Set) → ¬ ¬ B → B)
+-- Holify
+LEM⇒DNE p B m with p B
+... | left   a = a
+... | right ¬a = ⊥-elim (m ¬a)
+```
+
+```
+DNE⇒LEM : ((B : Set) → ¬ ¬ B → B) → ((A : Set) → A ⊎ ¬ A)
+-- Holify
+DNE⇒LEM p A = p (A ⊎ ¬ A) ¬¬-oracle
+```
