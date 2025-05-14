@@ -113,6 +113,16 @@
       filter: grayscale(100%);
     }
 
+    .ingredients::before {
+      content: "Ingredients used in the reference solution: ";
+      color: gray;
+    }
+    .ingredients { font-size: smaller; margin-top: 1em; }
+    .ingredients span::after {
+      content: "(and perhaps more)";
+      color: gray;
+    }
+
     .edit:hover { background-color: darkorange; }
     .edit a { color: white; background-image: none; }
     .edit:hover a { background-image: none; }

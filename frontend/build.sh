@@ -137,6 +137,18 @@ for i in *.md; do
     export basename="${i%.md}"
     export source="${basename//./\/}.lagda.md"
 
+    {
+      echo -n "recordTargets(\"$modulename\", \""
+      < "$i" perl -nwe 'print $_, $/ for /id="([^"]+)"/' | egrep -v "^[0-9]*$" | sed -e 's+&lt;+<+g' -e 's+&gt;+>+g' -e 's+&#39;+'\''+g' -e 's+&amp;+\&+g' | LC_ALL=C sort | tr '\n' ' ' | sed -e 's+ $++'
+      echo -n "\")"
+    } > "$basename.targets"
+    if grep ";" "$basename.targets" >/dev/null; then
+      echo "Found lingering HTML entity in link targets of $modulename, aborting."
+      cat "$basename.targets"
+      exit 1
+    fi
+    echo ";" >> "$basename.targets"
+
     pandoc -o "$bodyfile" "$i"
     sed -i -e '0,/<pre class="Agda">\(.*module.*where.*\)/ { s/<pre class="Agda">\(.*module.*where.*\)/<pre class="Agda inessential">\1/; }' "$bodyfile"
     perl -i -pe 'BEGIN { $/ = undef } s#\n\n</pre>#\n</pre>#g' "$bodyfile"
@@ -192,9 +204,11 @@ echo "* Copying static files..."
 cp --reflink=auto -r ../cache/*.woff2 ../frontend/static/* .
 (cd ..; find Padova2025 -name "*.md" | xargs cat | ./frontend/generate-input-tips.pl) > ui.js
 cat ../frontend/ui.js >> ui.js
+cat *.targets >> ui.js
+echo "attachEditors();" >> ui.js
 cat ../cache/confetti.js >> ui.js
 ln -s Padova2025.Welcome.html index.html
-rm -rf toc.html Agda.css Padova2025 solutions
+rm -rf toc.html Agda.css Padova2025 solutions *.targets
 
 function do_sri {
   file="$1"

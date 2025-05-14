@@ -108,6 +108,8 @@ function attachEditor(block) {
   block.classList.add("exercise");
   const id = block.innerText.split(/\s+/)[0];
 
+  attachIngredientsInfo(block, id);
+
   for(const holeMarker of block.getElementsByClassName("Hole")) {
     const editButton = document.createElement("a");
     editButton.className = "edit";
@@ -116,7 +118,8 @@ function attachEditor(block) {
       editButton.onclick = null;
       editButton.innerHTML = "⏳ Please wait…";
       block.classList.add("spinning");
-      block.insertAdjacentElement("afterend", createIframe(block, id));
+      const iframe = createIframe(block, id);
+      block.insertAdjacentElement("afterend", iframe);
       recordActivity();
       printActivity();
     };
@@ -127,6 +130,38 @@ function attachEditor(block) {
   if(location.href.includes("localhost") || location.href.includes("solutions") || getCode(getAgdaModuleName(), id) !== null) {
     attachReferenceSolution(block, id);
   }
+}
+
+function attachIngredientsInfo(block, id) {
+  const solution = document.getElementById("reference-solution-" + id);
+  if(solution === null) return;
+
+  const div = document.createElement("div");
+  div.className = "ingredients";
+  const span = document.createElement("span");
+  div.appendChild(span);
+
+  let foundIngredients = false;
+
+  const boringTargets = {};
+  for(const t of [...new Set(block.innerText.split(/[\s(){}]+/))]) {
+    boringTargets[t] = true;
+  }
+
+  for(const t of [...new Set(solution.innerText.substring(solution.innerText.indexOf("\n")).split(/[\s(){}]+/))].sort()) {
+    if(t in knownTargets && !(t in boringTargets)) {
+      const link = document.createElement("a");
+      link.setAttribute("href", knownTargets[t] + ".html#" + t);
+      link.appendChild(document.createTextNode(t));
+      span.appendChild(link);
+      span.appendChild(document.createTextNode(" "));
+      foundIngredients = true;
+    }
+  }
+
+  if(!foundIngredients) return;
+  activateSpoilerOnce(span);
+  block.insertAdjacentElement("afterend", div);
 }
 
 function attachReferenceSolution(block, id) {
@@ -382,6 +417,19 @@ function activateSpoiler(obj) {
   obj.onclick();
 }
 
+function activateSpoilerOnce(obj) {
+  obj.style.cursor = "pointer";
+  obj.classList.add("spoiler");
+
+  const onclick = function (e) {
+    obj.classList.remove("spoiler");
+    obj.removeEventListener("click", onclick, true);
+    e.preventDefault();
+  };
+
+  obj.addEventListener("click", onclick, true);
+}
+
 function renderToc() {
   const list = document.getElementsByTagName("nav")[0].getElementsByTagName("ol")[0];
 
@@ -473,7 +521,19 @@ function showConfetti() {
   window.setTimeout(confetti.stop, 1000);
 }
 
-attachEditors();
+const knownTargets = {};
+const ambiguousTargets = {};
+function recordTargets(mod, targets) {
+  for(const t of targets.split(" ")) {
+    if(t in knownTargets) {
+      delete knownTargets[t];
+      ambiguousTargets[t] = true;
+    } else if(!(t in ambiguousTargets)) {
+      knownTargets[t] = mod;
+    }
+  }
+}
+
 activateHintsAndMore();
 printActivity();
 renderToc();
