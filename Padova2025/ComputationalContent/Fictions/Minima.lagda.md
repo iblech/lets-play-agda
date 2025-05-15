@@ -14,14 +14,8 @@ open import Padova2025.ProvingBasics.Connectives.Conjunction
 open import Padova2025.ComputationalContent.DoubleNegation (⊥)
 ```
 
-## Classical result
 
-::: Todo :::
-Fill in.
-:::
-
-
-## Constructive result
+## Minima of functions up to double negation
 
 ```
 go : (α : ℕ → ℕ) → (i : ℕ) → Acc _<'_ (α i) → ¬ ¬ (Σ[ i ∈ ℕ ] ((j : ℕ) → ¬ ¬ α i ≤ α j))
@@ -61,7 +55,7 @@ minimum' P (n , Pn) = go' P n Pn (ℕ-wf n)
 
 
 <!--
-## Variant for decidable inhabites sets of natural numbers
+## Variant for decidable inhabited sets of natural numbers
 open import Padova2025.ProvingBasics.Connectives.More
 go'' : (P : ℕ → Set) (P? : (n : ℕ) → Dec (P n)) → (n : ℕ) → P n → ∃[ a ] P a × ((b : ℕ) → P b → a ≤ b)
 go'' P P? zero     Pn = zero , Pn , λ b Pb → z≤n

@@ -34,4 +34,9 @@ theorem α = escape do
   where
   open Padova2025.ComputationalContent.DoubleNegation  (Dickson α)
   open Padova2025.ComputationalContent.Fictions.Minima (Dickson α)
+-- Equivalently:
+-- theorem α = escape (minimum f ⟫= λ (i , p) → p (succ i) ⟫= λ fi≤fsucci → return (i , fi≤fsucci))
+--   where
+--   open Padova2025.ComputationalContent.DoubleNegation  (Dickson α)
+--   open Padova2025.ComputationalContent.Fictions.Minima (Dickson α)
 ```
