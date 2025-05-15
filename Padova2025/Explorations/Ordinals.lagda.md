@@ -180,22 +180,33 @@ example₁ = ≤-limiting (λ n → ≤-cocone {n = succ n} ≤-refl)
 
 ## Ordinal addition
 
+In a mutual manner, we simultaneously define ordinal addition and prove a
+monotonicity result for ordinal addition.
+
 ```
 infixl 6 _+_
 _+_ : O → O → O
 +-mon : {x a b : O} → a ≤ b → (x + a) ≤ (x + b)
+```
 
+Here is the definition of ordinal addition.
+
+```
 a + zer        = a
 a + suc b      = suc (a + b)
 a + lim f fmon = lim (λ n → a + f n) (λ n → +-mon (fmon n))
+```
 
-+-mon {b = zer} ≤-zer        = ≤-refl
-+-mon {b = suc b} ≤-zer      = ≤-trans id≤suc (≤-suc-mon (+-mon ≤-zer))
-+-mon {b = lim f fmon} ≤-zer = ≤-cocone (+-mon (≤-zer {f zero}))
-+-mon (≤-trans p q)          = ≤-trans (+-mon p) (+-mon q)
-+-mon (≤-suc-mon p)          = ≤-suc-mon (+-mon p)
-+-mon (≤-cocone p)           = ≤-cocone (+-mon p)
-+-mon (≤-limiting p)         = ≤-limiting (λ b → +-mon (p b))
+Now you are asked to fill in the required lemma.
+
+```
++-mon {b = zer} ≤-zer        = {--}≤-refl{--}
++-mon {b = suc b} ≤-zer      = {--}≤-trans id≤suc (≤-suc-mon (+-mon ≤-zer)){--}
++-mon {b = lim f fmon} ≤-zer = {--}≤-cocone (+-mon (≤-zer {f zero})){--}
++-mon (≤-trans p q)          = {--}≤-trans (+-mon p) (+-mon q){--}
++-mon (≤-suc-mon p)          = {--}≤-suc-mon (+-mon p){--}
++-mon (≤-cocone p)           = {--}≤-cocone (+-mon p){--}
++-mon (≤-limiting p)         = {--}≤-limiting (λ b → +-mon (p b)){--}
 ```
 
 
@@ -216,3 +227,39 @@ example₃ = ≤-limiting (λ n → ≤-cocone {n = succ n} (lemma n))
   lemma zero     = ≤-refl
   lemma (succ n) = ≤-suc-mon (lemma n)
 ```
+
+
+## Exercise: Adding zero
+
+```
++-zer : (x : O) → zer + x ≤ x
+-- Holify
++-zer zer       = ≤-zer
++-zer (suc x)   = ≤-suc-mon (+-zer x)
++-zer (lim f x) = lim-mon (λ n → +-zer (f n))
+```
+
+
+## Outlook
+
+Beyond these first steps with ordinals, the following projects might be interesting.
+
+- Defining ordinal multiplication and exponentiation, by
+  implementing the rules listed on the Wikipedia page on ordinal arithmetic
+- Defining the ordinal number `ε₀`
+- Stating and proving that `ω ^ ε₀` is the same as `ε₀`
+- Defining the numbers `ε₁`, `ε₂`, ...
+
+Do not expect these exercises to have short solutions---the
+monotonicity requirement in the `lim` constructor entails
+quite a few proof obligations. However, we cannot drop this
+requirement as else exponentiation is no longer definable:
+The definition requires a case distinction which is possible
+only because of the monotonicity requirement.
+
+An extensive discussion is included in the following landmark papers
+by Tom de Jong, Nicolai Kraus, Fredrik Nordvall Forsberg and Chuangjie Xu:
+
+- [Type-Theoretic Approaches to Ordinals](https://arxiv.org/abs/2208.03844)
+- [Set-Theoretic and Type-Theoretic Ordinals Coincide](https://arxiv.org/abs/2301.10696)
+- [Ordinal Exponentiation in Homotopy Type Theory](https://arxiv.org/abs/2501.14542)
