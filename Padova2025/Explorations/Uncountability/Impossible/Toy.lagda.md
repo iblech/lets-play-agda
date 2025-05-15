@@ -21,7 +21,7 @@ x ◂ xs = λ { zero → x ; (succ n) → xs n }
   x = P (false ◂ ε (P ∘ (false ◂_)))
 
 has-root? : (Cantor → Bool) → Bool
-has-root? P = P (ε P)
+has-root? P = not (P (ε P))
 
 root : (Cantor → Bool) → Maybe (List Bool)
 root P with P (ε P)
