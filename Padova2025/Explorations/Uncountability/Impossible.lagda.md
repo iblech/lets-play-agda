@@ -119,7 +119,7 @@ open import Padova2025.Explorations.Uncountability.Impossible.Toy
 
 This module exports a function `root : (Cantor → Bool) → Maybe List`
 which should either return `just xs` with `xs` the first five terms
-of a root of the input predicate, or `nothing` in case no root
+of a root of the input predicate (more terms could also be generated as needed), or `nothing` in case no root
 exists. When applied to predicates defined in the empty context,
 not using any assumptions or postulates, the `root` function always works
 correctly, though this meta-assertion is not provable in Agda.
