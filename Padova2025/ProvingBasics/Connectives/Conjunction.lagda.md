@@ -27,7 +27,7 @@ work also for these non-dependent products. Let us export these
 functions for users importing this module.
 
 ```
-open Padova2025.ProvingBasics.Connectives.Existential using (fst; snd) public
+open Padova2025.ProvingBasics.Connectives.Existential using (fst; snd; _,_) public
 ```
 
 
