@@ -6,6 +6,7 @@ module Padova2025.Cubical.Issues where
 
 ```
 import Padova2025.Cubical.Issues.FunctionExtensionality
+import Padova2025.Cubical.Issues.PropositionalTruncation
 import Padova2025.Cubical.Issues.Quotients
 import Padova2025.Cubical.Issues.Univalence
 ```
