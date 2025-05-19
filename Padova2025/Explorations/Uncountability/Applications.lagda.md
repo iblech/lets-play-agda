@@ -14,6 +14,7 @@ open import Padova2025.ProvingBasics.Connectives.Existential
 import Padova2025.Explorations.Uncountability.Lawvere as L
 ```
 
+
 ## Uncountability of the Cantor space
 
 A premier example for an uncountable type is the Cantor space, the
@@ -24,10 +25,10 @@ Cantor : Set
 Cantor = ℕ → Bool
 ```
 
-We will prove it uncountable in two senses.
+We will prove it uncountable in five senses.
 
 ```
--- A strong notions of two functions being distinct.
+-- A strong notion of two functions being distinct.
 _#_ : {A B : Set} → (A → B) → (A → B) → Set
 f # g = ∃[ a ] f a ≢ g a
 ```
@@ -105,6 +106,23 @@ uncountable₂' (f , split-surjectivity) = fixpoint-free' (fix₀ weak-split-sur
 -- Alternatively as a consequence of uncountable₂:
 -- uncountable₂' (f , split-surjectivity) with uncountable₂ f
 -- ... | α , p = p (split-surjectivity α)
+```
+
+
+## Uncountability of the Baire space
+
+```
+Baire : Set
+Baire = ℕ → ℕ
+```
+
+```
+baire-uncountable₀ : (f : ℕ → Baire) → Σ[ α ∈ Baire ] ((n : ℕ) → α # f n)
+-- Holify
+baire-uncountable₀ f = (λ i → succ (f i i)) , (λ n → (n , succ-fixpoint-free))
+  where
+  succ-fixpoint-free : {x : ℕ} → succ x ≢ x
+  succ-fixpoint-free ()
 ```
 
 
