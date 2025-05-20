@@ -18,24 +18,51 @@ Rough sketch, bring into shape. And add lots of praise for
 https://arxiv.org/abs/2208.03844 which this account is based on.
 :::
 
-    0, 1, 2, 3, 4, ..., ω, ω + 1, ω + 2, ...,
-    ^^^^^^^^^^^^^^^^^^  ^
-     these are natural   ∞ is not a nat. numb.
-	 numbers
+A key motto in set theory is: *Never stop, always continue.* This motto is
+nicely exemplified by the *ordinal numbers*, one of several flavors of numbering
+systems which support infinitely large numbers (other prominent flavors are the
+cardinal numbers and the surreal numbers).
 
-    ω + ω = ω·2, ..., ω·3, ..., ω·ω = ω², ..., ω³, ...,
+The ordinal numbers start like this:
 
-    ω^ω, ..., ω^(ω·2), ..., ω^(ω^ω), ..., ω^(ω^(ω^ω)), ...,
+> 0, 1, 2, 3, 4, ...
 
-    ω^(ω^(ω^…)) = ε₀, ε₀ + 1, ..., ε₀·2, ...,
+However, unlike the natural numbers, we then don't stop. Instead we continue:
 
-    ε₀^(ε₀^(ε₀^…)) = ε₁, ..., ε₂, ..., ε_ω, ..., ε_{ω+1}, ...,
+> 0, 1, 2, 3, 4, …, ω
 
-    ε_{ε₀}, ..., ε_{ε₁}, ..., ε_{ε₂}, ..., ε_{ε_{ε_…}} = ζ₀, ...
+So ω is the first infinite number. But it is not the last one, as we
+continue:
 
-    This is the beginning of the list of ordinal numbers.
-    The displayed numbers are still tiny in the sense that
-    each number has only countably many predeccesors.
+> 0, 1, 2, 3, 4, …, ω, ω + 1, ω + 2, …
+
+Should there be a number larger than all of those? Following the motto, of
+course there should:
+
+> 0, 1, 2, 3, 4, …, ω, ω + 1, ω + 2, ..., ω + ω = ω · 2
+
+Now increasing our cruise speed and skipping over infinitely many numbers, we
+eventually obtain the following creatures:
+
+> ω · ω = ω², ω³, ω⁴, ω<sup>ω</sup>, ω<sup><sup>ω</sup></sup>,
+> ω<sup>ω<sup>ω<sup>⋰</sup></sup></sup> = ε₀,
+> ε₀<sup>ε₀<sup>ε₀<sup>⋰</sup></sup></sup> = ε₁,
+> ε₁<sup>ε₁<sup>ε₁<sup>⋰</sup></sup></sup> = ε₂
+
+In this way we obtain more and more *epsilon numbers*. After having obtained
+ε₀, ε₁, ε₂ and so on we keep going to obtain ε<sub>ω</sub>, ε<sub>ε₀</sub>,
+ε<sub>ε<sub>ε₀</sub></sub>, and so on; still not stopping, we eventually obtain the
+number
+
+> ε<sub>ε<sub>ε<sub>⋱</sub></sub></sub> = ζ₀
+
+and still have a long way to go. Armed with just the operations "add one" and
+"keep going", starting with zero we have thereby obtained quite a few numbers.
+(Which, by the way, are still considered puny by seasoned set theorists: All
+the displayed numbers have only countably many predecessors.)
+
+For a tour of a longer initial segment of the ordinals, we recommend
+[an account by John Baez ](https://johncarlosbaez.wordpress.com/2016/06/29/large-countable-ordinals-part-1/).
 
     Picture of ω:
       :-)   I  I  I  I  I  ...
