@@ -2,7 +2,7 @@
 module Padova2025.ProvingBasics.Equality.General where
 ```
 
-# General results on identity
+# General results on equality
 
 ```
 open import Padova2025.ProvingBasics.Equality.Base
