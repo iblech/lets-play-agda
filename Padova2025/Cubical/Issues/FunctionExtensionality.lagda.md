@@ -113,7 +113,7 @@ all-same₁₂' : example₁ ≗ example₂
 all-same₁₂' = all-same₁₂
 ```
 
-But it is also desireable to actually have function
+But it is also desirable to actually have function
 extensionality. Such a system is offered by Cubical Agda.
 
 
