@@ -46,6 +46,7 @@ Furthermore, feedback of the following persons was influential and greatly
 appreciated:
 
 - Fredrik Nordvall Forsberg
+- Jacopo Pedro
 
 
 ### Open source dependencies

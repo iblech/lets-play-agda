@@ -16,6 +16,8 @@ open my $fh, "<", "cache/agda-input.el" or die $!;
 while(<$fh>) {
   push @{$commands{decode_utf8($2)}}, $1 while /\("([^"]+)"\s+\.\s+\("([^"]+)"\)\)/g;
 }
+delete $commands{"ʳ"};  # The extracted key sequence "\^r" is not quite right/complete
+
 while(<DATA>) {
   push @{$commands{$1}}, $2 while /^([^\s]*)\s(.*)$/g;
 }
@@ -60,6 +62,7 @@ __DATA__
 é 'e
 ö "o
 ć 'c
+ʳ ^r4
 ˘ u{}
 Σ Sigma
 α alpha
