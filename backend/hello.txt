@@ -22,4 +22,5 @@ If C-c is intercepted by your browser, try C-o instead.
 └───────────────────────────────────────────────┘
 
 For copying text, hold the Shift key while selecting the text with the mouse.
+For pasting text, hold the Shift key while pressing the middle mouse button.
 To get back to your file, press C-x C-Left.
