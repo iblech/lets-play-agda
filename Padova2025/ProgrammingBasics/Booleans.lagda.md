@@ -36,7 +36,7 @@ types, which itself is not "large", but "very large". The type of `Set₁` is
 ```
 
 In Agda, this story used to continue up to `Setω`, but in 2021, the universe
-hierarchy was extended up to the (ω⋅2)'th level.
+hierarchy was extended up to the (ω·2)'th level.
 :::
 
 
