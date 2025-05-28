@@ -75,6 +75,15 @@ snoc-++ a []       ys = refl
 snoc-++ a (x ∷ xs) ys = cong (x ∷_) (snoc-++ a xs ys)
 ```
 
+## Exercise: Length after scocking
+
+```
+length-snoc : {A : Set} (xs : List A) (y : A) → length (xs ∷ʳ y) ≡ succ (length xs)
+-- Holify
+length-snoc []       y = refl
+length-snoc (x ∷ xs) y = cong succ (length-snoc xs y)
+```
+
 
 ## Exercise: Empty list neutral for concatenation
 

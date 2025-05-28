@@ -7,6 +7,7 @@ module Padova2025.ProvingBasics.Termination.Gas where
 ```
 open import Padova2025.ProgrammingBasics.Naturals.Base
 open import Padova2025.ProgrammingBasics.Naturals.Arithmetic
+open import Padova2025.ProgrammingBasics.Lists
 open import Padova2025.ProvingBasics.Equality.Base
 ```
 
@@ -111,6 +112,26 @@ digits₃''' x = go (succ x) x
 However, proofs involving any of these versions of `digits₃` are still quite
 intricate, and also not particularly insightful. As an exercise, you could try
 proving that `digits₃' x` is of the form `just _` for every number `x`.
+
+
+### Other applications of `Maybe`
+
+The expression `lookupMaybe xs n` should reduce to (`just` of) element
+nr. `n` of the list `xs` if such an element exists, and to `nothing`
+otherwise.
+
+```
+lookupMaybe : {X : Set} → List X → ℕ → Maybe X
+-- Holify
+lookupMaybe []        n        = nothing
+lookupMaybe (x ∷ xs) zero     = just x
+lookupMaybe (x ∷ xs) (succ n) = lookupMaybe xs n
+
+-- Tests
+-- EX: lookupMaybe (four ∷ two ∷ one ∷ []) one   ≡ just two
+-- EX: lookupMaybe (four ∷ two ∷ one ∷ []) two   ≡ just one
+-- EX: lookupMaybe (four ∷ two ∷ one ∷ []) three ≡ nothing
+```
 
 
 ## Prooflessly extracting results in concrete instances

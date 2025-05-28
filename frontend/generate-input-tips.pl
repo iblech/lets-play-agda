@@ -85,6 +85,7 @@ __DATA__
 ↝ leadsto
 ↝ r~
 ∃ exists
+∇ nabla
 ∈ in
 ∶ :
 ⊥ bot

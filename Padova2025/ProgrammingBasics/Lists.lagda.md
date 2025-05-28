@@ -182,6 +182,19 @@ downFrom (succ n) = n ∷ downFrom n
 -- EX: downFrom three ≡ two ∷ one ∷ zero ∷ []
 ```
 
+Similarly, implement a function `upTo : ℕ → List ℕ` such that for instance
+`upTo three` reduces to `zero ∷ one ∷ two ∷ []`.
+
+```
+upTo : ℕ → List ℕ
+-- Holify
+upTo zero     = []
+upTo (succ n) = zero ∷ map succ (upTo n)
+
+-- Tests
+-- EX: upTo three ≡ zero ∷ one ∷ two ∷ []
+```
+
 
 ## Exercise: A higher-kinded function
 
