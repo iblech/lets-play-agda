@@ -22,9 +22,6 @@ stdenv.mkDerivation rec {
     rm -rf cache
     cp -r --reflink=auto ${cache} cache
     chmod -R u+w cache
-    ls -l
-    ls -l cache
-    pwd
     ./frontend/build.sh
   '';
   installPhase = ''
