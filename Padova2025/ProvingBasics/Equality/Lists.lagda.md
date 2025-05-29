@@ -76,7 +76,7 @@ snoc-++ a []       ys = refl
 snoc-++ a (x ∷ xs) ys = cong (x ∷_) (snoc-++ a xs ys)
 ```
 
-## Exercise: Length after scocking
+## Exercise: Length after snocking
 
 ```
 length-snoc : {A : Set} (xs : List A) (y : A) → length (xs ∷ʳ y) ≡ succ (length xs)
