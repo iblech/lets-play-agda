@@ -6,7 +6,6 @@ module Padova2025.Explorations.Forcing.Cohen (X : Set) (x₀ : X) where
 # Cohen forcing
 
 ```
-open import Padova2025.ProgrammingBasics.Booleans
 open import Padova2025.ProgrammingBasics.Lists
 open import Padova2025.ProgrammingBasics.Naturals.Base
 open import Padova2025.ProgrammingBasics.Naturals.Arithmetic
