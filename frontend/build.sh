@@ -143,6 +143,10 @@ for i in *.md; do
     export basename="${i%.md}"
     export source="${basename//./\/}.lagda.md"
 
+    if [ "$modulename" = "Padova2025.Welcome" ]; then
+      title="Welcome"
+    fi
+
     {
       echo -n "recordTargets(\"$modulename\", \""
       < "$i" perl -nwe 'print $_, $/ for /id="([^"]+)"/' | egrep -v "^[0-9]*$" | sed -e 's+&lt;+<+g' -e 's+&gt;+>+g' -e 's+&#39;+'\''+g' -e 's+&amp;+\&+g' | LC_ALL=C sort | tr '\n' ' ' | sed -e 's+ $++'
