@@ -5,6 +5,10 @@ module Padova2025.ComputationalContent.DoubleNegation (⊥ : Set) where
 
 # Sarcastic interpretation of classical logic
 
+::: Todo :::
+Explain.
+:::
+
 ```
 open import Padova2025.ProvingBasics.Connectives.Disjunction
 ```

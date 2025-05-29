@@ -16,6 +16,10 @@ open import Padova2025.ProvingBasics.Equality.NaturalNumbers
 open import Padova2025.ProvingBasics.Termination.Gas using (𝟙; tt)
 ```
 
+::: Todo :::
+Proper introduction. Split off menagerie of types.
+:::
+
 
 ## Unordered pairs
 
