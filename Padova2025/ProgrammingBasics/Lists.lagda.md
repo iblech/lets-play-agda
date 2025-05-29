@@ -110,6 +110,21 @@ _++_ (x ∷ xs) ys = x ∷ (xs ++ ys)
 ```
 
 
+## Exercise: Dropping initial elements
+
+For instance, `drop one (a ∷ b ∷ c ∷ [])` should evaluate to `b ∷ c ∷ []`.
+
+```
+drop : {A : Set} (k : ℕ) → List A → List A
+drop zero     xs       = xs
+drop (succ k) []       = []
+drop (succ k) (x ∷ xs) = drop k xs
+
+-- Tests
+-- EX: drop one (zero ∷ one ∷ two ∷ []) ≡ one ∷ two ∷ []
+```
+
+
 ## Exercise: Mapping over lists
 
 Define the `map` function, which should apply the supplied function `f` to each

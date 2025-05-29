@@ -61,9 +61,9 @@ approximate π by the rational numbers displayed above.
 
 For instance, we can approximate a (phantastical) prime ideal in a
 given commutative ring $R$ by finitely generated ideals
-$\mathfrak{a}$. When we encounter the situation $xy ∈ \mathfrak{a}$,
+$\mathfrak{a}$, starting with $\mathfrak{a} = (0)$. When we encounter the situation $xy ∈ \mathfrak{a}$,
 we need to improve the approximation $\mathfrak{a}$ to $\mathfrak{a} +
-(x)$ or $\mathfrak{a} + (y)$, to ensure the prime ideal condition
+(x)$ or to $\mathfrak{a} + (y)$, to ensure the prime ideal condition
 $xy ∈ \mathfrak{p} ⇒ (x ∈ \mathfrak{p} \vee y ∈ \mathfrak{p})$
 in the limit.
 
