@@ -1,4 +1,5 @@
 ```
+{-# OPTIONS --cubical-compatible #-}
 open import Padova2025.ProgrammingBasics.Lists
 open import Padova2025.ProvingBasics.Connectives.Disjunction
 

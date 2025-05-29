@@ -1,4 +1,5 @@
 ```
+{-# OPTIONS --cubical-compatible #-}
 module Padova2025.Explorations.Uncountability.Lawvere
   {A X : Set} (f : A → (A → X)) (g : X → X) where
 ```

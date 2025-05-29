@@ -1,6 +1,7 @@
 # Agda as a programming language
 
 ```
+{-# OPTIONS --cubical-compatible #-}
 module Padova2025.ProgrammingBasics where
 
 import Padova2025.ProgrammingBasics.Booleans

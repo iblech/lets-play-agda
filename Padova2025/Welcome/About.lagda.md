@@ -152,6 +152,7 @@ Here is a list of Unicode symbols used in this course.
 
 <!--
 ```
+{-# OPTIONS --cubical-compatible #-}
 module Padova2025.Welcome.About where
 ```
 -->

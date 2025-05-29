@@ -1,4 +1,5 @@
 ```
+{-# OPTIONS --cubical-compatible #-}
 module Padova2025.ProvingBasics.Equality.Reasoning.Core where
 
 open import Padova2025.ProvingBasics.Equality.Base

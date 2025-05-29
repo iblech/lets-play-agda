@@ -1,4 +1,5 @@
 ```
+{-# OPTIONS --cubical-compatible #-}
 open import Padova2025.ProvingBasics.Termination.WellFounded.Base
 open import Padova2025.ProvingBasics.Equality.Base
 ```

@@ -1,4 +1,5 @@
 ```
+{-# OPTIONS --cubical-compatible #-}
 module Padova2025.ProvingBasics.Termination.WellFounded.Examples where
 ```
 

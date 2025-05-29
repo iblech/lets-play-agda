@@ -7,8 +7,8 @@
     '(("\\.agda\\'" . agda2-mode)
       ("\\.lagda.md\\'" . agda2-mode))
     auto-mode-alist))
-; let's not have the following line, so that people can experiment with unsafe features:
-; (setq agda2-arguments '("--safe" "--cubical-compatible"))
+(with-eval-after-load "agda2-mode"
+  (setq agda2-program-args '("-WnoUnsupportedIndexedMatch")))
 
 (setq-default indent-tabs-mode nil)
 

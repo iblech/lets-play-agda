@@ -63,7 +63,7 @@ if [ -z "$quick" ]; then
   find Padova2025 -name '*agda*' | grep -v "#" | xargs perl -i -pwe '
     s/^--\s*EX:\s*(.*)$/module _ where private\n  open import Padova2025.ProvingBasics.Equality.Base\n  lets-play-agda-test : $1\n  lets-play-agda-test = refl\n/g;
   '
-  agda --cubical-compatible --exact-split -WnoUnsupportedIndexedMatch Padova2025/Index.lagda.md
+  agda --exact-split -WnoUnsupportedIndexedMatch Padova2025/Index.lagda.md
   # We allow people to play with unsafe features.
   # But we hold ourselves to the higher standard of --safe --cubical-compatible.
   # XXX: Make this comment true again.
@@ -77,7 +77,7 @@ if [ -z "$quick" ]; then
     BEGIN { $/ = undef }
     s#^-- Tests.*?```#```#mgs;
   '
-  agda --html --html-highlight=code Padova2025/Index.lagda.md
+  agda -WnoUnsupportedIndexedMatch --html --html-highlight=code Padova2025/Index.lagda.md
 
   mkdir solutions
   for i in html/*.md; do
@@ -109,7 +109,7 @@ find Padova2025 -name '*agda*' | grep -v "#" | xargs perl -i -pwe '
   s#-- Holify\n([^ ]*).*?```#$1 = {!!}\n```#gs;
   s#^-- Tests.*?```#```#mgs;
 '
-agda --allow-unsolved-metas --html --html-highlight=code Padova2025/Index.lagda.md
+agda -WnoUnsupportedIndexedMatch --allow-unsolved-metas --html --html-highlight=code Padova2025/Index.lagda.md
 
 if [ -z "$quick" ]; then
   generate_zip Padova2025 > Padova2025.zip
@@ -150,7 +150,7 @@ for i in *.md; do
     echo ";" >> "$basename.targets"
 
     pandoc -o "$bodyfile" "$i"
-    sed -i -e '0,/<pre class="Agda">\(.*module.*where.*\)/ { s/<pre class="Agda">\(.*module.*where.*\)/<pre class="Agda inessential">\1/; }' "$bodyfile"
+    sed -i -e 's/<a id="[0-9]\+" class="Symbol">{-#.*/<span class="inessential">\0<\/span>/' "$bodyfile"
     perl -i -pe 'BEGIN { $/ = undef } s#\n\n</pre>#\n</pre>#g' "$bodyfile"
 
     < ../frontend/template.html \

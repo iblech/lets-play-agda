@@ -12,6 +12,7 @@ For installing Agda on your own computer, check out
 
 <!--
 ```
+{-# OPTIONS --cubical-compatible #-}
 module Padova2025.Welcome.GettingAgda where
 ```
 -->

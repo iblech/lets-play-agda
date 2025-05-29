@@ -85,6 +85,7 @@ For instance, there is a type of witnesses...
 
 <!--
 ```
+{-# OPTIONS --cubical-compatible #-}
 module Padova2025.Welcome where
 
 import Padova2025.Welcome.About

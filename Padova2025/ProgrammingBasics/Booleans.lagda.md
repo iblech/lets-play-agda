@@ -1,4 +1,5 @@
 ```
+{-# OPTIONS --cubical-compatible #-}
 module Padova2025.ProgrammingBasics.Booleans where
 ```
 

@@ -11,6 +11,7 @@
 
 <!--
 ```
+{-# OPTIONS --cubical-compatible #-}
 module Padova2025.Welcome.References where
 ```
 -->
