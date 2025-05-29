@@ -105,7 +105,7 @@ echo
 echo "* Generating HTML for exercises..."
 find Padova2025 -name '*agda*' | grep -v "#" | xargs perl -i -pwe '
   BEGIN { $/ = undef }
-  s/^/```\n{-# OPTIONS --allow-unsolved-metas #-}\n```\n/;
+  s/^/```\n{-# OPTIONS --allow-unsolved-metas #-}\n```\n\n/;
   s/#[^\n]*\/\/\s*([^\n]*)/# $1/g;
   s/\{--\}.*?\{--\}/{!!}/gs;
   s#-- Holify\n([^ ]*).*?```#$1 = {!!}\n```#gs;
@@ -114,7 +114,7 @@ find Padova2025 -name '*agda*' | grep -v "#" | xargs perl -i -pwe '
 agda -WnoUnsupportedIndexedMatch --html --html-highlight=code Padova2025/Index.lagda.md
 find Padova2025 -name "*.lagda.md" | xargs perl -i -pe '
   BEGIN { $/ = undef }
-  s/```\n\{-# OPTIONS --allow-unsolved-metas #-\}\n```\n//;
+  s/```\n\{-# OPTIONS --allow-unsolved-metas #-\}\n```\n\n//;
 '
 
 if [ -z "$quick" ]; then
