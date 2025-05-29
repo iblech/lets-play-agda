@@ -87,6 +87,7 @@ __DATA__
 ∃ exists
 ∇ nabla
 ∈ in
+∙ .
 ∶ :
 ⊥ bot
 ⋰ rddots
