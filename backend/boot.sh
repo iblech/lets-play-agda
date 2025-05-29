@@ -3,7 +3,7 @@
 set -e
 
 # precompile the Agda sources for faster C-c C-l in the containers
-agda Padova2025/Index.lagda.md
+agda -WnoUnsupportedIndexedMatch Padova2025/Index.lagda.md
 
 # -t fontFamily="'JuliaMono', serif" \
 exec ttyd \

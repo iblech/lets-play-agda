@@ -1,5 +1,5 @@
 ```
-{-# OPTIONS --cubical-compatible #-}
+{-# OPTIONS --cubical #-}
 module Padova2025.Cubical where
 ```
 

@@ -4,6 +4,7 @@ set -e
 
 export quick="$1"
 export commit_id="$(cat COMMIT_ID || echo main)"
+export AGDA_DIR=$PWD/backend/config-agda
 
 mkdir -p cache
 
@@ -63,7 +64,7 @@ if [ -z "$quick" ]; then
   find Padova2025 -name '*agda*' | grep -v "#" | xargs perl -i -pwe '
     s/^--\s*EX:\s*(.*)$/module _ where private\n  open import Padova2025.ProvingBasics.Equality.Base\n  lets-play-agda-test : $1\n  lets-play-agda-test = refl\n/g;
   '
-  agda --exact-split -WnoUnsupportedIndexedMatch Padova2025/Index.lagda.md
+  agda -WnoUnsupportedIndexedMatch Padova2025/Index.lagda.md
   # We allow people to play with unsafe features.
   # But we hold ourselves to the higher standard of --safe --cubical-compatible.
   # XXX: Make this comment true again.
@@ -104,12 +105,17 @@ echo
 echo "* Generating HTML for exercises..."
 find Padova2025 -name '*agda*' | grep -v "#" | xargs perl -i -pwe '
   BEGIN { $/ = undef }
+  s/^/```\n{-# OPTIONS --allow-unsolved-metas #-}\n```\n/;
   s/#[^\n]*\/\/\s*([^\n]*)/# $1/g;
   s/\{--\}.*?\{--\}/{!!}/gs;
   s#-- Holify\n([^ ]*).*?```#$1 = {!!}\n```#gs;
   s#^-- Tests.*?```#```#mgs;
 '
-agda -WnoUnsupportedIndexedMatch --allow-unsolved-metas --html --html-highlight=code Padova2025/Index.lagda.md
+agda -WnoUnsupportedIndexedMatch --html --html-highlight=code Padova2025/Index.lagda.md
+find Padova2025 -name "*.lagda.md" | xargs perl -i -pe '
+  BEGIN { $/ = undef }
+  s/```\n\{-# OPTIONS --allow-unsolved-metas #-\}\n```\n//;
+'
 
 if [ -z "$quick" ]; then
   generate_zip Padova2025 > Padova2025.zip
@@ -151,7 +157,11 @@ for i in *.md; do
 
     pandoc -o "$bodyfile" "$i"
     sed -i -e 's/<a id="[0-9]\+" class="Symbol">{-#.*/<span class="inessential">\0<\/span>/' "$bodyfile"
-    perl -i -pe 'BEGIN { $/ = undef } s#\n\n</pre>#\n</pre>#g' "$bodyfile"
+    perl -i -pe '
+      BEGIN { $/ = undef }
+      s#\n\n</pre>#\n</pre>#g;
+      s#<pre.*?Keyword">OPTIONS.*?--allow-unsolved-metas.*?</span>\n</pre>##;
+    ' "$bodyfile"
 
     < ../frontend/template.html \
     perl -pwe '

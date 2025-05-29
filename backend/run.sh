@@ -35,6 +35,7 @@ exec bwrap \
   --chdir / \
   --ro-bind "$1"/Padova2025 /home/user/Padova2025.orig \
   --ro-bind "$1"/backend/site-start.el /home/user/.emacs \
+  --ro-bind "$1"/backend/config-agda /home/user/.config/agda \
   --ro-bind "$1"/backend/hello.txt /home/user/.hello.txt \
   bash -c '
     set -e
