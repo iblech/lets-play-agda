@@ -10,6 +10,7 @@ Frontend:
 - warn on accidental close
 - check solutions with --safe again
 - show keywords of solutions as hints
+- size of Agda frames on smaller screens
 
 Backend:
 - accept solution submissions
@@ -33,7 +34,6 @@ Content:
 - cong! macro
 - model of CZF, link ordinal paper
 - PA
-- ordinals
 - STLC
 - proof scripts
 - cite https://pujet.fr/pdf/uniquechoice_slides.pdf
@@ -43,7 +43,6 @@ Content:
 - non-wellfounded models of set theory, i.e. https://git.app.uib.no/hott/hott-set-theory/-/blob/master/src/hott-set-theory-everything.agda?ref_type=heads
 - cite https://unimath.github.io/agda-unimath/set-theory.html
 - lambda
-- show as hints all used functions
-- computational content
-  - https://rt.quasicoherent.io/solutions/Verona2024.Basics.Minima.html
 - preimage of well-founded relation
+- Booleans/gamma
+- why not always vectors?

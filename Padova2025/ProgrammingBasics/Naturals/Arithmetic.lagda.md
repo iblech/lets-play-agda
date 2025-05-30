@@ -149,7 +149,7 @@ infixl 7 _·_
 ```
 
 ```
-_·_ : ℕ → ℕ → ℕ
+_·_ : ℕ → ℕ → ℕ  -- enter `·` as `\cdot`
 zero   · b = {--}zero{--}
 succ a · b = {--}b + (a · b){--}
 
