@@ -172,7 +172,7 @@ P ⇒-naive Q = λ xs → P xs → Q xs
 -- rejected proposal
 ```
 
-This definition does not account for possibility of `xs` evolving
+This definition does not account for the possibility of `xs` evolving
 to better approximations. The established definition fixes this issue:
 
 ```
@@ -227,7 +227,7 @@ infix 3 ⫬_
 ⫬_ P = P ⇒ ⫫
 ```
 
-The following observation is occassionally useful in order to
+The following observation is occasionally useful in order to
 establish that certain double negations hold.
 
 ```
