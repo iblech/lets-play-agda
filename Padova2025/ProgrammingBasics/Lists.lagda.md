@@ -100,6 +100,7 @@ Define a binary operator which concatenates two lists. For instance,
 `(a ∷ b ∷ []) ++ (c ∷ d ∷ [])` should reduce to `a ∷ b ∷ c ∷ d ∷ []`.
 
 ```
+infixr 5 _++_
 _++_ : {A : Set} → List A → List A → List A
 -- Holify
 _++_ []       ys = ys
