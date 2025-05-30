@@ -131,6 +131,15 @@ succ-injective = cong pred
 ```
 
 
+## Exercise: Cancelling on the left
+
+```
++-cancelₗ : (a x y : ℕ) → a + x ≡ a + y → x ≡ y
++-cancelₗ zero     x y p = p
++-cancelₗ (succ a) x y p = +-cancelₗ a x y (succ-injective p)
+```
+
+
 ## Exercise: Half twice
 
 ```

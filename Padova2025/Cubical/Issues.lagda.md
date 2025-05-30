@@ -3,7 +3,7 @@
 module Padova2025.Cubical.Issues where
 ```
 
-# Issues with standard Agda 🚧
+# Issues with standard Agda
 
 ```
 import Padova2025.Cubical.Issues.FunctionExtensionality
