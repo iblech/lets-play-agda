@@ -10,7 +10,7 @@ Padova](https://www.unipd.it/en/dm).
 <!--<div style="background-color: mediumpurple; padding: 1em; color: white">-->
 <div style="outline: 3px solid mediumpurple; padding: 0.5em; border: 1px solid transparent; border-radius: 0.3rem">
   👋 Padova students:
-  <a href="https://agdapad.quasicoherent.io/~Padova2025/"><strong>Transcripts and links</strong></a>
+  <a href="https://agdapad.quasicoherent.io/~Padova2025/"><strong>Transcripts, recordings and links</strong></a>
   accompanying our sessions
 </div>
 
