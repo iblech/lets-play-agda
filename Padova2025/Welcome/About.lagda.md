@@ -74,6 +74,7 @@ The [confetti animation](javascript:showConfetti()) is by
 - [Holbert](https://liamoc.net/holbert/)
 - [Lean Game Server](https://adam.math.hhu.de/)
 - [Rocq interactive online system](https://coq.vercel.app/)
+  (see also [the thesis of Jelle Wemmenhove](https://pure.tue.nl/ws/portalfiles/portal/353344889/20250321_Wemmenhove_hf.pdf))
 
 
 ## Working locally
