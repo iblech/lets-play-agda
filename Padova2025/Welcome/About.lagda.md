@@ -47,7 +47,7 @@ appreciated:
 
 - Fredrik Nordvall Forsberg
 - Johannes Hartung
-- Jacopo Pedro
+- Jacopo Piccione
 
 
 ### Open source dependencies
