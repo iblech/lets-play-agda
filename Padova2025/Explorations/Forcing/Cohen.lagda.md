@@ -14,7 +14,7 @@ open import Padova2025.ProvingBasics.Equality.Base
 open import Padova2025.ProvingBasics.Equality.General
 open import Padova2025.ProvingBasics.Equality.Lists
 open import Padova2025.ProvingBasics.Termination.Ordering
-open import Padova2025.ProvingBasics.Termination.Gas using (Maybe; nothing; just; lookupMaybe)
+open import Padova2025.ProvingBasics.Termination.Gas using (Maybe; nothing; just; lookupMaybe; just-injective)
 open import Padova2025.ProvingBasics.Connectives.Existential
 ```
 
@@ -244,23 +244,21 @@ any given sequence `ℕ → X` of the base universe in at least one term---assum
 that there is some fixpoint-free function `step : X → X`.
 
 ```
+lemma-lookup-last : (xs : L) (a : X) → lookupMaybe (xs ++ (a ∷ [])) (length xs) ≡ just a
+-- Holify
+lemma-lookup-last []       a = refl
+lemma-lookup-last (x ∷ xs) a = lemma-lookup-last xs a
+```
+
+```
 f₀-fresh
   : (step : X → X) (fixpoint-free : {x : X} → step x ≡ x → ⊥)
   → (g : ℕ → X)
   → (⫬ ⫬ (∇' (∃[ n ] (f₀[ n ]≡ step (g n))))) []
 -- Holify
 f₀-fresh step fixpoint-free g = dense→negneg {∇' (∃[ n ] (f₀[ n ]≡ step (g n)))} λ xs →
-  step (g (length xs)) ∷ [] , now (length xs , lemma xs (step (g (length xs))))
-  where
-  lemma : (xs : L) (a : X) → lookupMaybe (xs ++ (a ∷ [])) (length xs) ≡ just a
-  lemma []       a = refl
-  lemma (x ∷ xs) a = lemma xs a
+  step (g (length xs)) ∷ [] , now (length xs , lemma-lookup-last xs (step (g (length xs))))
 ```
-
-::: Hint :::
-Use `dense→negneg`, and prove the following auxiliary lemma:
-`(xs : L) (a : X) → lookupMaybe (xs ++ (a ∷ [])) (length xs) ≡ just a`
-:::
 
 <!--
 ```code
@@ -303,4 +301,49 @@ finite prefix) of any actual sequence in the base universe."
 ```
 generic⇒actual₀ : {P : L → Set} → (f : ℕ → X) → ∇ P [] → ∃[ m ] P (f ↓ m)
 generic⇒actual₀ f = generic⇒actual f zero
+```
+
+
+## Markov's principle
+
+Markov's principle states: If a sequence `ℕ → ℕ` does *not not* have a zero,
+then it actually has a zero. As an instance of the principle of double negation
+elimination, Markov's principle is readily available in classical mathematics;
+it is a taboo in most flavors of constructive mathematics. Specifically, in this
+section we will explore that Markov's principle is falsified by the generic sequence.
+
+Let us first prove that the generic sequence does *not not* assume a certain value
+`z`, as in the antecedent of Markov's principle. (The value `z` is a placeholder
+for the natural number zero, which is an element of our fixed type `X` only in
+case `X = ℕ`.)
+
+```
+generic-not-not-has-zero : (z : X) → (⫬ ⫬ (∇' (∃[ n ] f₀[ n ]≡ z))) []
+-- Holify
+generic-not-not-has-zero z = dense→negneg {(∇' (∃[ n ] f₀[ n ]≡ z))}
+  λ xs → z ∷ [] , now (length xs , lemma-lookup-last xs z)
+```
+
+Contrary to what Markov's principle would predict, let us now also
+prove that it is not the case that the generic sequence actually
+attains the value `z`---assuming that there is some distinct value `w`
+in `X`. This shows that Markov's principle is not valid for the
+generic sequence.
+
+```
+↓-constant : (w : X) (n : ℕ) → (λ _ → w) ↓ n ≡ replicate n w
+-- Holify
+↓-constant w zero     = refl
+↓-constant w (succ n) = trans (cong (_∷ʳ w) (↓-constant w n)) (sym (replicate-snoc n w))
+```
+
+```
+not-generic-has-zero : (z w : X) → w ≢ z → ¬ (∇' (∃[ n ] f₀[ n ]≡ z) [])
+not-generic-has-zero z w w≢z p with generic⇒actual₀ (λ _ → w) p
+... | n , m , q = go n m {--}(trans (sym (cong (λ xs → lookupMaybe xs m) (↓-constant w n))) q){--}
+  where
+  go : (n m : ℕ) → lookupMaybe (replicate n w) m ≡ just z → ⊥
+  go zero     m        = {--}λ (){--}
+  go (succ n) zero     = {--}λ r → w≢z (just-injective r){--}
+  go (succ n) (succ m) = {--}go n m{--}
 ```

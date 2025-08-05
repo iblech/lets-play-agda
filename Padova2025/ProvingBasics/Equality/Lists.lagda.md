@@ -67,6 +67,20 @@ replicate-natural f (succ n) x = cong (f x ∷_) (replicate-natural f n x)
 ```
 
 
+## Exercise: Replication and snocking
+
+The following lemma will prove useful in verifying that [Markov's
+principle fails in some mathematical
+universes](Padova2025.Explorations.Forcing.Cohen.html#markovs-principle).
+
+```
+replicate-snoc : {A : Set} (n : ℕ) (x : A) → x ∷ replicate n x ≡ replicate n x ∷ʳ x
+-- Holify
+replicate-snoc zero     x = refl
+replicate-snoc (succ n) x = cong (x ∷_) (replicate-snoc n x)
+```
+
+
 ## Exercise: Snocking and concatenation
 
 ```

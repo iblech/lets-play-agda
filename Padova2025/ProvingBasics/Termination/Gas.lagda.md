@@ -124,7 +124,7 @@ otherwise.
 ```
 lookupMaybe : {X : Set} → List X → ℕ → Maybe X
 -- Holify
-lookupMaybe []        n        = nothing
+lookupMaybe []       n        = nothing
 lookupMaybe (x ∷ xs) zero     = just x
 lookupMaybe (x ∷ xs) (succ n) = lookupMaybe xs n
 
@@ -132,6 +132,15 @@ lookupMaybe (x ∷ xs) (succ n) = lookupMaybe xs n
 -- EX: lookupMaybe (four ∷ two ∷ one ∷ []) one   ≡ just two
 -- EX: lookupMaybe (four ∷ two ∷ one ∷ []) two   ≡ just one
 -- EX: lookupMaybe (four ∷ two ∷ one ∷ []) three ≡ nothing
+```
+
+
+### Injectivity of the constructor
+
+```
+just-injective : {X : Set} {a b : X} → just a ≡ just b → a ≡ b
+-- Holify
+just-injective refl = refl
 ```
 
 
