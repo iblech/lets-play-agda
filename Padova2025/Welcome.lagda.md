@@ -61,15 +61,15 @@ For instance, there is a type of witnesses...
 
 - that `2 + 2` equals `4` <span class="inessential">(this type is
   inhabited)</span>;
-- that `2 + 2` equals `5` <span class="inessential">(this type is empty);
+- that `2 + 2` equals `5` <span class="inessential">(this type is empty)</span>;
 - that there are prime numbers larger than 42 <span class="inessential">(this
   type contains infinitely many values, for instance the pair `(43 , p)`, where
-  `p` is a witness that `43` is a prime larger than `42`)</span>
+  `p` is a witness that `43` is a prime larger than `42`)</span>;
 - that there are infinitely many prime numbers;
 - that a given sorting function `sort` works correctly
   <span class="inessential">(this type contains functions which read an
   arbitrary list `xs` as input and output a witness that `sort xs` is
-  ascendingly ordered)</span>
+  ascendingly ordered)</span>;
 - that the continuum hypothesis holds;
 - and so on.
 
