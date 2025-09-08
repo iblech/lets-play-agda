@@ -57,6 +57,11 @@ if [ -z "$quick" ]; then
   generate_zip Padova2025 > Padova2025-solutions.zip
 fi
 
+if find Padova2025 -name '*agda.md' | grep -v "#" | xargs grep -q $'\t'; then
+  echo "Found tabs in source files, aborting."
+  exit 1
+fi
+
 if [ -z "$quick" ]; then
   echo
   echo "* Checking solutions..."
