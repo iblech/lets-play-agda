@@ -180,6 +180,7 @@ Show that negations are propositions.
 
 ```
 lemma-negations-are-props : (X : Set) → isProp' (X → ⊥)
+-- Holify
 lemma-negations-are-props X f g = funext λ x → ⊥-isProp (f x) (g x)
 ```
 

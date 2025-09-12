@@ -16,7 +16,7 @@ field ℝ fails to contain a square root of $-1$, hence we enlarge ℝ to ℂ.
 
 In the 1970s, Paul Cohen pioneered a technique for enlarging not a particular
 mathematical structure such as a field or a ring, but to enlarge the given
-the *mathematical universe itself*. For instance, starting from the base
+*mathematical universe itself*. For instance, starting from the base
 universe, we can construct so-called
 [forcing extensions](https://en.wikipedia.org/wiki/Forcing_(mathematics))
 in which...
@@ -49,7 +49,7 @@ $R$-algebra*, which is the starting point of synthetic algebraic
 geometry. This account of algebraic geometry allows us to
 do modern Grothendieck-style algebraic geometry (over arbitrary
 base schemes) using a simple language reminiscient of the classical
-Italian school of algebraic geometers (who worked only over ℂ),
+Italian school of algebraic geometers (but who worked only over ℂ),
 avoiding the need to manage technicalities of schemes.
 
 
@@ -81,7 +81,7 @@ over the finite lists of elements of $X$ in such a way that the new
 approximation includes a given element `w` as one of its terms, in order
 to make $f$ more surjective.
 
-Giving a precise account of forcing in Agda, which is true in all
+Giving a precise account of forcing in Agda, which is faithful in all
 details to usual presentations of Grothendieck toposes in blackboard
 mathematics, is a challenge. In the next sections, we will explore a
 simplified version which has certain issues, but still allows us to

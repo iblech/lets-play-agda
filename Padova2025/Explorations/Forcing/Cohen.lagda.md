@@ -18,6 +18,8 @@ open import Padova2025.ProvingBasics.Termination.Gas using (Maybe; nothing; just
 open import Padova2025.ProvingBasics.Connectives.Existential
 ```
 
+This module is parametrized by a set `X` which we assume to be inhabited by at
+least one element `x₀`.
 The purpose of this module is to provide suitable definitions so that
 we can explore a forcing extension of the base universe in which a
 *generic infinite sequence of elements of `X`* exists, i.e. a *generic
@@ -28,7 +30,8 @@ allows us to enlarge the base universe by a new function `ℕ → X`
 
 This new function is *generic* in the sense that, for every property
 `P` of a certain kind, if `f₀` has it, then so does every function
-`f : ℕ → X` from the base universe.
+`f : ℕ → X` from the base universe (and indeed even every function `ℕ → X` in
+any forcing extension).
 
 
 ## Approximating by finite lists
@@ -51,7 +54,11 @@ The operator `∇` is a so-called *modality*, more precisely the
 
 ```
 data ∇ (P : L → Set) : L → Set where
+  -- "P xs holds already now, no refinement required."
   now   : {xs : L} → P xs → ∇ P xs
+
+  -- "P xs might not hold now, we need to wait at least for
+  -- xs to grow by one element."
   later : {xs : L} → ((x : X) → ∇ P (xs ∷ʳ x)) → ∇ P xs
 ```
 
@@ -132,8 +139,8 @@ f₀[_]≡_ : {{L}} → ℕ → X → Set
 f₀[ n ]≡ x = lookupMaybe cur n ≡ just x
 ```
 
-To talk about the generic sequence `f₀`, which only really exists
-in the forcing extension, from the point of view of the base universe,
+The generic sequence `f₀` exists a single entity only in the forcing extension.
+To talk about it from the point of view of the base universe,
 we need to keep track of the current approximation and be prepared to
 let the current approximation evolve to a better one.
 
@@ -156,7 +163,7 @@ f₀-total n = eventually-length (succ n) >>= λ len>n → now (lemma-lookup _ _
 ```
 
 
-## Implication and negation in the forcing extension
+## Implication in the forcing extension
 
 Let `P` and `Q` be two approximation-dependent propositions,
 i.e. functions of type `L → Set`. What should it mean that `P`
@@ -168,27 +175,38 @@ which however we reject.
 
 ```
 _⇒-naive_ : (L → Set) → (L → Set) → (L → Set)
-P ⇒-naive Q = λ xs → P xs → Q xs
+P ⇒-naive Q = λ xs → (P xs → Q xs)
 -- rejected proposal
 ```
 
 This definition does not account for the possibility of `xs` evolving
-to better approximations. The established definition fixes this issue:
+to better approximations. The following actually adopted definition fixes this issue:
 
 ```
 _⇒_ : (L → Set) → (L → Set) → (L → Set)
-P ⇒ Q = λ xs → (ys : L) → P (xs ++ ys) → Q (xs ++ ys)
+P ⇒ Q = λ xs → ((ys : L) → P (xs ++ ys) → Q (xs ++ ys))
 ```
 
+Thorsten Altenkirch calls this style of definition *the logic of storytelling*:
+Assume that, in a fantasy story, the wise wizard offers the counsel
+"If our enemies cross that bridge, we will lose the war". This assertion does
+not only mean that if the enemies cross the bridge now, the protagonists will
+lose the war at that moment. It rather means that if at some point in the
+future, after the story has continued, the enemies cross the bridge, the
+protagonists will then lose the war.
+
+
+## Negation in the forcing extension
+
 Similarly, a principled definition of the forcing extension's bottom
-proposition would not be this...
+proposition is *not*...
 
 ```
 ⫫-naive : L → Set
 ⫫-naive xs = ⊥
 ```
 
-...but this:
+...but rather:
 
 ```
 ⫫-principled : L → Set
@@ -196,7 +214,11 @@ proposition would not be this...
 -- fully spelled out: ⫫ xs = ∇ (λ ys → ⊥) xs
 ```
 
-But as we have assumed, in the very beginning of this file, that the type `X`
+In other words, `⫫-principled xs` means that (eventually, after sufficiently
+many refinements) `⊥` will hold. It is a positive way of expressing that the
+given approximation `xs` is a dead end.
+
+Fortunately, as we have assumed (in the very beginning of this file), that the type `X`
 is inhabited (by some element `x₀`), the two definitions are actually equivalent,
 and hence we will adopt the simpler one for the remaining development.
 
@@ -204,6 +226,8 @@ and hence we will adopt the simpler one for the remaining development.
 ⫫ : L → Set
 ⫫ = ⫫-naive
 ```
+
+Verifying that the principled definition indeed implies the naive one:
 
 ```
 escape : {R : Set} {xs : L} → ∇' R xs → R
@@ -235,6 +259,29 @@ dense→negneg : {P : L → Set} → ((xs : L) → ∃[ ys ] P (xs ++ ys)) → (
 -- Holify
 dense→negneg h = λ xs q → q (fst (h xs)) (snd (h xs))
 ```
+
+::: More :::
+In fact, a slightly more general result holds:
+
+```
+almostdense→negneg : {P : L → Set} → ((xs : L) → ¬ ¬ (∃[ ys ] P (xs ++ ys))) → (⫬ ⫬ P) []
+-- Holify
+almostdense→negneg h = λ xs q → h xs λ p → q (fst p) (snd p)
+```
+
+```
+negneg→almostdense : {P : L → Set} → (⫬ ⫬ P) [] → ((xs : L) → ¬ ¬ (∃[ ys ] P (xs ++ ys)))
+-- Holify
+negneg→almostdense m xs f = m xs λ ys p → f (ys , p)
+```
+:::
+
+This result (which, after a small modification is strengthened to an
+equivalence in the folded subsection) suggests that dobule negation in
+the forcing extension can be pronounced as *potentially*. The assertion
+`(⫬ ⫬ P) []` means that it is *possible* for any given approximation
+`xs` to evolve to a list which validates `P`, without presupposing
+that no `P` will always hold eventually.
 
 
 ## Freshness of the generic sequence
@@ -312,8 +359,8 @@ elimination, Markov's principle is readily available in classical mathematics;
 it is a taboo in most flavors of constructive mathematics. Specifically, in this
 section we will explore that Markov's principle is falsified by the generic sequence.
 
-Let us first prove that the generic sequence does *not not* assume a certain value
-`z`, as in the antecedent of Markov's principle. (The value `z` is a placeholder
+Let us first prove that the generic sequence does *not not* have a certain value
+`z` as one of its terms, as in the antecedent of Markov's principle. (The value `z` is a placeholder
 for the natural number zero, which is an element of our fixed type `X` only in
 case `X = ℕ`.)
 
@@ -325,7 +372,7 @@ generic-not-not-has-zero z = dense→negneg {(∇' (∃[ n ] f₀[ n ]≡ z))}
 ```
 
 Contrary to what Markov's principle would predict, let us now also
-prove that it is not the case that the generic sequence actually
+prove that it is *not* the case that the generic sequence actually
 attains the value `z`---assuming that there is some distinct value `w`
 in `X`. This shows that Markov's principle is not valid for the
 generic sequence.
