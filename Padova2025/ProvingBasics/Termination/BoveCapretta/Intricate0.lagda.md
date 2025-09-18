@@ -23,7 +23,9 @@ Agda rejects this definition with the comment "Termination checking
 failed". Agda's termination checker does not have any insight on what
 the value of `f x` in the recursive call `f (f x)` will turn out to
 be. But even though this fact is not obvious to Agda, the recursive
-call terminates and the function `f` is constantly zero.
+call does indeed terminate and the function `f` is constantly zero. The goal of
+this section is to represent this function in Agda in a way that Agda accepts
+and then verify totality.
 
 
 ## Representing the function

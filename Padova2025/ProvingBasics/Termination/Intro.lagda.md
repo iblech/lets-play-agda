@@ -150,3 +150,9 @@ naturals.
 ```
 open import Padova2025.ProvingBasics.Termination.Ordering
 ```
+
+For more details, see Chapter 8 of [the proceedings of the 2019 edition of
+Proof and Computation](https://doi.org/10.1142/12263) contributed by Dominique
+Larchey-Wendling and Jean-François Monin. Their paper is full of insights, and
+it might be interesting to compare their Rocq formalization with the approaches
+in Agda.
