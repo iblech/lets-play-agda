@@ -135,6 +135,7 @@ succ-injective = cong pred
 
 ```
 +-cancelₗ : (a x y : ℕ) → a + x ≡ a + y → x ≡ y
+-- Holify
 +-cancelₗ zero     x y p = p
 +-cancelₗ (succ a) x y p = +-cancelₗ a x y (succ-injective p)
 ```
