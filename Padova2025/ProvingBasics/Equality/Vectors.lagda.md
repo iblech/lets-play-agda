@@ -120,7 +120,7 @@ cast-is-id p (x ∷ xs) = cong (x ∷_) (cast-is-id (succ-injective p) xs)
 ### Method 2: Heterogeneous equality
 
 Alternatively, we can introduce so-called *heterogeneous equality*. However,
-the `iconv` function presented below requires the
+the `icong` function presented below requires the
 [K axiom](https://agda.readthedocs.io/en/latest/language/without-k.html)
 which is incompatible with Cubical Agda. We hence only include this alternative
 here as a comment.
