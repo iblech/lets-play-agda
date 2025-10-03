@@ -40,6 +40,7 @@ and later [Matthias Ritter](https://mathoverflow.net/users/166281/matthias-hutzl
 Pull requests were contributed by:
 
 - Matteo Cusin
+- Maja Kądziołka
 
 These helped to substantially improve the presentation of this course.
 Furthermore, feedback of the following persons was influential and greatly
