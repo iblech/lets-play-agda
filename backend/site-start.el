@@ -8,7 +8,7 @@
       ("\\.lagda.md\\'" . agda2-mode))
     auto-mode-alist))
 (with-eval-after-load "agda2-mode"
-  (setq agda2-program-args '("-WnoUnsupportedIndexedMatch")))
+  (setq agda2-program-args '("-WnoUnsupportedIndexedMatch" "--guardedness")))
 
 (setq-default indent-tabs-mode nil)
 

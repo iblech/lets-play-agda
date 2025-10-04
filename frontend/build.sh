@@ -69,7 +69,7 @@ if [ -z "$quick" ]; then
   find Padova2025 -name '*agda*' | grep -v "#" | xargs perl -i -pwe '
     s/^--\s*EX:\s*(.*)$/module _ where private\n  open import Padova2025.ProvingBasics.Equality.Base\n  lets-play-agda-test : $1\n  lets-play-agda-test = refl\n/g;
   '
-  agda -WnoUnsupportedIndexedMatch Padova2025/Index.lagda.md
+  agda --guardedness -WnoUnsupportedIndexedMatch Padova2025/Index.lagda.md
   # We allow people to play with unsafe features.
   # But we hold ourselves to the higher standard of --safe --cubical-compatible.
   # XXX: Make this comment true again.
@@ -83,7 +83,7 @@ if [ -z "$quick" ]; then
     BEGIN { $/ = undef }
     s#^-- Tests.*?```#```#mgs;
   '
-  agda -WnoUnsupportedIndexedMatch --html --html-highlight=code Padova2025/Index.lagda.md
+  agda --guardedness -WnoUnsupportedIndexedMatch --html --html-highlight=code Padova2025/Index.lagda.md
 
   mkdir solutions
   for i in html/*.md; do
@@ -116,7 +116,7 @@ find Padova2025 -name '*agda*' | grep -v "#" | xargs perl -i -pwe '
   s#-- Holify\n([^ ]*).*?```#$1 = {!!}\n```#gs;
   s#^-- Tests.*?```#```#mgs;
 '
-agda -WnoUnsupportedIndexedMatch --html --html-highlight=code Padova2025/Index.lagda.md
+agda --guardedness -WnoUnsupportedIndexedMatch --html --html-highlight=code Padova2025/Index.lagda.md
 find Padova2025 -name "*.lagda.md" | xargs perl -i -pe '
   BEGIN { $/ = undef }
   s/```\n\{-# OPTIONS --allow-unsolved-metas #-\}\n```\n\n//;

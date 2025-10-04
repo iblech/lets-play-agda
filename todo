@@ -12,7 +12,7 @@ Frontend:
 - show keywords of solutions as hints
 - size of Agda frames on smaller screens
 - add tests to ZIP archive
-- add -WnoUnsupportedIndexedMatch to ZIP archive
+- add -WnoUnsupportedIndexedMatch --guardedness to ZIP archive
 
 Backend:
 - accept solution submissions
