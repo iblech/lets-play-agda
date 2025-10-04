@@ -22,6 +22,7 @@ Backend:
 - support reactions to exercises
 
 Content:
+- properly document "with" and "where"
 - common pitfalls
   - not being in a hole when case splitting
   - adding a variable, but then forgetting C-c C-l
