@@ -11,6 +11,8 @@ Frontend:
 - check solutions with --safe again
 - show keywords of solutions as hints
 - size of Agda frames on smaller screens
+- add tests to ZIP archive
+- add -WnoUnsupportedIndexedMatch to ZIP archive
 
 Backend:
 - accept solution submissions
