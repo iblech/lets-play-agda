@@ -23,7 +23,7 @@ open import Padova2025.ProvingBasics.Equality.NaturalNumbers
 open import Padova2025.ProvingBasics.Equality.Reasoning.Core
 ```
 
-A binary representation is just a list of zeros and ones (with trailing zeros) allowed:
+A binary representation is just a list of zeros and ones (with leading zeros allowed):
 
 ```
 BitString : Set

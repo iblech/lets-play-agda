@@ -6,7 +6,7 @@ module Padova2025.ProvingBasics.Termination.Intro where
 # Intro
 
 Let us implement a function which counts the binary digits of a number
-(not counting trailing zeros). Using the
+(not counting leading zeros). Using the
 [`half`](Padova2025.ProgrammingBasics.Naturals.Arithmetic.html#half)
 function, we could imagine the following definition.
 
