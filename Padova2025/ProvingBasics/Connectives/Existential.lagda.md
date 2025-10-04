@@ -122,7 +122,7 @@ infinitary-de-morgan₂ f x p = f (x , p)
 ```
 
 ```
-∃-∨ : {A B : Set} {P : B → Set} → ∃[ x ] (P x ⊎ B) → (∃[ x ] P x) ⊎ B
+∃-∨ : {A B : Set} {P : A → Set} → Σ[ x ∈ A ] (P x ⊎ B) → (Σ[ x ∈ A ] P x) ⊎ B
 -- Holify
 ∃-∨ (x , left  p) = left  (x , p)
 ∃-∨ (x , right b) = right b
