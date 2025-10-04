@@ -145,7 +145,7 @@ data Dec (A : Set) : Set where
 In other words, `Dec A` is just a variant of `A ⊎ ¬ A` with the
 descriptive constructor names `yes` and `no` instead of
 [`left`](Padova2025.ProvingBasics.Connectives.Disjunction.html#_⊎_.left)
-and [`right](Padova2025.ProvingBasics.Connectives.Disjunction.html#_⊎_.right).
+and [`right`](Padova2025.ProvingBasics.Connectives.Disjunction.html#_⊎_.right).
 
 
 ### Decidability of equality
