@@ -59,6 +59,7 @@ curry f x y = f (x , y)
 
 ```
 uncurry : {A B C : Set} → (A → (B → C)) → (A × B → C)
+-- Holify
 uncurry f (x , y) = f x y
 ```
 
