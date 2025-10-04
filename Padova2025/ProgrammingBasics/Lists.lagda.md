@@ -117,6 +117,7 @@ For instance, `drop one (a ∷ b ∷ c ∷ [])` should evaluate to `b ∷ c ∷ 
 
 ```
 drop : {A : Set} (k : ℕ) → List A → List A
+-- Holify
 drop zero     xs       = xs
 drop (succ k) []       = []
 drop (succ k) (x ∷ xs) = drop k xs
