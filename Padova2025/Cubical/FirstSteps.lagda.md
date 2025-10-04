@@ -6,7 +6,6 @@ module Padova2025.Cubical.FirstSteps where
 # First steps
 
 ```
-open import Cubical.Core.Everything
 open import Cubical.Foundations.Prelude
 open import Padova2025.ProgrammingBasics.Naturals.Base
 open import Padova2025.ProgrammingBasics.Naturals.Arithmetic
