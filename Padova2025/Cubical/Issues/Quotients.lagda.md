@@ -288,11 +288,10 @@ Beware that the following exercise requires some patience.
 ```
 ≈'→≈ : {x y : ℤ} → x ≈' y → x ≈ y
 -- Holify
-≈'→≈ {a ⊝ b} {a' ⊝ b'} eq =
-  (≈-trans (≈-sym (≈-cancel-more b' a b))
-  (≈-trans (≡→≈ (cong (_⊝ (b' + b)) (trans (+-comm b' a) eq)))
-  (≈-trans (≡→≈ (cong₂ _⊝_ (+-comm a' b) (+-comm b' b)))
-  (≈-cancel-more b a' b'))))
+≈'→≈ {a ⊝ b} {a' ⊝ b'} p =
+  (≈-trans (≈-sym (≈-cancel-more a' a b))
+  (≈-trans (≡→≈ (cong₂ _⊝_ (+-comm a' a) (sym p)))
+  (≈-cancel-more a a' b')))
 -- This could be prettified by implementing equational reasoning for _≈_
 ```
 
