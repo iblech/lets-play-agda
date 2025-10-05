@@ -36,7 +36,7 @@ compute the correct answer. (Using `x` as initial gas would also work, but only
 because we put `zero` in the bailout case.)
 
 However, the proof that `digits₃ x ≡ succ (digits₃ (half x))` for positive `x`
-is quite involved.
+is a bit involved (and therefore here *not* suggested as an exercise).
 
 ```code
 digits₃-eq : (x : ℕ) → digits₃ (succ x) ≡ succ (digits₃ (half (succ x)))
