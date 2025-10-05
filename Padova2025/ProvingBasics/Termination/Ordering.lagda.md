@@ -258,18 +258,21 @@ data _<'_ : ℕ → ℕ → Set where
 
 ```
 z<'s : {x : ℕ} → zero <' succ x
+-- Holify
 z<'s {zero}   = base'
 z<'s {succ x} = step' z<'s
 ```
 
 ```
 s<'s : {x y : ℕ} → x <' y → succ x <' succ y
+-- Holify
 s<'s base'     = base'
 s<'s (step' p) = step' (s<'s p)
 ```
 
 ```
 <⇒<' : {x y : ℕ} → x < y → x <' y
+-- Holify
 <⇒<' (s≤s p) = lemma p
   where
   lemma : {x y : ℕ} → x ≤ y → x <' succ y
@@ -279,6 +282,7 @@ s<'s (step' p) = step' (s<'s p)
 
 ```
 <'⇒< : {x y : ℕ} → x <' y → x < y
+-- Holify
 <'⇒< base'     = ≤-refl
 <'⇒< (step' p) = ≤-trans (<'⇒< p) (succ-inflationary _)
 ```
