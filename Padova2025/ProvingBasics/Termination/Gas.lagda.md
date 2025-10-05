@@ -171,12 +171,13 @@ module _ {A : Set} where
 example-digits-computation : ℕ
 -- Holify
 example-digits-computation = from-just (digits₃' five)
--- 1. Put `from-just (digits₃' five)` in the hole.
--- 2. Observe, using `C-c C-v`, that `example-digits-computation` is `three`.
 
 -- Tests
 -- EX: example-digits-computation ≡ three
 ```
+
+Put `from-just (digits₃' five)` in the hole;
+then observe, using `C-c C-v`, that `example-digits-computation` is `three`.
 
 
 ## Exercise: Division and modulo
