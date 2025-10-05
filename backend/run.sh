@@ -34,6 +34,8 @@ exec bwrap \
   --hostname box \
   --chdir / \
   --ro-bind "$1"/Padova2025 /home/user/Padova2025.orig \
+  --ro-bind "$1"/_build /home/user/_build.orig \
+  --ro-bind "$1"/padova2025.agda-lib /home/user/padova2025.agda-lib \
   --ro-bind "$1"/backend/site-start.el /home/user/.emacs \
   --ro-bind "$1"/backend/config-agda /home/user/.config/agda \
   --ro-bind "$1"/backend/hello.txt /home/user/.hello.txt \
@@ -45,7 +47,8 @@ exec bwrap \
 
     # the files in the "orig" directory are not writeable
     cp -r Padova2025.orig Padova2025
-    chmod -R u+w Padova2025
+    cp -r _build.orig _build
+    chmod -R u+w Padova2025 _build
 
     perl -we '\''
       while(1) {
@@ -99,7 +102,7 @@ exec bwrap \
 
     (
       previous_hash=""
-      inotifywait -m -e close_write -- "$(dirname "$AGDA_OUTPUT_FILENAME")" | while read; do
+      inotifywait -m -e close_write -- _build/*/agda/"$(dirname "$AGDA_OUTPUT_FILENAME")" | while read; do
         if echo "$REPLY" | grep "\.agdai" >/dev/null; then
           current_hash="$(sha256sum -- "$AGDA_OUTPUT_FILENAME")"
           if [ "$previous_hash" != "$current_hash" ]; then

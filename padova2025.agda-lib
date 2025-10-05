@@ -1,0 +1,4 @@
+name: padova2025-0.1
+include: .
+depend: cubical
+flags: -WnoUnsupportedIndexedMatch --guardedness

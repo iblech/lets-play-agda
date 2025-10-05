@@ -41,20 +41,20 @@ EOF
 rm -rf out-wip
 mkdir out-wip
 
-cp --reflink=auto -t out-wip -r Padova2025
+cp --reflink=auto -t out-wip -r Padova2025 padova2025.agda-lib
 
 cd out-wip
 
 function generate_zip {
   # Fix timestamps so zip creation is deterministic
-  find "$1" -print | xargs touch -d @0
-  find "$1" -not -name "*.agdai" -not -name "*.swp" -not -name "*~" -not -name "*#*" | \
+  find Padova2025 padova2025.agda-lib -print | xargs touch -d @0
+  find Padova2025 padova2025.agda-lib -not -name "*.agdai" -not -name "*.swp" -not -name "*~" -not -name "*#*" | \
     LC_ALL=C sort | \
     TZ=UTC xargs zip --quiet -X -9 -
 }
 
 if [ -z "$quick" ]; then
-  generate_zip Padova2025 > Padova2025-solutions.zip
+  generate_zip > Padova2025-solutions.zip
 fi
 
 if find Padova2025 -name '*agda.md' | grep -v "#" | xargs grep -q $'\t'; then
@@ -69,7 +69,7 @@ if [ -z "$quick" ]; then
   find Padova2025 -name '*agda*' | grep -v "#" | xargs perl -i -pwe '
     s/^--\s*EX:\s*(.*)$/module _ where private\n  open import Padova2025.ProvingBasics.Equality.Base\n  lets-play-agda-test : $1\n  lets-play-agda-test = refl\n/g;
   '
-  agda --guardedness -WnoUnsupportedIndexedMatch Padova2025/Index.lagda.md
+  agda Padova2025/Index.lagda.md
   # We allow people to play with unsafe features.
   # But we hold ourselves to the higher standard of --safe --cubical-compatible.
   # XXX: Make this comment true again.
@@ -83,7 +83,7 @@ if [ -z "$quick" ]; then
     BEGIN { $/ = undef }
     s#^-- Tests.*?```#```#mgs;
   '
-  agda --guardedness -WnoUnsupportedIndexedMatch --html --html-highlight=code Padova2025/Index.lagda.md
+  agda --html --html-highlight=code Padova2025/Index.lagda.md
 
   mkdir solutions
   for i in html/*.md; do
@@ -116,14 +116,14 @@ find Padova2025 -name '*agda*' | grep -v "#" | xargs perl -i -pwe '
   s#-- Holify\n([^ ]*).*?```#$1 = {!!}\n```#gs;
   s#^-- Tests.*?```#```#mgs;
 '
-agda --guardedness -WnoUnsupportedIndexedMatch --html --html-highlight=code Padova2025/Index.lagda.md
+agda --html --html-highlight=code Padova2025/Index.lagda.md
 find Padova2025 -name "*.lagda.md" | xargs perl -i -pe '
   BEGIN { $/ = undef }
   s/```\n\{-# OPTIONS --allow-unsolved-metas #-\}\n```\n\n//;
 '
 
 if [ -z "$quick" ]; then
-  generate_zip Padova2025 > Padova2025.zip
+  generate_zip > Padova2025.zip
 fi
 
 mv html/* .
@@ -227,7 +227,7 @@ cat *.targets >> ui.js
 echo "attachEditors();" >> ui.js
 cat ../cache/confetti.js >> ui.js
 ln -s Padova2025.Welcome.html index.html
-rm -rf toc.html Agda.css Padova2025 solutions *.targets
+rm -rf toc.html Agda.css Padova2025 solutions *.targets _build
 
 function do_sri {
   file="$1"
