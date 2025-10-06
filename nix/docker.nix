@@ -10,7 +10,13 @@ in
 
 pkgs.dockerTools.streamLayeredImage {
   name = "lets-play-agda";
-  contents = with pkgs.dockerTools; [ binSh fakeNss usrBinEnv ];
+  contents = with pkgs.dockerTools; [
+    binSh
+    usrBinEnv
+    (fakeNss.override {
+      extraGroupLines = [ "nogroup:x:65534:" ];
+    })
+  ];
   config = {
     Cmd = pkgs.lib.getExe (pkgs.writeShellApplication {
       name = "lets-play-agda-boot";
