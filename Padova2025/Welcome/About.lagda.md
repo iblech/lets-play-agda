@@ -49,6 +49,7 @@ appreciated:
 - Fredrik Nordvall Forsberg
 - Johannes Hartung
 - Jacopo Piccione
+- Noon van der Silk
 
 
 ### Open source dependencies

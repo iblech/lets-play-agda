@@ -25,6 +25,18 @@ automated and reproducible, and has Docker as its only dependency.
     # sub-container creation works inside the Docker container.
     docker run --privileged --rm -p 8080:8080 lets-play-agda:ci07i8sf4vwa2lkyp9w699ldamj8mgd4
 
+If you prefer a version-pinned build, you can use:
+
+    docker run --rm nixos/nix bash -c "
+        git clone --revision=97e4198a0d205a0fafb1e5cbc30883e371c800be https://github.com/iblech/lets-play-agda
+        cd lets-play-agda
+        bash <(nix-build -I nixpkgs=https://github.com/NixOS/nixpkgs/archive/6faeb062ee4cf4f105989d490831713cc5a43ee1.tar.gz --no-out-link nix/docker.nix)
+    " | docker load
+
+This will result in the Docker image
+lets-play-agda:amg72qk0401ggi2amqcgd3afi07g0ibp, using the (at the time of
+writing) latest release of NixOS 25.05.
+
 
 ## Self-hosting on NixOS
 
