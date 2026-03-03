@@ -13,6 +13,7 @@ open import Padova2025.ProvingBasics.Negation
 open import Padova2025.ProvingBasics.Equality.Base
 open import Padova2025.ProvingBasics.Equality.General
 open import Padova2025.ProvingBasics.Equality.Lists
+open import Padova2025.ProvingBasics.Equality.Reasoning.Core
 open import Padova2025.ProvingBasics.Termination.Ordering
 open import Padova2025.ProvingBasics.Termination.Gas using (Maybe; nothing; just; lookupMaybe; just-injective)
 open import Padova2025.ProvingBasics.Connectives.Existential
@@ -57,7 +58,7 @@ data ∇ (P : L → Set) : L → Set where
   -- "P xs holds already now, no refinement required."
   now   : {xs : L} → P xs → ∇ P xs
 
-  -- "P xs might not hold now, we need to wait at least for
+  -- "P xs might not hold yet, we need to wait at least for
   -- xs to grow by one element."
   later : {xs : L} → ((x : X) → ∇ P (xs ∷ʳ x)) → ∇ P xs
 ```
@@ -123,6 +124,70 @@ eventually-length (succ n) = eventually-length n >>= λ len≥n →
 ```
 
 
+### Exercise: Monotone predicates
+
+Similarly to the above, we can also prove something a bit troubling:
+eventually, the length of our approximation will be exactly 3:
+
+```
+eventually-length-exactly-3 : ∇' (length cur ≡ three) []
+eventually-length-exactly-3 = later λ x₁ → later λ x₂ → later λ x₃ → now refl
+```
+
+Taken very literally, this *is* true: eventually, there *will* be a moment where
+the length is 3. But we might expect that once a predicate holds, it'll stay
+satisfied when we refine our approximation further.
+
+To resolve this, we shall endeavour to only only apply the `∇` operator to
+predicates which are monotone in the following sense:
+
+```
+Monotone : (P : L → Set) → Set
+Monotone P = (xs : L) → P xs → (ys : L) → P (xs ++ ys)
+
+Monotone' : (P : {{L}} → Set) → Set
+Monotone' P = Monotone (withInstance P)
+```
+
+We see that while "length is at least 3" is monotone, "length is exactly 3" isn't monotone:
+
+```
+monotone-length-3 : Monotone (λ xs → length xs ≥ three)
+-- Holify
+monotone-length-3 xs p ys = ≤-trans (+-monotone p z≤n) (≡⇒≤ (sym (length-homo xs ys)))
+```
+
+```
+¬monotone-length-exactly-3 : ¬ Monotone (λ xs → length xs ≡ three)
+-- Holify
+¬monotone-length-exactly-3 p with () ← p (x₀ ∷ x₀ ∷ x₀ ∷ []) refl (x₀ ∷ [])
+```
+
+
+### Exercise: ∇ preserves monotonicity
+
+Once we ensure that some predicate P is monotone, "eventually P" is monotone as well:
+
+```
+∇-monotone : ∀ {P} → Monotone P → Monotone (∇ P)
+-- Holify
+∇-monotone P-mono xs p [] rewrite ++-[] xs = p
+∇-monotone P-mono xs (now p) (y ∷ ys) = now (P-mono xs p (y ∷ ys))
+∇-monotone P-mono xs (later ev-p) (y ∷ ys) = later λ x → subst (∇ _) (lemma x) (∇-monotone P-mono (xs ∷ʳ y) (ev-p y) (ys ∷ʳ x))
+  where
+  lemma : (x : X) → (xs ∷ʳ y) ++ (ys ∷ʳ x) ≡ (xs ++ (y ∷ ys)) ∷ʳ x
+  lemma x = begin
+      (xs ∷ʳ y) ++ (ys ∷ʳ x)
+    ≡⟨ snoc-++ y xs (ys ∷ʳ x) ⟩
+      xs ++ (y ∷ (ys ∷ʳ x))
+    ≡⟨⟩
+      xs ++ ((y ∷ ys) ∷ʳ x)
+    ≡⟨ ++-snoc x xs (y ∷ ys) ⟩
+      (xs ++ (y ∷ ys)) ∷ʳ x
+    ∎
+```
+
+
 ## Constructing the generic sequence
 
 We cannot directly introduce the generic sequence `f₀` as an actual
@@ -139,7 +204,7 @@ f₀[_]≡_ : {{L}} → ℕ → X → Set
 f₀[ n ]≡ x = lookupMaybe cur n ≡ just x
 ```
 
-The generic sequence `f₀` exists a single entity only in the forcing extension.
+The generic sequence `f₀`, as a single entity, only exists in the forcing extension.
 To talk about it from the point of view of the base universe,
 we need to keep track of the current approximation and be prepared to
 let the current approximation evolve to a better one.
@@ -162,6 +227,15 @@ f₀-total : (n : ℕ) → ∇' (∃[ x ] (f₀[ n ]≡ x)) []
 f₀-total n = eventually-length (succ n) >>= λ len>n → now (lemma-lookup _ _ len>n)
 ```
 
+Finally, the meticulous readers will also want to formally check that `f₀[ n ]≡ x` is monotone:
+
+```
+f₀-≡-monotone : ∀ {n x} → Monotone' (f₀[ n ]≡ x)
+-- Holify
+f₀-≡-monotone {zero} (x ∷ xs) refl ys = refl
+f₀-≡-monotone {succ n} (x ∷ xs) p ys = f₀-≡-monotone xs p ys
+```
+
 
 ## Implication in the forcing extension
 
@@ -180,11 +254,34 @@ P ⇒-naive Q = λ xs → (P xs → Q xs)
 ```
 
 This definition does not account for the possibility of `xs` evolving
-to better approximations. The following actually adopted definition fixes this issue:
+to better approximations: even if `P` doesn't hold for the current approximation
+`xs`, this may change as we refine our approximation.
+
+That is, this definition doesn't preserve monotonicity:
+
+```
+⇒-naive-not-monotone : ((P Q : L → Set) → Monotone P → Monotone Q → Monotone (P ⇒-naive Q)) → ⊥
+-- Holify
+⇒-naive-not-monotone p = p (withInstance (f₀[ zero ]≡ x₀)) (λ _ → ⊥) f₀-≡-monotone lemma₁ [] lemma₂ (x₀ ∷ []) refl
+  where
+  lemma₁ : Monotone' ⊥
+  lemma₁ xs p ys = p
+
+  lemma₂ : (withInstance (f₀[ zero ]≡ x₀) ⇒-naive (λ _ → ⊥)) []
+  lemma₂ ()
+```
+
+The following definition, actually adopted in practice, fixes this issue:
 
 ```
 _⇒_ : (L → Set) → (L → Set) → (L → Set)
 P ⇒ Q = λ xs → ((ys : L) → P (xs ++ ys) → Q (xs ++ ys))
+```
+
+```
+⇒-monotone : {P Q : L → Set} → Monotone P → Monotone Q → Monotone (P ⇒ Q)
+-- Holify
+⇒-monotone P-mono Q-mono xs p⇒q ys zs p rewrite ++-assoc xs ys zs = p⇒q (ys ++ zs) p
 ```
 
 Thorsten Altenkirch calls this style of definition *the logic of storytelling*:
@@ -227,7 +324,9 @@ and hence we will adopt the simpler one for the remaining development.
 ⫫ = ⫫-naive
 ```
 
-Verifying that the principled definition indeed implies the naive one:
+The principled definition indeed implies the naive one; more generally, if `R`
+holds *eventually*, but doesn't depend on the current approximation, then it must be
+that it simply holds: 
 
 ```
 escape : {R : Set} {xs : L} → ∇' R xs → R
@@ -281,7 +380,7 @@ equivalence in the folded subsection) suggests that dobule negation in
 the forcing extension can be pronounced as *potentially*. The assertion
 `(⫬ ⫬ P) []` means that it is *possible* for any given approximation
 `xs` to evolve to a list which validates `P`, without presupposing
-that no `P` will always hold eventually.
+that it must eventually actually evolve to such a list.
 
 
 ## Freshness of the generic sequence
