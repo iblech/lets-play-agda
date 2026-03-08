@@ -14,7 +14,7 @@ open import Padova2025.ProvingBasics.Connectives.More
 ```
 
 In the module on [Cohen forcing](Padova2025.Explorations.Forcing.Cohen.html),
-we have introduced the generic sequence `ℕ → X`. By adding one more close to the
+we have introduced the generic sequence `ℕ → X`. By adding one more clause to the
 definition of the [eventually modality](Padova2025.Explorations.Forcing.Cohen.html#∇)
 of that module, we can obtain the *generic surjection* `ℕ ↠ X`. This construction
 will work even in case that `X` is uncountable, and indeed this case is the main
