@@ -127,14 +127,15 @@ eventually-length (succ n) = eventually-length n >>= λ len≥n →
 ### Exercise: Monotone predicates
 
 Similarly to the above, we can also prove something a bit troubling:
-eventually, the length of our approximation will be exactly 3:
+Eventually, the length of our approximation will be exactly 3:
 
 ```
 eventually-length-exactly-3 : ∇' (length cur ≡ three) []
-eventually-length-exactly-3 = later λ x₁ → later λ x₂ → later λ x₃ → now refl
+-- Holify
+eventually-length-exactly-3 = later λ a → later λ b → later λ c → now refl
 ```
 
-Taken very literally, this *is* true: eventually, there *will* be a moment where
+Taken very literally, this *is* true: Eventually, there *will* be a moment where
 the length is 3. But we might expect that once a predicate holds, it'll stay
 satisfied when we refine our approximation further.
 
@@ -160,7 +161,8 @@ monotone-length-3 xs p ys = ≤-trans (+-monotone p z≤n) (≡⇒≤ (sym (leng
 ```
 ¬monotone-length-exactly-3 : ¬ Monotone (λ xs → length xs ≡ three)
 -- Holify
-¬monotone-length-exactly-3 p with () ← p (x₀ ∷ x₀ ∷ x₀ ∷ []) refl (x₀ ∷ [])
+¬monotone-length-exactly-3 f with f (x₀ ∷ x₀ ∷ x₀ ∷ []) refl (x₀ ∷ [])
+... | ()
 ```
 
 
@@ -227,13 +229,13 @@ f₀-total : (n : ℕ) → ∇' (∃[ x ] (f₀[ n ]≡ x)) []
 f₀-total n = eventually-length (succ n) >>= λ len>n → now (lemma-lookup _ _ len>n)
 ```
 
-Finally, the meticulous readers will also want to formally check that `f₀[ n ]≡ x` is monotone:
+Finally, meticulous readers will also want to formally check that `f₀[ n ]≡ x` is monotone:
 
 ```
-f₀-≡-monotone : ∀ {n x} → Monotone' (f₀[ n ]≡ x)
+f₀-≡-monotone : {n : ℕ} {x : X} → Monotone' (f₀[ n ]≡ x)
 -- Holify
-f₀-≡-monotone {zero} (x ∷ xs) refl ys = refl
-f₀-≡-monotone {succ n} (x ∷ xs) p ys = f₀-≡-monotone xs p ys
+f₀-≡-monotone {zero}   (x ∷ xs) refl ys = refl
+f₀-≡-monotone {succ n} (x ∷ xs) p       ys = f₀-≡-monotone xs p ys
 ```
 
 
@@ -254,18 +256,17 @@ P ⇒-naive Q = λ xs → (P xs → Q xs)
 ```
 
 This definition does not account for the possibility of `xs` evolving
-to better approximations: even if `P` doesn't hold for the current approximation
+to better approximations: Even if `P` doesn't hold for the current approximation
 `xs`, this may change as we refine our approximation.
 
-That is, this definition doesn't preserve monotonicity:
+That is, the naive definition doesn't preserve monotonicity:
 
 ```
 ⇒-naive-not-monotone : ((P Q : L → Set) → Monotone P → Monotone Q → Monotone (P ⇒-naive Q)) → ⊥
--- Holify
-⇒-naive-not-monotone p = p (withInstance (f₀[ zero ]≡ x₀)) (λ _ → ⊥) f₀-≡-monotone lemma₁ [] lemma₂ (x₀ ∷ []) refl
+⇒-naive-not-monotone f = f (withInstance (f₀[ zero ]≡ x₀)) (λ _ → ⊥) {--}f₀-≡-monotone{--} {--}lemma₁{--} {--}[]{--} {--}lemma₂{--} {--}(x₀ ∷ []){--} {--}refl{--}
   where
   lemma₁ : Monotone' ⊥
-  lemma₁ xs p ys = p
+  lemma₁ xs p ys = {--}p{--}
 
   lemma₂ : (withInstance (f₀[ zero ]≡ x₀) ⇒-naive (λ _ → ⊥)) []
   lemma₂ ()
@@ -376,7 +377,7 @@ negneg→almostdense m xs f = m xs λ ys p → f (ys , p)
 :::
 
 This result (which, after a small modification is strengthened to an
-equivalence in the folded subsection) suggests that dobule negation in
+equivalence in the folded subsection) suggests that double negation in
 the forcing extension can be pronounced as *potentially*. The assertion
 `(⫬ ⫬ P) []` means that it is *possible* for any given approximation
 `xs` to evolve to a list which validates `P`, without presupposing
