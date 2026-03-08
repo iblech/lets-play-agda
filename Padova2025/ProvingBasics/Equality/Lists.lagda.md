@@ -90,6 +90,13 @@ snoc-++ a []       ys = refl
 snoc-++ a (x ∷ xs) ys = cong (x ∷_) (snoc-++ a xs ys)
 ```
 
+```
+++-snoc : {A : Set} (a : A) (xs ys : List A) → xs ++ (ys ∷ʳ a) ≡ (xs ++ ys) ∷ʳ a
+-- Holify
+++-snoc a []       ys = refl
+++-snoc a (x ∷ xs) ys = cong (x ∷_) (++-snoc a xs ys)
+```
+
 ## Exercise: Length after snocking
 
 ```
