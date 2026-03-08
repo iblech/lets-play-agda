@@ -144,7 +144,7 @@ predicates which are monotone in the following sense:
 
 ```
 Monotone : (P : L → Set) → Set
-Monotone P = (xs : L) (x : X) → P xs → P (xs ∷ʳ x)
+Monotone P = (xs : L) → P xs → (ys : L) → P (xs ++ ys)
 
 Monotone' : (P : {{L}} → Set) → Set
 Monotone' P = Monotone (withInstance P)
@@ -155,13 +155,13 @@ We see that while "length is at least 3" is monotone, "length is exactly 3" isn'
 ```
 monotone-length-3 : Monotone (λ xs → length xs ≥ three)
 -- Holify
-monotone-length-3 xs x p = ≤-trans p (≤-trans (succ-inflationary (length xs)) (≡⇒≤ (sym (length-snoc xs x))))
+monotone-length-3 xs p ys = ≤-trans (+-monotone p z≤n) (≡⇒≤ (sym (length-homo xs ys)))
 ```
 
 ```
 ¬monotone-length-exactly-3 : ¬ Monotone (λ xs → length xs ≡ three)
 -- Holify
-¬monotone-length-exactly-3 f with f (x₀ ∷ x₀ ∷ x₀ ∷ []) x₀ refl
+¬monotone-length-exactly-3 f with f (x₀ ∷ x₀ ∷ x₀ ∷ []) refl (x₀ ∷ [])
 ... | ()
 ```
 
@@ -173,8 +173,20 @@ Once we ensure that some predicate P is monotone, "eventually P" is monotone as 
 ```
 ∇-monotone : ∀ {P} → Monotone P → Monotone (∇ P)
 -- Holify
-∇-monotone P-mono xs x (now p) = now (P-mono xs x p)
-∇-monotone P-mono xs x (later f) = f x
+∇-monotone P-mono xs p [] rewrite ++-[] xs = p
+∇-monotone P-mono xs (now p) (y ∷ ys) = now (P-mono xs p (y ∷ ys))
+∇-monotone P-mono xs (later ev-p) (y ∷ ys) = later λ x → subst (∇ _) (lemma x) (∇-monotone P-mono (xs ∷ʳ y) (ev-p y) (ys ∷ʳ x))
+  where
+  lemma : (x : X) → (xs ∷ʳ y) ++ (ys ∷ʳ x) ≡ (xs ++ (y ∷ ys)) ∷ʳ x
+  lemma x = begin
+      (xs ∷ʳ y) ++ (ys ∷ʳ x)
+    ≡⟨ snoc-++ y xs (ys ∷ʳ x) ⟩
+      xs ++ (y ∷ (ys ∷ʳ x))
+    ≡⟨⟩
+      xs ++ ((y ∷ ys) ∷ʳ x)
+    ≡⟨ ++-snoc x xs (y ∷ ys) ⟩
+      (xs ++ (y ∷ ys)) ∷ʳ x
+    ∎
 ```
 
 
@@ -222,8 +234,8 @@ Finally, meticulous readers will also want to formally check that `f₀[ n ]≡ 
 ```
 f₀-≡-monotone : {n : ℕ} {x : X} → Monotone' (f₀[ n ]≡ x)
 -- Holify
-f₀-≡-monotone {zero}   (x ∷ xs) y refl = refl
-f₀-≡-monotone {succ n} (x ∷ xs) y p    = f₀-≡-monotone xs y p
+f₀-≡-monotone {zero}   (x ∷ xs) refl ys = refl
+f₀-≡-monotone {succ n} (x ∷ xs) p       ys = f₀-≡-monotone xs p ys
 ```
 
 
@@ -251,10 +263,10 @@ That is, the naive definition doesn't preserve monotonicity:
 
 ```
 ⇒-naive-not-monotone : ((P Q : L → Set) → Monotone P → Monotone Q → Monotone (P ⇒-naive Q)) → ⊥
-⇒-naive-not-monotone f = f (withInstance (f₀[ zero ]≡ x₀)) (λ _ → ⊥) {--}f₀-≡-monotone{--} {--}lemma₁{--} {--}[]{--} {--}x₀{--} {--}lemma₂{--} {--}refl{--}
+⇒-naive-not-monotone f = f (withInstance (f₀[ zero ]≡ x₀)) (λ _ → ⊥) {--}f₀-≡-monotone{--} {--}lemma₁{--} {--}[]{--} {--}lemma₂{--} {--}(x₀ ∷ []){--} {--}refl{--}
   where
   lemma₁ : Monotone' ⊥
-  lemma₁ xs x p = {--}p{--}
+  lemma₁ xs p ys = {--}p{--}
 
   lemma₂ : (withInstance (f₀[ zero ]≡ x₀) ⇒-naive (λ _ → ⊥)) []
   lemma₂ ()
@@ -270,7 +282,7 @@ P ⇒ Q = λ xs → ((ys : L) → P (xs ++ ys) → Q (xs ++ ys))
 ```
 ⇒-monotone : {P Q : L → Set} → Monotone P → Monotone Q → Monotone (P ⇒ Q)
 -- Holify
-⇒-monotone {P} {Q} P-mono Q-mono xs x p⇒q ys pxys rewrite snoc-++ x xs ys = p⇒q (x ∷ ys) pxys
+⇒-monotone P-mono Q-mono xs p⇒q ys zs p rewrite ++-assoc xs ys zs = p⇒q (ys ++ zs) p
 ```
 
 Thorsten Altenkirch calls this style of definition *the logic of storytelling*:
