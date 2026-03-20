@@ -252,3 +252,42 @@ reverse-reverse' : {A : Set} (xs : List A) → reverse xs ≡ reverse' xs
 -- Holify
 reverse-reverse' xs = sym (trans (lemma-reverseAcc [] xs) (++-[] (reverse xs)))
 ```
+
+
+## Exercise: Fibonacci numbers with and without an accumulator
+
+The same story as before. Here are two algorithms for computing the
+Fibonacci numbers, a straightforward one and a tail-recursive one.
+Prove that these two algorithms give the same results.
+
+```
+-- Without accumulator.
+fib : ℕ → ℕ
+fib zero            = zero
+fib (succ zero)     = succ zero
+fib (succ (succ n)) = fib (succ n) + fib n
+
+-- With accumulator.
+fibAcc : ℕ → ℕ → ℕ → ℕ
+fibAcc a b zero     = a
+fibAcc a b (succ n) = fibAcc b (b + a) n
+
+fib' : ℕ → ℕ
+fib' = fibAcc zero one
+```
+
+```
+lemma-fibAcc : (n k : ℕ) → fibAcc (fib n) (fib (succ n)) k ≡ fib (k + n)
+-- Holify
+lemma-fibAcc n zero     = refl
+lemma-fibAcc n (succ k) = begin
+  fibAcc (fib n) (fib (succ n)) (succ k) ≡⟨ lemma-fibAcc (succ n) k ⟩
+  fib (k + succ n)                       ≡⟨ cong fib (+-succ k n) ⟩
+  fib (succ k + n)                       ∎
+```
+
+```
+fib-fib' : (n : ℕ) → fib' n ≡ fib n
+-- Holify
+fib-fib' n = trans (lemma-fibAcc zero n) (cong fib (+-zero n))
+```
