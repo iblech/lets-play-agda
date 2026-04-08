@@ -1,4 +1,4 @@
-{ lib, stdenv, agda, lychee, pandoc, perl, python3, zip, commit-id ? "main" }:
+{ lib, stdenv, agda, cacert, lychee, pandoc, perl, python3, zip, commit-id ? "main" }:
 
 let
   ouragda = agda.withPackages (p: [ p.standard-library p.cubical p.agda-categories p._1lab p.generics p.functional-linear-algebra ]);
@@ -13,7 +13,7 @@ stdenv.mkDerivation rec {
   name = "lets-play-agda-frontend"; 
   src = ./..;
 
-  nativeBuildInputs = [ lychee ouragda pandoc perl (python3.withPackages (p: [ p.brotli p.fonttools ])) zip ];
+  nativeBuildInputs = [ cacert lychee ouragda pandoc perl (python3.withPackages (p: [ p.brotli p.fonttools ])) zip ];
   postPatch = ''
     patchShebangs .
   '';
