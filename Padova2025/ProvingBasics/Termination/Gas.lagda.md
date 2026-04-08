@@ -192,8 +192,11 @@ The following snippet of code is intended to implement division, but
 fails to satisfy the termination checker (and indeed, does not
 terminate in case the divisor is zero).
 
-```code
+```
 infix 7 _/_
+```
+
+```code
 _/_ : ℕ → ℕ → ℕ
 a / b with ≤-<-connex b a
 ... | left  b≤a = succ ((a ∸ b) / b)
@@ -206,7 +209,6 @@ that your implementation is indeed correct. In case the divisor is zero,
 your function may compute whatever you like.
 
 ```
-infix 7 _/_
 _/_ : ℕ → ℕ → ℕ
 -- Holify
 _/_ a b = go a a
@@ -244,8 +246,11 @@ Similarly, the following code is supposed to implement the modulo
 operation, but fails the termination checker; provide a terminating
 version.
 
-```code
+```
 infix 7 _%_
+```
+
+```code
 _%_ : ℕ → ℕ → ℕ
 a % b with ≤-<-connex b a
 ... | left  b≤a = (a ∸ b) % b
@@ -253,7 +258,6 @@ a % b with ≤-<-connex b a
 ```
 
 ```
-infix 7 _%_
 _%_ : ℕ → ℕ → ℕ
 -- Holify
 _%_ a b = go a a
