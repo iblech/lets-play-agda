@@ -68,6 +68,12 @@ n ≥ m = m ≤ n
 ```
 
 ```
+<-irreflexive' : {a b : ℕ} → a ≤ b → b < a → ⊥
+-- Holify
+<-irreflexive' (s≤s p) (s≤s q) = <-irreflexive' p q
+```
+
+```
 ≡⇒≤ : {a b : ℕ} → a ≡ b → a ≤ b
 -- Holify
 ≡⇒≤ refl = ≤-refl

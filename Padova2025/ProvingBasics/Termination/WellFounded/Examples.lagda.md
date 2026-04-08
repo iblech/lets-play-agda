@@ -58,8 +58,10 @@ digits₄'-eq x = D.rec-eq (succ x)
 
 ```
 open import Padova2025.ProvingBasics.EvenOdd
+open import Padova2025.ProvingBasics.Negation
 open import Padova2025.ProvingBasics.Connectives.Disjunction
 open import Padova2025.ProvingBasics.Termination.Ordering
+open import Padova2025.ProvingBasics.Equality.Reasoning.Core
 ```
 
 Reimplement the [`_%_` function](Padova2025.ProvingBasics.Termination.Gas.html#_%_)
@@ -94,9 +96,52 @@ a %' zero   = a
 a %' succ b = M.rec (succ b) (case-succ b) a
 ```
 
-```code
-%'-<₀ : (a b : ℕ) → (b>0 : IsPositive b) → a ≥ b → %-step b b>0 a (λ y y<a → M.rec b b>0 y) < b
-%'-<₀ a (succ b) b>0 a≥b with ≤-<-connex (succ b) a
-... | left  b<a = {!%'-<₀ (a ∸ succ b) (succ b) b>0!}
-... | right a≤b = a≤b
+
+### Properties of the modulo function
+
+This section is work in progress. It would be cleaner to put `b : ℕ`
+and `b>0 : IsPositive b` as parameters for an anonymous module, as
+they are fixed throughout this section, but right now the scripts
+underpinning Let's play Agda cannot handle this.
+
+```
+%-step-eq₁
+  : (a b : ℕ) (b>0 : IsPositive b) (a≥b : a ≥ b)
+  → %-step b b>0 a (λ y y<a → M.rec b b>0 y) ≡ M.rec b b>0 (a ∸ b)
+%-step-eq₁ a b b>0 a≥b with ≤-<-connex b a
+... | left  b≤a = {--}refl{--}
+... | right a<b = {--}⊥-elim (<-irreflexive' a≥b a<b){--}
+```
+
+```
+%-step-eq₂
+  : (a b : ℕ) (b>0 : IsPositive b) (a<b : a < b)
+  → %-step b b>0 a (λ y y<a → M.rec b b>0 y) ≡ a
+-- Holify
+%-step-eq₂ a b b>0 a<b with ≤-<-connex b a
+... | left  b≤a = ⊥-elim (<-irreflexive' b≤a a<b)
+... | right a<b = refl
+```
+
+```
+%'-< : (a b : ℕ) → (b>0 : IsPositive b) → a %' b < b
+-- Holify
+%'-< a b@(succ _) b>0@(case-succ _) = go a (ℕ-wf a)
+  where
+  go : (a : ℕ) → Acc _<'_ a → M.rec b b>0 a < b
+  go a (acc h) with ≤-<-connex b a
+  ... | right a<b = subst (_< b) (sym eq) a<b
+    where
+    eq : M.rec b b>0 a ≡ a
+    eq = begin
+      M.rec b b>0 a                            ≡⟨ M.rec-eq b b>0 a ⟩
+      %-step b b>0 a (λ y y<a → M.rec b b>0 y) ≡⟨ %-step-eq₂ a b b>0 a<b ⟩
+      a                                         ∎
+  ... | left  a≥b = subst (_< b) (sym eq) (go (a ∸ b) (h (<⇒<' (monus-< a b b>0 a≥b))))
+    where
+    eq : M.rec b b>0 a ≡ M.rec b b>0 (a ∸ b)
+    eq = begin
+      M.rec b b>0 a                            ≡⟨ M.rec-eq b b>0 a ⟩
+      %-step b b>0 a (λ y y<a → M.rec b b>0 y) ≡⟨ %-step-eq₁ a b b>0 a≥b ⟩
+      M.rec b b>0 (a ∸ b)                      ∎
 ```

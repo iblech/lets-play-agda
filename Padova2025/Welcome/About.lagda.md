@@ -46,6 +46,7 @@ These helped to substantially improve the presentation of this course.
 Furthermore, feedback of the following persons was influential and greatly
 appreciated:
 
+- Martin Ceresa
 - Fredrik Nordvall Forsberg
 - Johannes Hartung
 - Jacopo Piccione
