@@ -5,7 +5,6 @@ Frontend:
 - option to delete own code
 - explain how to explore on one's own, beyond the provided exercises
 - fix font
-- fix fullscreen mode in Firefox
 - check solutions with --safe again
 - size of Agda frames on smaller screens
 - add tests to ZIP archive
