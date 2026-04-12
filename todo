@@ -12,6 +12,7 @@ Frontend:
 - show keywords of solutions as hints
 - size of Agda frames on smaller screens
 - add tests to ZIP archive
+- links to definitions within collapsed sections should work, i.e. auto-expand the respective sections
 
 Backend:
 - accept solution submissions
