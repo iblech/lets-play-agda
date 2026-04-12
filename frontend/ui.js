@@ -79,6 +79,9 @@ function createIframe(block, id) {
     }, true);
 
     new MutationObserver(function(mutations) {
+      if(iframe.contentDocument.title.includes("MODIFIED")) {
+        activeEditors[id] = true;
+      }
       if(iframe.contentDocument.title.includes("SUCCESS")) {
         const encodedPayload = iframe.contentDocument.title.split(' ')[1];
         const decodedPayload = decodeURIComponent(atob(encodedPayload).split('').map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
@@ -129,7 +132,6 @@ function attachEditor(block) {
       block.classList.add("spinning");
       const iframe = createIframe(block, id);
       block.insertAdjacentElement("afterend", iframe);
-      activeEditors[id] = true;
       recordActivity();
       printActivity();
     };

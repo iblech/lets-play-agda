@@ -52,6 +52,17 @@
       (end-of-line)
       (narrow-to-region start (point)))))
 
+(defvar lets-play-agda--notified-modified nil
+  "Whether we have already sent the MODIFIED signal.")
+
+(defun lets-play-agda--notify-modified (&rest _)
+  "Send MODIFIED signal on first interactive edit."
+  (unless lets-play-agda--notified-modified
+    (setq lets-play-agda--notified-modified t)
+    (send-string-to-terminal "\033]0;MODIFIED\007")))
+
+(advice-add 'self-insert-command :after #'lets-play-agda--notify-modified)
+
 (add-hook 'emacs-startup-hook
   (lambda ()
     (message "Welcome to Agda! For a list of keyboard commands, press Ctrl-c Ctrl-y.")))

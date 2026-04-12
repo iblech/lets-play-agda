@@ -124,6 +124,7 @@ exec bwrap \
     tmux \
       set -g status off \; \
       set-option -g default-terminal screen-256color \; \
+      set -g set-titles on \; \
       new-session -A -s fun \
       -- \
       emacs "$AGDA_OUTPUT_FILENAME" --eval "(narrow-to-line-range $AGDA_FIRSTLINE $AGDA_LASTLINE)"
