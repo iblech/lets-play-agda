@@ -430,6 +430,10 @@ function activateDetails(elemClass, popupClass, action) {
       activateSpoiler(li);
     }
 
+    // Don't collapse if this section contains the current fragment target
+    const fragment = location.hash.substring(1);
+    if(fragment && elem.querySelector("#" + CSS.escape(fragment))) continue;
+
     elem.style.display = "none";
     const showButton = document.createElement("a");
     showButton.className = popupClass;
