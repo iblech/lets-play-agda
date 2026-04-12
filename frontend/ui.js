@@ -1,3 +1,8 @@
+const activeEditors = {};
+window.addEventListener("beforeunload", function (e) {
+  if(Object.keys(activeEditors).length > 0) e.preventDefault();
+});
+
 function getAgdaModuleName(url) {
   if(url === undefined) {
     url = location.href;
@@ -86,6 +91,7 @@ function createIframe(block, id) {
         attachReferenceSolution(iframe, id);
         showConfetti();
         window.setTimeout(confetti.stop, 1000);
+        delete activeEditors[id];
       }
     }).observe(
       iframe.contentDocument.querySelector('title'),
@@ -120,6 +126,7 @@ function attachEditor(block) {
       block.classList.add("spinning");
       const iframe = createIframe(block, id);
       block.insertAdjacentElement("afterend", iframe);
+      activeEditors[id] = true;
       recordActivity();
       printActivity();
     };

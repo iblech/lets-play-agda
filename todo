@@ -7,7 +7,6 @@ Frontend:
 - show confetti animation in full screen mode
 - fix font
 - fix fullscreen mode in Firefox
-- warn on accidental close
 - check solutions with --safe again
 - size of Agda frames on smaller screens
 - add tests to ZIP archive
