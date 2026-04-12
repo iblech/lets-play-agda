@@ -90,9 +90,10 @@ if [ -z "$quick" ]; then
   for i in html/*.md; do
     < "$i" perl -nwe '
       BEGIN { $/ = undef }
-      while($_ =~ m#<pre class="Agda"><a id="([^"]*)"></a>(.*?)</pre>#gs) {
-        my ($id, $code) = ($1, $2);
+      while($_ =~ m#<pre class="Agda">(.*?)</pre>#gs) {
+        my $code = $1;
         next unless $code =~ /-- Holify/ or $code =~ /\{--\}/;
+        my ($id) = $code =~ m#<a id="([^"]+)"></a># or next;
         $code =~ s/\{--\}//g;
         $code =~ s/<a id="[^"]*"/<a/g;
         $code =~ s/<a class="Comment">-- Holify<\/a>\n//g;

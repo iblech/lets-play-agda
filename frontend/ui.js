@@ -115,7 +115,7 @@ function createIframe(block, id) {
 
 function attachEditor(block) {
   block.classList.add("exercise");
-  const id = block.innerText.split(/\s+/)[0];
+  const id = block.innerText.replace(/^(infix[lr]?\s+\d+\s+\S+\n)*/, "").split(/\s+/)[0];
 
   attachIngredientsInfo(block, id);
 
@@ -268,7 +268,7 @@ function attachEditors() {
 
   for(const block of document.getElementsByTagName("pre")) {
     if(block.innerHTML.indexOf("{!!}") >= 0) {
-      const id = block.innerText.split(/\s+/)[0];
+      const id = block.innerText.replace(/^(infix[lr]?\s+\d+\s+\S+\n)*/, "").split(/\s+/)[0];
       ids.push(id);
       attachEditor(block);
     }

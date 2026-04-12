@@ -61,12 +61,12 @@ exec bwrap \
         my $id   = "";
         $_ = <STDIN>;
         die "(1) Premature end of file, aborting.\n" unless defined $_;
-        /^([^ ]*)\s+(.*?)/ and $id = $1;
         until(/^```/) {
           $code .= $_;
           $_ = <STDIN>;
           die "(2) Premature end of file, aborting.\n" unless defined $_;
         }
+        ($id) = $code =~ /^(?:infix[lr]?\s+\d+\s+\S+\n)*([^ ]*)\s/m;
 
         next if $skip;
 

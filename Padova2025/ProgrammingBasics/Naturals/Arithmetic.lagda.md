@@ -121,9 +121,6 @@ both result in `zero`.
 
 ```
 infixl 6 _∸_
-```
-
-```
 _∸_ : ℕ → ℕ → ℕ  -- enter `∸` as `\.-`
 a      ∸ zero   = {--}a{--}
 zero   ∸ succ b = {--}zero{--}
@@ -146,9 +143,6 @@ Define multiplication and exponentiation.
 
 ```
 infixl 7 _·_
-```
-
-```
 _·_ : ℕ → ℕ → ℕ  -- enter `·` as `\cdot`
 zero   · b = {--}zero{--}
 succ a · b = {--}b + (a · b){--}
@@ -164,9 +158,6 @@ Define squaring, without using the exponentiation operator introduced below.
 
 ```
 infixr 8 _²
-```
-
-```
 _² : ℕ → ℕ
 _² x = {--}x · x{--}
 
@@ -189,9 +180,6 @@ point again [later](Padova2025.ProvingBasics.Equality.Base.html).
 
 ```
 infixr 8 _^_
-```
-
-```
 _^_ : ℕ → ℕ → ℕ
 a ^ zero   = {--}one{--}
 a ^ succ b = {--}a · (a ^ b){--}
