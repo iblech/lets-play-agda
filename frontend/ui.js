@@ -89,9 +89,12 @@ function createIframe(block, id) {
         renderToc();
         printActivity();
         attachReferenceSolution(iframe, id);
-        showConfetti();
-        window.setTimeout(confetti.stop, 1000);
         delete activeEditors[id];
+        if(document.fullscreenElement) {
+          document.exitFullscreen().then(showConfetti);
+        } else {
+          showConfetti();
+        }
       }
     }).observe(
       iframe.contentDocument.querySelector('title'),
