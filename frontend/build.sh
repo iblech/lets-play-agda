@@ -84,6 +84,7 @@ if [ -z "$quick" ]; then
     s#^-- Tests.*?```#```#mgs;
   '
   agda --html --html-highlight=code Padova2025/Index.lagda.md
+  ../frontend/stabilize-links.pl html
 
   mkdir solutions
   for i in html/*.md; do
@@ -95,8 +96,6 @@ if [ -z "$quick" ]; then
         $code =~ s/\{--\}//g;
         $code =~ s/<a id="[^"]*"/<a/g;
         $code =~ s/<a class="Comment">-- Holify<\/a>\n//g;
-        $code =~ s/<a (?:href="[^"]*" )?class="([^"]*)">/<span class="$1">/g;
-        $code =~ s/<\/a>/<\/span>/g;
         $code =~ s/\n+$/\n/;
         print "<pre class=\"Agda reference-solution\" id=\"reference-solution-$id\">$code</pre>\n\n";
       }

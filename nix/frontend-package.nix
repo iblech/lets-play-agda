@@ -13,7 +13,7 @@ stdenv.mkDerivation rec {
   name = "lets-play-agda-frontend"; 
   src = ./..;
 
-  nativeBuildInputs = [ cacert lychee ouragda pandoc perl (python3.withPackages (p: [ p.brotli p.fonttools ])) zip ];
+  nativeBuildInputs = [ cacert lychee ouragda pandoc (perl.withPackages (p: [ p.FileSlurp ])) (python3.withPackages (p: [ p.brotli p.fonttools ])) zip ];
   postPatch = ''
     patchShebangs .
   '';
