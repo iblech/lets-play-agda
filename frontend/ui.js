@@ -143,20 +143,59 @@ function attachIngredientsInfo(block, id) {
 
   let foundIngredients = false;
 
+  // Collect link targets from the exercise block to filter out "boring" ingredients.
+  // We store both the full fragment and the underscore-stripped version, so that
+  // e.g. an exercise using "<" suppresses _<_ from the ingredients.
   const boringTargets = {};
-  for(const t of [...new Set(block.innerText.split(/[\s(){}]+/))]) {
-    boringTargets[t] = true;
+  for(const a of block.getElementsByTagName("a")) {
+    const href = a.getAttribute("href");
+    if(!href) continue;
+    const fragment = href.split("#")[1];
+    if(!fragment) continue;
+    boringTargets[fragment] = true;
+    boringTargets[fragment.replace(/^_+|_+$/g, "")] = true;
   }
 
-  for(const t of [...new Set(solution.innerText.substring(solution.innerText.indexOf("\n")).split(/[\s(){}]+/))].sort()) {
-    if(t in knownTargets && !(t in boringTargets)) {
-      const link = document.createElement("a");
-      link.setAttribute("href", knownTargets[t] + ".html#" + t);
-      link.appendChild(document.createTextNode(t));
-      span.appendChild(link);
-      span.appendChild(document.createTextNode(" "));
-      foundIngredients = true;
+  // Collect linked identifiers from the reference solution HTML,
+  // using the fragment identifier as the display name (to get full
+  // operator names like _≡⟨_⟩_ instead of partial tokens like ≡⟨).
+  // Skip constructors as they distract from the main ingredients.
+  const eqReasoningModule = "Padova2025.ProvingBasics.Equality.Reasoning.Core.html";
+  let usesEqReasoning = false;
+  const seen = {};
+  const ingredients = [];
+  for(const a of solution.getElementsByTagName("a")) {
+    const href = a.getAttribute("href");
+    if(!href) continue;
+    const fragment = href.split("#")[1];
+    if(!fragment) continue;
+    if(fragment in boringTargets || fragment.replace(/^_+|_+$/g, "") in boringTargets) continue;
+    if(fragment in seen) continue;
+    if(a.classList.contains("InductiveConstructor")) continue;
+    if(href.split("#")[0].endsWith(eqReasoningModule)) {
+      usesEqReasoning = true;
+      continue;
     }
+    seen[fragment] = true;
+    ingredients.push({ text: fragment, href: href });
+  }
+  ingredients.sort((a, b) => a.text.localeCompare(b.text));
+
+  for(const { text, href } of ingredients) {
+    const link = document.createElement("a");
+    link.setAttribute("href", href);
+    link.appendChild(document.createTextNode(text));
+    span.appendChild(link);
+    span.appendChild(document.createTextNode(" "));
+    foundIngredients = true;
+  }
+
+  if(usesEqReasoning) {
+    const link = document.createElement("a");
+    link.setAttribute("href", "Padova2025.ProvingBasics.Equality.Reasoning.html");
+    link.appendChild(document.createTextNode("(and equational reasoning)"));
+    span.appendChild(link);
+    foundIngredients = true;
   }
 
   if(!foundIngredients) return;
@@ -519,19 +558,6 @@ function importIntoLocalStorage() {
 function showConfetti() {
   confetti.start();
   window.setTimeout(confetti.stop, 1000);
-}
-
-const knownTargets = {};
-const ambiguousTargets = {};
-function recordTargets(mod, targets) {
-  for(const t of targets.split(" ")) {
-    if(t in knownTargets) {
-      delete knownTargets[t];
-      ambiguousTargets[t] = true;
-    } else if(!(t in ambiguousTargets)) {
-      knownTargets[t] = mod;
-    }
-  }
 }
 
 activateHintsAndMore();

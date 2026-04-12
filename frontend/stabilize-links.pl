@@ -12,14 +12,16 @@
 # 3. Rewrites all href attributes to use stable anchors where possible
 # 4. Strips links whose targets remain unstable (turns them into spans)
 #
-# Usage: ./stabilize-links.pl <directory>
+# Usage: ./stabilize-links.pl <directory> [--strip]
+# With --strip, remaining links with unstable targets are turned into spans.
 
 use strict;
 use warnings;
 use File::Find;
 use File::Slurp;
 
-my $dir = shift @ARGV or die "Usage: $0 <directory>\n";
+my $dir   = shift @ARGV or die "Usage: $0 <directory> [--strip]\n";
+my $strip = (shift @ARGV // '') eq '--strip';
 
 # Step 1: Collect the mapping from unstable to stable anchors.
 my %stable_for;  # "File.html#499" => "File.html#List"
@@ -64,11 +66,13 @@ for my $file (@files) {
 
     # Strip remaining links with unstable (numeric) fragment targets.
     # These links may have attributes in any order (id, href, class).
-    $content =~ s{<a\s(?=[^>]*href="[^"#]*#\d+")[^>]*class="([^"]*)">(.*?)</a>}{
-        $changed++;
-        $stripped++;
-        qq{<span class="$1">$2</span>};
-    }ge;
+    if ($strip) {
+        $content =~ s{<a\s(?=[^>]*href="[^"#]*#\d+")[^>]*class="([^"]*)">(.*?)</a>}{
+            $changed++;
+            $stripped++;
+            qq{<span class="$1">$2</span>};
+        }ge;
+    }
 
     if ($changed) {
         write_file($file, $content);
