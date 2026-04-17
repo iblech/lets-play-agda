@@ -42,11 +42,10 @@ Infinitely f P = (a : ℕ) → ¬ ¬ (Σ[ b ∈ ℕ ] b ≥ a × P (f b))
 
 ```
 lemma : {X : Set} → {α : ℕ → X} {P : X → Set} → ¬ Boundedly α P → Infinitely α P
-lemma {α = α} {P = P} p a = oracle ⟫= go
-  where
-  go : (∃[ b ] b ≥ a × P (α b)) ⊎ ((∃[ b ] b ≥ a × P (α b)) → ⊥) → ¬ ¬ (∃[ b ] b ≥ a × P (α b))
-  go (left  q) = {--}return q{--}
-  go (right q) = {--}⊥-elim (p (a , λ b b≥a Pb → q (b , b≥a , Pb))){--}
+lemma {α = α} {P = P} p a = oracle {∃[ b ] b ≥ a × P (α b)} ⟫= λ
+  { (left  q) → {--}return q{--}
+  ; (right q) → {--}⊥-elim (p (a , λ b b≥a Pb → q (b , b≥a , Pb))){--}
+  }
 ```
 
 ```
@@ -56,11 +55,10 @@ InfinitaryPigeonholePrinciple α = Infinitely α (false ≡_) ⊎ Infinitely α 
 
 ```
 infinitary-pigeonhole-principle : (α : ℕ → Bool) → ¬ ¬ InfinitaryPigeonholePrinciple α
-infinitary-pigeonhole-principle α = oracle ⟫= go
-  where
-  go : Boundedly α (true ≡_) ⊎ ¬ Boundedly α (true ≡_) → ¬ ¬ InfinitaryPigeonholePrinciple α
-  go (left  (a , p)) = {--}return (left  λ i →
+infinitary-pigeonhole-principle α = oracle {Boundedly α (true ≡_)} ⟫= λ
+  { (left  (a , p)) → {--}return (left  λ i →
     not-true-is-false (p (max i a) (max-inflationaryᵣ i a)) ⟫= λ q →
     return (max i a , max-inflationaryₗ i a , q)){--}
-  go (right p)       = {--}return (right (lemma {P = (true ≡_)} p)){--}
+  ; (right p)       → {--}return (right (lemma {P = (true ≡_)} p)){--}
+  }
 ```
