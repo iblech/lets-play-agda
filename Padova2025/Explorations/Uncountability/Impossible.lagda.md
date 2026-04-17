@@ -139,7 +139,7 @@ Baillon for many new results and pointers to the literature.
 :::
 
 Try it yourself: Fill in the hole as you wish; press `C-c C-v`; enter `root
-example`; observe the results. For instance, if `examples xs` is defined
+example`; observe the results. For instance, if `example xs` is defined
 as `not (xs zero) || xs one || not (xs two)`, then `root example` will
 reduce to `just (true ∷ false ∷ true ∷ false ∷ false ∷ [])`.
 
