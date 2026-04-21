@@ -222,6 +222,7 @@ function do_sri {
   hashsum="$(sha256sum "$1" | cut -d' ' -f1)"
   newname="${file%.*}-$hashsum.${file##*.}"
   mv "$file" "$newname"
+  ln -s "$newname" "$file"  # for ease of referencing from the streamless-sets project
   sed -i -e "s+$file+$newname+g" *.html *.js
   # we should escape the regex pattern, but for our purposes it will be good enough
 }
