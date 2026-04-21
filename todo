@@ -19,12 +19,7 @@ Backend:
 Content:
 - properly document "with" and "where"
 - common pitfalls
-  - not being in a hole when case splitting
-  - adding a variable, but then forgetting C-c C-l
-  - weird yellow
-  - "Cannot split on local variable"
   - input method cycling
-  - forgetting variables on the left
 - universe lifting
 - axiom of choice
 - infinitude of primes
