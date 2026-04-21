@@ -18,7 +18,9 @@ open import Padova2025.ProvingBasics.Connectives.More
 # Orthogonal forcing
 
 This is work in progress to formalize a counterexample to the conjecture that
-the cartesian product of streamless sets is streamless.
+the cartesian product of streamless sets is streamless. **Active development is
+happening [at this repository](https://gitlab.com/iblech/streamless-sets),
+once things have stabilized they will be ported here.**
 
 ```
 Good : {X : Set} → (X → X → Set) → (ℕ → X) → Set
