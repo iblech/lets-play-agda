@@ -1,5 +1,5 @@
 ```
-{-# OPTIONS --cubical #-}
+{-# OPTIONS --cubical --guardedness #-}
 module Padova2025.Cubical.FirstSteps where
 ```
 

@@ -2,7 +2,7 @@
 
 <!--
 ```
-{-# OPTIONS --cubical #-}
+{-# OPTIONS --cubical --guardedness #-}
 module Padova2025.Index where
 
 import Padova2025.Welcome

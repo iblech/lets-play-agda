@@ -41,7 +41,7 @@ all-same₂₃ true  = refl
 ```
 
 **Not provably the same.**
-However, in standard Agda we can not prove that the functions themselves are
+However, in standard Agda we cannot prove that the functions themselves are
 the same---the following holes cannot be filled (and the proposal `refl` does
 not typecheck):
 
@@ -56,9 +56,10 @@ _ = ?
 **Not provably distinct.**
 On the other hand, in Agda we can also not prove the three functions above to
 be distinct, that is we cannot write down terms of type `exampleᵢ ≡ exampleⱼ → ⊥`.
-Agda is (like any other reasonable formal system) incomplete. This particular
-instance of incompleteness is particularly worrying to some, as it pertains to
-such a basic part of Agda. The equality type is underspecified.
+[Agda is (like any other reasonable formal system)
+incomplete.](https://en.wikipedia.org/wiki/G%C3%B6del%27s_incompleteness_theorems)
+This particular instance of incompleteness is particularly worrying to some, as it pertains to
+such a basic part of Agda. *The equality type is underspecified.*
 
 **A principle.**
 The principle that functions with equal values are themselves equal is known as
@@ -81,7 +82,7 @@ postulate
 ```
 
 Adding function extensionality to Martin-Löf type theory preserves its
-consistency. Moreover, if one entertains the idea of a platonic heaven, then
+consistency. Moreover, if one entertains the idea of a platonic heaven of the usual sort, then
 one can rest assured that the resulting type theory still provides an apt
 language for talking about the objects of the platonic heaven.
 
@@ -221,9 +222,10 @@ _ : {X : Set} → {f g : X → 𝟙} → f ≡ g
 _ = refl
 ```
 
-In constract, declaring `𝟙` as an ordinary inductive datatype (or disabling eta equality with the
+In contrast, declaring `𝟙` as an ordinary inductive datatype (or disabling eta equality with the
 `no-eta-equality` keyword in the record declaraction) will provide us
 with a type in which any two inhabitants are propositionally but not judgmentally equal.
+This type is not terminal in the category of small types.
 
 ```
 data 𝟙' : Set where
