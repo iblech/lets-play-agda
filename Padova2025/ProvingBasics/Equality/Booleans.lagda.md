@@ -8,8 +8,18 @@ module Padova2025.ProvingBasics.Equality.Booleans where
 ```
 open import Padova2025.ProgrammingBasics.Booleans
 open import Padova2025.ProgrammingBasics.Operators
+open import Padova2025.ProvingBasics.Negation
 open import Padova2025.ProvingBasics.Equality.Base
 open import Padova2025.ProvingBasics.Equality.General
+```
+
+
+## Exercise: False is not true
+
+```
+false≢true : false ≢ true
+-- Holify
+false≢true ()
 ```
 
 
