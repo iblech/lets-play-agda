@@ -17,10 +17,10 @@ some arguments:
 
 ```code
 -- wrong:
-length = {!!}
+length = ...
 
 -- right:
-length xs = {!!}
+length xs = ...
 ```
 
 If a variable is missing, Agda's types in the goal display will look
