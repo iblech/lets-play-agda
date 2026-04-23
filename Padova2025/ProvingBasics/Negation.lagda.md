@@ -143,3 +143,17 @@ triple-to-one : {A : Set} → ¬ ¬ ¬ A → ¬ A
 -- Holify
 triple-to-one p = λ x → p (dni x)
 ```
+
+
+## Exercise: Contraposition
+
+Prove that if `A` implies `B`, then also `¬ B` implies `¬ A`:
+
+```
+contraposition : {A B : Set} → (A → B) → (¬ B → ¬ A)
+-- Holify
+contraposition f g p = g (f p)
+```
+
+The converse direction cannot be proven constructively and hence is
+not available in the default mode of Agda.
