@@ -55,6 +55,7 @@ print "const characterDescriptions = {";
 print join ", ", @pairs;
 print "};\n\n";
 
+# Entries given in "LC_ALL=C sort" order
 __DATA__
 ¬ neg
 ² ^2
@@ -91,11 +92,13 @@ __DATA__
 → to
 ↝ leadsto
 ↝ r~
+∀ forall
 ∃ exists
 ∇ nabla
 ∈ in
 ∙ .
 ∶ :
+⊝ o-
 ⊥ bot
 ⋰ rddots
 ⋱ ddots
