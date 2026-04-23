@@ -26,6 +26,8 @@ length xs = ...
 If a variable is missing, Agda's types in the goal display will look
 different from what you expect, with extra `→` arrows.
 
+**Solution.** Add variable names for each argument on the left of the `=` sign.
+
 
 ## Forgetting to reload after adding a variable
 
@@ -50,6 +52,8 @@ example = a+b
 -- right:
 example = a + b
 ```
+
+**Solution.** Put spaces around operators.
 
 
 ## Missing parentheses in patterns
@@ -77,6 +81,8 @@ cons operator).
 Hovering over a Unicode symbol on this website will show you how to
 input it using the Agda input method.
 
+**Solution.** Watch out for lookalikes.
+
 
 ## Mysterious yellow highlighting
 
@@ -85,7 +91,7 @@ rendering bug or Agda could not resolve some implicit arguments ("unsolved
 metavariables").
 
 **Solution.** First try reloading using `C-c C-l`. If the yellow highlighting
-persists, explicitly state the values of supposed-to-be implicit
+persists, explicitly supply the supposed-to-be implicit arguments.
 
 
 ## "Cannot split on local variable"
