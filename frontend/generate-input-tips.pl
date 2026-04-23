@@ -68,9 +68,13 @@ __DATA__
 ˘ u{}
 Σ Sigma
 α alpha
+β beta
 γ gamma
+ε varepsilon
+ζ zeta
 λ lambda
 π pi
+σ sigma
 ω omega
 … ldots
 ⁴ ^4
