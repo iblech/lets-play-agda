@@ -1,7 +1,7 @@
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 
-(load-file (let ((coding-system-for-read 'utf-8)) (shell-command-to-string "agda-mode locate")))
+(load-file (let ((coding-system-for-read 'utf-8)) (shell-command-to-string "agda --emacs-mode locate")))
 (setq auto-mode-alist
   (append
     '(("\\.agda\\'" . agda2-mode)
