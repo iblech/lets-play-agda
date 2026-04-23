@@ -205,11 +205,12 @@ echo
 echo "* Copying static files..."
 cp --reflink=auto -r ../cache/*.woff2 ../frontend/static/* .
 (cd ..; find Padova2025 -name "*.md" | xargs cat | ./frontend/generate-input-tips.pl) > ui.js
+cat type-signatures.js >> ui.js
 cat ../frontend/ui.js >> ui.js
 echo "attachEditors();" >> ui.js
 cat ../cache/confetti.js >> ui.js
 ln -s Padova2025.Welcome.html index.html
-rm -rf toc.html Agda.css Padova2025 solutions _build
+rm -rf type-signatures.js toc.html Agda.css Padova2025 solutions _build
 
 function do_sri {
   file="$1"
