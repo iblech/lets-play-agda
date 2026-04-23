@@ -129,7 +129,7 @@ observe-equality n with <-cmp (f n) (g n)
 ```
 
 ```
-empirical-fact' : All (λ(n : ℕ) → f n ≡ g n) (downFrom 21)
+empirical-fact' : All (λ (n : ℕ) → f n ≡ g n) (downFrom 21)
 empirical-fact' = from-just {--}(collect observe-equality 21){--}
 ```
 
