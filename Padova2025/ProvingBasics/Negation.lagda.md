@@ -119,6 +119,17 @@ we have a function `⊥ → A` for any type `A`:
 ```
 
 
+## Exercise: Law of non-contradiction
+
+From `A` and `¬ A` we can deduce a contradiction:
+
+```
+contradiction : {A : Set} → A → ¬ A → ⊥
+-- Holify
+contradiction p f = f p
+```
+
+
 ## Exercise: Double negation
 
 In classical mathematics, the double negation $\neg \neg A$ of a statement
