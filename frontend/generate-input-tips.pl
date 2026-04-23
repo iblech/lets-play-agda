@@ -12,7 +12,10 @@ binmode DATA,   ":utf8";
 our %seen;
 our %commands;
 
-open my $fh, "<", "cache/agda-input.el" or die $!;
+my $input_mode_file = `agda --emacs-mode locate`;
+$input_mode_file =~ s/agda2\.el$/agda-input.el/;
+
+open my $fh, "<", $input_mode_file or die $!;
 while(<$fh>) {
   push @{$commands{decode_utf8($2)}}, $1 while /\("([^"]+)"\s+\.\s+\("([^"]+)"\)\)/g;
 }
