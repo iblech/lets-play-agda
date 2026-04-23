@@ -221,10 +221,14 @@ function do_sri {
   file="$1"
   hashsum="$(sha256sum "$1" | cut -d' ' -f1)"
   newname="${file%.*}-$hashsum.${file##*.}"
+
   mv "$file" "$newname"
-  ln -s "$newname" "$file"  # for ease of referencing from the streamless-sets project
+
   sed -i -e "s+$file+$newname+g" *.html *.js
   # we should escape the regex pattern, but for our purposes it will be good enough
+
+  ln -s "$newname" "$file"  # for ease of referencing from the streamless-sets project
+  # put after the sed command as sed would recreate files, destroying symlinks
 }
 
 if [ -z "$quick" ]; then
@@ -234,9 +238,7 @@ if [ -z "$quick" ]; then
   do_sri juliamono.woff2
 fi
 
-for i in ui.js; do
-  do_sri $i
-done
+do_sri ui.js
 
 if [ -z "$quick" ]; then
   echo
