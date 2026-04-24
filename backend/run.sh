@@ -102,7 +102,7 @@ exec bwrap \
 
     (
       previous_hash=""
-      inotifywait -m -e close_write -- _build/*/agda/"$(dirname "$AGDA_OUTPUT_FILENAME")" | while read; do
+      inotifywait -q -m -e close_write -- _build/*/agda/"$(dirname "$AGDA_OUTPUT_FILENAME")" | while read; do
         if echo "$REPLY" | grep "\.agdai" >/dev/null; then
           current_hash="$(sha256sum -- "$AGDA_OUTPUT_FILENAME")"
           if [ "$previous_hash" != "$current_hash" ]; then
