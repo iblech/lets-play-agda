@@ -30,7 +30,8 @@ and greatly benefited from feedback of participants at
 [2022](https://agdapad.quasicoherent.io/~AgdaPadova/),
 [2023](https://agdapad.quasicoherent.io/~Padova/),
 [2024](https://agdapad.quasicoherent.io/~Padova2024/),
-[2025](https://agdapad.quasicoherent.io/~Padova2025/)). It was set in motion by
+[2025](https://agdapad.quasicoherent.io/~Padova2025/),
+[2026](https://agdapad.quasicoherent.io/~Padova2026/)). It was set in motion by
 [a course](https://martinescardo.github.io/pc2018/pc2018.pdf) of
 [Martín Escardó](https://martinescardo.github.io/) at the
 [2018 installment of Proof and Computation](https://www.mathematik.uni-muenchen.de/~schwicht/pc18.php),
