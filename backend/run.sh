@@ -122,9 +122,16 @@ exec bwrap \
     ) &
 
     tmux \
-      set -g status off \; \
+      set -g status on \; \
       set-option -g default-terminal screen-256color \; \
       set -g set-titles on \; \
+      set -g status-left-length 100 \; \
+      set -g status-right "" \; \
+      set -g window-status-format "" \; \
+      set -g window-status-current-format "" \; \
+      set -g status-style "bg=yellow fg=black" \; \
+      set -g status-left "Welcome to Agda! For a list of keyboard commands, press Ctrl-c Ctrl-y." \; \
+      set-hook -g session-created "run-shell \"sleep 3\" ; set -g status off" \; \
       new-session -A -s fun \
       -- \
       emacs "$AGDA_OUTPUT_FILENAME" --eval "(narrow-to-line-range $AGDA_FIRSTLINE $AGDA_LASTLINE)"

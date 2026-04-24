@@ -63,6 +63,7 @@
 
 (advice-add 'self-insert-command :after #'lets-play-agda--notify-modified)
 
+; Dismiss "Mark set" message
 (add-hook 'emacs-startup-hook
   (lambda ()
-    (message "Welcome to Agda! For a list of keyboard commands, press Ctrl-c Ctrl-y.")))
+    (message nil)))
