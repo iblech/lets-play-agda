@@ -62,6 +62,7 @@ __DATA__
 ³ ^3
 · cdot
 ¹ ^1
+× times
 á 'a
 é 'e
 í 'i
