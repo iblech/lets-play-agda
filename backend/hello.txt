@@ -1,5 +1,4 @@
-"C-" means "Ctrl", "M-" means "Alt".
-If C-c is intercepted by your browser, try C-o instead.
+"C-" means Ctrl, "M-" means Alt. If your browser intercepts C-c, try C-o instead.
 
 ┌─ GENERAL ─────────────────────────────────────┐    ┌─ SYMBOLS ────────────────┐
 │ C-z       = enable Vi keybindings             │    │ ℕ = \bN                  │
@@ -7,18 +6,19 @@ If C-c is intercepted by your browser, try C-o instead.
 │ M-Return  = fullscreen mode                   │    │ → = \r     or \to        │
 │ C-x 1     = maximize window                   │    │ · = \cdot                │
 │ C-g       = abort command                     │    │ ∷ = \::                  │
-└───────────────────────────────────────────────┘    │ ≡ = \==                  │
-                                                     │ ≤ = \<=                  │
-┌─ AGDA ────────────────────────────────────────┐    │ ⊥ = \bot                 │
-│ C-c C-l   = load file                         │    └──────────────────────────┘
-│ C-c C-c   = case split                        │    Use M-x describe-char to
-│ C-c C-SPC = check hole                        │    lookup input method for
-│ C-c C-,   = show context                      │    symbol under cursor.
-│ C-c C-.   = show context and type of proposal │
-│ C-c C-r   = refine goal                       │    If you experience weird
-│ C-c C-a   = automatic mode                    │    layout issues, try M-Return.
-│ C-c C-d   = display type                      │
-│ C-c C-v   = evaluate expression               │
+│ C-x u     = undo                              │    │ ≡ = \==                  │
+└───────────────────────────────────────────────┘    │ ≤ = \<=                  │
+                                                     │ ⊥ = \bot                 │
+┌─ AGDA ────────────────────────────────────────┐    └──────────────────────────┘
+│ C-c C-l   = load file                         │    Use M-x describe-char to
+│ C-c C-c   = case split                        │    lookup input method for
+│ C-c C-SPC = check hole                        │    symbol under cursor.
+│ C-c C-,   = show context                      │
+│ C-c C-.   = show context and type of proposal │    If you experience weird
+│ C-c C-r   = refine goal                       │    layout issues, try M-Return.
+│ C-c C-a   = automatic mode                    │
+│ C-c C-d   = display type                      │    To kill text to the right,
+│ C-c C-v   = evaluate expression               │    including a hole, use C-k.
 └───────────────────────────────────────────────┘
 
 For copying text, hold the Shift key while selecting the text with the mouse.
