@@ -67,3 +67,5 @@
 (add-hook 'emacs-startup-hook
   (lambda ()
     (message nil)))
+
+(run-with-idle-timer 3600 t 'kill-emacs)

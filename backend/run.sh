@@ -136,5 +136,7 @@ exec bwrap \
       -- \
       emacs "$AGDA_OUTPUT_FILENAME" --eval "(narrow-to-line-range $AGDA_FIRSTLINE $AGDA_LASTLINE)"
 
+    echo Session timeout.
+
     kill %1
   '
