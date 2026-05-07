@@ -58,6 +58,16 @@ Any-map f (there v) = there (Any-map f v)
 ```
 
 
+## Tabulation
+
+```
+tabulate : {A : Set} {P : A → Set} (xs : List A) → ({x : A} → x ∈ xs → P x) → All P xs
+-- Holify
+tabulate []       f = []
+tabulate (x ∷ xs) f = f (here refl) ∷ tabulate xs (λ in-xs → f (there in-xs))
+```
+
+
 ## Exercise: De Morgan's laws
 
 Related to the exercise [on De Morgan's

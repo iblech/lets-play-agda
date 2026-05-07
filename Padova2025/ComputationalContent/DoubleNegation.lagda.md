@@ -11,6 +11,8 @@ Explain.
 
 ```
 open import Padova2025.ProvingBasics.Connectives.Disjunction
+open import Padova2025.ProvingBasics.Connectives.More
+open import Padova2025.ProgrammingBasics.Lists
 ```
 
 ```
@@ -56,4 +58,25 @@ _>>=_ m f = λ k → m (λ x → f x k)
 ```
 _⟫=_ : {A B : Set} → ¬ ¬ A → (A → ¬ ¬ B) → ¬ ¬ B
 _⟫=_ = _>>=_
+```
+
+```
+liftA2 : {A B C : Set} → (A → B → C) → ¬ ¬ A → ¬ ¬ B → ¬ ¬ C
+-- Holify
+liftA2 f x y = do
+  x' ← x
+  y' ← y
+  return (f x' y')
+```
+
+```
+sequence : {X : Set} {P : X → Set} {xs : List X} → All (λ x → ¬ ¬ P x) xs → ¬ ¬ All P xs
+-- Holify
+sequence []       = return []
+sequence (p ∷ ps) = liftA2 _∷_ p (sequence ps)
+-- Alternatively:
+-- sequence (p ∷ ps) = do
+--   p'  ← p
+--   ps' ← sequence ps
+--   return (p' ∷ ps')
 ```
