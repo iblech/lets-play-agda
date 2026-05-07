@@ -17,6 +17,7 @@ Backend:
 - support reactions to exercises
 
 Content:
+- explain _ as placeholder
 - properly document "with" and "where"
 - common pitfalls
   - input method cycling
