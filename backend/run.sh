@@ -39,6 +39,7 @@ exec bwrap \
   --ro-bind "$1"/backend/site-start.el /home/user/.emacs \
   --ro-bind "$1"/backend/config-agda /home/user/.config/agda \
   --ro-bind "$1"/backend/hello.txt /home/user/.hello.txt \
+  --ro-bind "$1"/backend/extract-block.pl /home/user/.extract-block.pl \
   bash -c '
     set -e
     cd /home/user
@@ -50,46 +51,7 @@ exec bwrap \
     cp -r _build.orig _build
     chmod -R u+w Padova2025 _build
 
-    perl -we '\''
-      while(1) {
-        while(<STDIN>) {
-          last if /^```/;
-        }
-        my $skip = ! (/^```(?:agda)?$/);
-
-        my $code = "";
-        my $id   = "";
-        $_ = <STDIN>;
-        die "(1) Premature end of file, aborting.\n" unless defined $_;
-        until(/^```/) {
-          $code .= $_;
-          $_ = <STDIN>;
-          die "(2) Premature end of file, aborting.\n" unless defined $_;
-        }
-        ($id) = $code =~ /^(?:infix[lr]?\s+\d+\s+\S+\n)*(\S*)\s/m;
-
-        next if $skip;
-
-        if($id ne $ENV{AGDA_BLOCKNAME}) {
-          print $code;
-          print "\n";
-        } else {
-          my $tests;
-          if($code =~ s/^(-- Tests.*)$//ms) {
-            $tests = $1;
-            $tests =~ s/^--\s*EX:\s*(.*)$/module _ where private\n  open import Padova2025.ProvingBasics.Equality.Base\n  lets-play-agda-test : $1\n  lets-play-agda-test = refl\n/gm;
-          }
-          $code =~ s/\{--\}.*?\{--\}/{!!}/gs;
-          $code =~ s#\n-- Holify\n([^ ]*).*$#\n$1 = {!!}\n#s;
-          $code =~ s/\n+$/\n/;
-          print "-- EXERCISE STARTS\n";
-          print $code;
-          print "-- EXERCISE ENDS\n";
-          print "\n$tests" if $tests;
-          last;
-        }
-      }
-    '\'' < "$AGDA_INPUT_FILENAME" > "$AGDA_OUTPUT_FILENAME"
+    perl /home/user/.extract-block.pl < "$AGDA_INPUT_FILENAME" > "$AGDA_OUTPUT_FILENAME"
     rm "$AGDA_INPUT_FILENAME"
 
     AGDA_FIRSTLINE=$(< "$AGDA_OUTPUT_FILENAME" sed -ne "/^-- EXERCISE STARTS/ { =; q }")
