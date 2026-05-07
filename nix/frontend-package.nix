@@ -1,4 +1,4 @@
-{ lib, stdenv, agda, cacert, lychee, pandoc, perl, python3, zip, commit-id ? "main" }:
+{ lib, stdenv, agda, cacert, jq, lychee, pandoc, perl, python3, zip, commit-id ? "main" }:
 
 let
   ouragda = agda.withPackages (p: [ p.standard-library p.cubical p.agda-categories p._1lab p.generics p.functional-linear-algebra ]);
@@ -27,6 +27,11 @@ stdenv.mkDerivation rec {
   installPhase = ''
     mkdir -p $out
     cp -r --reflink=auto out/* $out/
+  '';
+  doCheck = true;
+  nativeCheckInputs = [ jq ];
+  checkPhase = ''
+    ./tests/test-type-signatures.sh
   '';
   # See pkgs/build-support/agda/default.nix for explanation
   LC_ALL = lib.optionalString (!stdenv.hostPlatform.isDarwin) "C.UTF-8";

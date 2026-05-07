@@ -1,4 +1,4 @@
-{ lib, stdenv, agda, bash, bubblewrap, emacs-nox, gnugrep, gnused, inotify-tools, perl, tmux, callPackage, makeWrapper, commit-id ? "main" }:
+{ lib, stdenv, agda, bash, bubblewrap, diffutils, emacs-nox, gnugrep, gnused, inotify-tools, perl, tmux, callPackage, makeWrapper, commit-id ? "main" }:
 
 let
   ouragda = callPackage ./agda.nix {};
@@ -23,6 +23,11 @@ stdenv.mkDerivation rec {
     cp -r --reflink=auto . $out/
     wrapProgram $out/backend/run.sh \
       --prefix PATH : ${lib.makeBinPath [ bash bubblewrap gnugrep gnused inotify-tools ouragda ouremacs perl tmux ]}
+  '';
+  doCheck = true;
+  nativeCheckInputs = [ diffutils perl ];
+  checkPhase = ''
+    ./tests/test-block-extraction.sh
   '';
   LC_ALL = lib.optionalString (!stdenv.hostPlatform.isDarwin) "C.UTF-8";
 }

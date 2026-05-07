@@ -175,20 +175,22 @@ for my $file (@files) {
     }
 }
 
-# Emit the type mapping as a JavaScript variable declaration.
+# Emit the type mapping as JSON. build.sh wraps this into the runtime
+# `const typeSignatures = ...` JavaScript declaration.
 {
-    my $js_file = "$dir/type-signatures.js";
-    open my $fh, '>', $js_file or die "Cannot write $js_file: $!\n";
-    print $fh "const typeSignatures = {\n";
+    my $json_file = "$dir/type-signatures.json";
+    open my $fh, '>', $json_file or die "Cannot write $json_file: $!\n";
+    print $fh "{\n";
+    my @entries;
     for my $href (sort keys %type_of) {
         my $key = $href;
         my $val = $type_of{$href};
-        # Escape for JS string literals
         $key =~ s/\\/\\\\/g; $key =~ s/"/\\"/g;
         $val =~ s/\\/\\\\/g; $val =~ s/"/\\"/g;
-        print $fh "  \"$key\": \"$val\",\n";
+        push @entries, "  \"$key\": \"$val\"";
     }
-    print $fh "};\n";
+    print $fh join(",\n", @entries), "\n";
+    print $fh "}\n";
     close $fh;
-    print "Wrote " . scalar(keys %type_of) . " type signature(s) to $js_file.\n";
+    print "Wrote " . scalar(@entries) . " type signature(s) to $json_file.\n";
 }
