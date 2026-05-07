@@ -52,6 +52,7 @@ appreciated:
 - Fredrik Nordvall Forsberg
 - Johannes Hartung
 - Jacopo Piccione
+- Alessandro Rizzi
 - Noon van der Silk
 
 
