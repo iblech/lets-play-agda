@@ -238,8 +238,30 @@ following is a convenience function for some of the proofs below.
 ∈-basic {sup {I} f} i = i , ≈-refl
 ```
 
+Also, the empty set is indeed empty:
 
-## Axiom of extensionality
+```
+∅-empty : {x : V} → x ∈ ∅ → ⊥
+-- Holify
+∅-empty ()
+```
+
+And the `singleton` function from above does what its name suggests:
+
+```
+singleton-correct₁ : {x : V} → (y : V) → y ∈ singleton x → y ≈ x
+-- Holify
+singleton-correct₁ y (i , p) = ≈-sym p
+```
+
+```
+singleton-correct₂ : {x : V} → x ∈ singleton x
+-- Holify
+singleton-correct₂ = tt , ≈-refl
+```
+
+
+## The axiom of extensionality
 
 ```
 infix 4 _↔_
@@ -281,23 +303,24 @@ pairing-axiom : (x y : V) → ∃[ z ] (x ∈ z × y ∈ z)
 pairing-axiom x y = pair x y , ((false , ≈-refl) , (true , ≈-refl))
 ```
 
+The following function should take a set of sets as input and output their union.
+On a blackboard, this is written "⋃ M".
+
 ```
 union : V → V
 -- Holify
 union (sup {I} f) = sup {Σ I (λ i → Index (f i))} λ (i , j) → fam (f i) j
 ```
 
-```code
-union-axiom : (x : V) → ∃[ y ] ((z : V) → z ∈ y ↔ ∃[ w ] (z ∈ w × w ∈ x))
-union-axiom x = ?
--- TODO: Format as exercise
 ```
-
-<!--
-union-axiom x@(sup {I} f) = union x , λ { z@(sup g)
-  → (λ { ((i , j) , eq) → f i , cong-∈' {z = f i} eq (∈-basic {f i} j) , i , ≈-refl })
-  , λ { (w , q@(j , eq') , i , eq) → ((i , {!fst ?!})) , ≈-trans {!!} eq' } }
--->
+union-axiom : (x : V) → ∃[ y ] ((z : V) → z ∈ y ↔ (∃[ w ] (z ∈ w × w ∈ x)))
+-- Holify
+union-axiom x@(sup {I} f) = union x , λ z
+  → (λ { ((i , j) , eq) → f i , (j , eq) , i , ≈-refl })
+  , λ { (w , q , i , eq) →
+      let r = cong-∈ (≈-sym eq) q
+      in (i , fst r) , snd r }
+```
 
 
 ## In the vincinity of Russell's paradox
@@ -335,3 +358,62 @@ contradiction = no-set-contains-itself u u∈u
 ::: Todo :::
 Make this explorable in a submodule
 :::
+
+
+## Set-theoretic ordinal numbers
+
+A set `x` is called *transitive** iff `a ∈ b ∈ x` implies `a ∈ x`:
+
+```
+Transitive : V → Set₁
+Transitive x = (a b : V) → a ∈ b → b ∈ x → a ∈ x
+```
+
+```
+Transitive-extensional : (x y : V) → x ≈ y → Transitive x → Transitive y
+-- Holify
+Transitive-extensional x y eq f a b a∈b b∈y = cong-∈ eq (f a b a∈b (cong-∈ (≈-sym eq) b∈y))
+```
+
+With the notion of transitivity in place, we can define the notion of ordinal numbers:
+A set is called an *ordinal number* if and only if it is transitive and all of its elements are transitive.
+
+```
+Ordinal : V → Set₁
+Ordinal x = Transitive x × ((a : V) → a ∈ x → Transitive a)
+```
+
+As a starting point, the empty set (representing zero) is an ordinal number:
+
+```
+∅-ordinal : Ordinal ∅
+-- Holify
+∅-ordinal = (λ a b a∈b ()) , (λ a ())
+```
+
+The `next` operation preserves ordinals. As a consequence, all the natural numbers are ordinals.
+
+```
+next-ordinal : (x : V) → Ordinal x → Ordinal (next x)
+-- Holify
+next-ordinal (sup f) (x-transitive , elts-transitive)
+  = (λ { a b a∈b (nothing , eq) → let (k , p) = cong-∈ (≈-sym eq) a∈b in just k , p
+       ; a b a∈b (just j  , eq) → let (k , p) = x-transitive a b a∈b (j , eq) in just k , p })
+  , (λ { a (nothing , eq) b c b∈c c∈a → cong-∈ eq (x-transitive b c b∈c (cong-∈ (≈-sym eq) c∈a))
+       ; a (just j , eq) → elts-transitive a (j , eq) })
+```
+
+```
+fromℕ-ordinal : (n : ℕ) → Ordinal (fromℕ n)
+-- Holify
+fromℕ-ordinal zero     = ∅-ordinal
+fromℕ-ordinal (succ n) = next-ordinal (fromℕ n) (fromℕ-ordinal n)
+```
+
+```code
+N-ordinal : Ordinal N
+-- Holify
+N-ordinal
+  = (λ { a b a∈b (n , eq) → {! !} })
+  , (λ { a (n , eq) → Transitive-extensional _ _ eq (fst (fromℕ-ordinal n)) })
+```
