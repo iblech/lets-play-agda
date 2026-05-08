@@ -20,17 +20,15 @@ open import Padova2025.ComputationalContent.DoubleNegation (⊥)
 
 ```
 go : (α : ℕ → ℕ) → (i : ℕ) → Acc _<'_ (α i) → ¬ ¬ (Σ[ i ∈ ℕ ] ((j : ℕ) → ¬ ¬ α i ≤ α j))
-go α i (acc f) = oracle {Σ[ j ∈ ℕ ] α j < α i} ⟫= g
+go α i (acc f) = oracle {Σ[ j ∈ ℕ ] α j < α i} ⟫= λ
+  { (left  (j , p)) → {--}go α j (f (<⇒<' p)){--}
+  ; (right q)       → {--}return (i , h q){--}
+  }
   where
-  g : ((Σ[ j ∈ ℕ ] α j < α i) ⊎ ((Σ[ j ∈ ℕ ] α j < α i) → ⊥)) →
-    ¬ ¬ (Σ[ i ∈ ℕ ] ((j : ℕ) → ¬ ¬ α i ≤ α j))
-  g (left  (j , p)) = {--}go α j (f (<⇒<' p)){--}
-  g (right q)       = {--}return (i , h){--}
-    where
-    h : (j : ℕ) → ¬ ¬ (α i ≤ α j)
-    h j with ≤-<-connex (α i) (α j)
-    ... | left  αi≤αj = {--}return αi≤αj{--}
-    ... | right αj<αi = {--}⊥-elim (q (j , αj<αi)){--}
+  h : ¬ (Σ[ j ∈ ℕ ] α j < α i) → (j : ℕ) → ¬ ¬ (α i ≤ α j)
+  h q j with ≤-<-connex (α i) (α j)
+  ... | left  αi≤αj = {--}return αi≤αj{--}
+  ... | right αj<αi = {--}⊥-elim (q (j , αj<αi)){--}
 ```
 
 ```
