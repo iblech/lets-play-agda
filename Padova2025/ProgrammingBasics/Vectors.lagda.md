@@ -71,7 +71,7 @@ mapV f (x ∷ xs) = f x ∷ mapV f xs
 
 ## Exercise: zipWith
 
-For instance, "zipWithV f (x ∷ y ∷ []) (a ∷ b ∷ [])" should evaluate to "f x a ∷ f y b ∷ []".
+For instance, `zipWithV f (x ∷ y ∷ []) (a ∷ b ∷ [])` should evaluate to `f x a ∷ f y b ∷ []`.
 
 ```
 zipWithV : {A B C : Set} {n : ℕ} → (A → B → C) → Vector A n → Vector B n → Vector C n
