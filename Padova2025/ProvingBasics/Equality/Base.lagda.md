@@ -15,7 +15,7 @@ value of type `x ≡ y`.
 
 The following three lines set up these types:
 
-```
+```code
 infix 4 _≡_
 data _≡_ {X : Set} : X → X → Set where
   refl : {a : X} → a ≡ a
@@ -24,4 +24,22 @@ data _≡_ {X : Set} : X → X → Set where
 ::: Aside :::
 The basic equality symbol `=` is used in Agda only for definitions. For
 formulating assumptions or results involing equality, we use `≡`.
+:::
+
+::: More :::
+For applications in some later parts of Let's play Agda, we will not adopt
+the preceding code as our official definition of equality, even though
+it would work just fine for almost all of our developments. The problem
+with the definition above is that it only introduces equality types for
+*small* types `X`, i.e. those which live in `Set`. But sometimes we would
+also like to refer to equality between values of larger types, living in
+`Set₁`, `Set₂` or beyond.
+
+```
+open import Agda.Primitive
+
+infix 4 _≡_
+data _≡_ {ℓ : Level} {X : Set ℓ} : X → X → Set ℓ where
+  refl : {a : X} → a ≡ a
+```
 :::
