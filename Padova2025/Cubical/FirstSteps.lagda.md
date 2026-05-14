@@ -10,8 +10,6 @@ open import Cubical.Foundations.Prelude
 open import Padova2025.ProgrammingBasics.Naturals.Base
 open import Padova2025.ProgrammingBasics.Naturals.Arithmetic
 open import Padova2025.ProvingBasics.Negation
-open import Padova2025.ProvingBasics.Equality.Base renaming (_≡_ to _≡ᵢ_)
-open import Padova2025.ProvingBasics.Equality.NaturalNumbers
 open import Padova2025.ProvingBasics.Termination.Gas using (𝟙; tt)
 ```
 
@@ -60,7 +58,13 @@ trans' : {X : Set} {a b c : X} → a ≡ b → b ≡ c → a ≡ c
 trans' p q = p ∙ q
 ```
 
+Even though cubical Agda reimagines identity in a radical way,
+in the end the primitive equality type coincides with the
+inductively-defined type we have been using all along:
+
 ```
+open import Padova2025.ProvingBasics.Equality.Base renaming (_≡_ to _≡ᵢ_)
+
 ≡ᵢ→≡ : {X : Set} {a b : X} → a ≡ᵢ b → a ≡ b
 -- Holify
 ≡ᵢ→≡ refl = refl'
@@ -73,6 +77,10 @@ trans' p q = p ∙ q
 
 
 ## Exercise: Sum of unordered pair
+
+```
+open import Padova2025.ProvingBasics.Equality.NaturalNumbers
+```
 
 ```
 sum-pair : UnorderedPair ℕ → ℕ
@@ -147,6 +155,18 @@ component of an unordered pair.
 lemma-not-leaky : (f : UnorderedPair ℕ → ℕ) → ((a b : ℕ) → f (pair a b) ≡ a) → ⊥
 -- Holify
 lemma-not-leaky f p = lemma-nontrivial (symm' (p one zero) ∙ cong' f (swap one zero) ∙ p zero one)
+```
+
+
+## Exercise: Reversing twice
+
+The solution of the following exercise is delightful. No case split is needed
+(nor possible):
+
+```
+symm-symm : {X : Set} {a b : X} → (p : a ≡ b) → symm' (symm' p) ≡ p
+-- Holify
+symm-symm p = refl'
 ```
 
 
