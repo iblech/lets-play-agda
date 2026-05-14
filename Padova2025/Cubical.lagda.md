@@ -3,7 +3,7 @@
 module Padova2025.Cubical where
 ```
 
-# Cubical Agda 🚧
+# Cubical Agda
 
 ```
 import Padova2025.Cubical.Issues

@@ -28,15 +28,15 @@ existence", whereas the blackboard's notion of existence is "mere
 existence": According to our definition, a witness of an existential
 claim is a value of type `Σ[ x ∈ A ] B x`, so a pair consisting of a
 specified element `x : A` and a witness `p : B x`. So a witness does
-not only attest the fact that there merely is an element `x` such that
-`B x`. Instead, it also explicitly specifies one possible such
+not only attest that is some element `x` such that
+`B x`; instead, it also explicitly specifies one possible such
 element `x`. This is in contrast to the notion of existence from
 blackboard mathematics, which does not disclose a specified element.
 
 This makes a difference when we use an existential assumption to
 construct mathematical objects. If the hypothesis is specified
 existence, the result of our construction may depend on `x`.
-If the hypothesis is mere existence, it may not.
+If the hypothesis is mere existence, the result is not allowed to depend on `x`.
 
 In the following, we will write mere existence as `∥ Σ[ x ∈ A ] B x ∥`
 (keeping in mind that standard Agda does not support this).
@@ -52,7 +52,7 @@ isProp : {ℓ : Level} → Set ℓ → Set ℓ
 isProp X = (a b : X) → a ≡ b
 ```
 
-For a type satisfying `isProp`, the only interesting thing is
+For a type satisfying `isProp`, the only interesting question is
 whether it is inhabited.
 
 For instance, for every number `n`, the type `Even n` of witnesses
@@ -72,7 +72,7 @@ In contrast, the type `Σ[ x ∈ A ] B x` is typically not a proposition.
 
 For specified existence, we have the following elimination principle:
 "If, given an element `x : A` and a witness `p : B x`, we have a way
-of contructing an element of type `R`, then we also have a way of
+of constructing an element of type `R`, then we also have a way of
 constructing such an element from the assumption `Σ[ x ∈ A ] B x`."
 
 ```
@@ -103,9 +103,9 @@ universe `Set`. It could also be a larger type, living in `Set₁`,
 The difference between the two notions of existence is especially
 visible in the interaction with functions. For instance, the following
 statement looks a bit like the axiom of choice---well-known as
-a cornerstore of *classical* foundations of mathematics. Hence it
-should not be provable in standard Agda, which by default is constructive.
-However, it is:
+a cornerstone of *classical* foundations of mathematics. One would therefore
+not expect it to be provable in standard Agda, which is constructive by default.
+And yet it is:
 
 ```
 kinda-looking-like-the-axiom-of-choice
@@ -119,7 +119,7 @@ kinda-looking-like-the-axiom-of-choice p
 
 With our definitions, a witness of a statement "∀x:A. ∃y:B. R x y" is already
 a function inputting an element `x : A` and outputting a pair consisting of
-a suitable element `y : A` and a witness of `R x y`. Transforming such a witness
+a suitable element `y : B` and a witness of `R x y`. Transforming such a witness
 into a choice function is just a matter of repackaging the provided information;
 formulated with specified existence instead of mere existence, choice is not
 a principle with far-reaching consequences, but simply a constructive tautology.
@@ -171,11 +171,11 @@ inductive type would support the following stronger principle:
 
 The impredicative approximation to the true propositional truncation
 is definitely useful, though the restricted elimination principle is a
-serious limitation, especially in view of the fact that the truncation
+serious limitation, especially in view since the truncation
 itself does not live in the base universe; nested applications of
 our approximation will run into issues.
 
-Another (quite embarassing) deficiency of our approximation to
+Another (quite embarrassing) deficiency of our approximation to
 propositional truncation is that it fails to produce a
 proposition. Function extensionality would be required for
 `isProp (∥ A ∥)`.
@@ -193,15 +193,14 @@ open import Padova2025.ProvingBasics.Negation
 
 In general, we cannot deduce specified existence of an element `x : A`
 such that `B x` from mere existence of such an element; specified
-existence is much stronger. But there are exceptional situations where
-we can explicitly reconstruct a suitable element `x` from the mere
-knowledge of the existence such an element. Let us explore one
-such situation here.
+existence is much stronger. But in some exceptional situations we
+can explicitly reconstruct a witness `x` from the mere knowledge
+that one exists. Let us explore one such situation here.
 
 
 ### The decidable case
 
-As a warmup, let us show `∥ A ∥ → A` in case that `A` is decidable.
+As a warmup, let us show `∥ A ∥ → A` when `A` is decidable.
 
 ```
 decidable-escape : {A : Set} → Dec A → ∥ A ∥ → A
@@ -216,7 +215,7 @@ decidable-escape A? f with A?
 
 A *root* of a function `f : ℕ → Bool` is a number `n` such that `f n ≡ false`.
 From mere existence of a root `x` we can find, by checking each number
-`x` in turn, the minimal root. Unlike an arbitrary root, the minimal
+up to `x` in turn, the minimal root. Unlike an arbitrary root, the minimal
 root is unique; this is what allows us to go from mere existence to
 specified existence.
 
@@ -259,7 +258,7 @@ mere-implies-specified B? p with ∥∥-elim (ΣMin-isProp B?) (find-min B?) p
 ## Anonymous existence
 
 In addition to specified existence and mere existence, there is also
-*doubly negated existence*, sometimes dubbed *anonymous existence* or
+*doubly negated existence*, sometimes called *anonymous existence* or
 *classical existence*. (But be aware that "anonymous existence" also
 sometimes refers to mere existence.)
 
@@ -267,7 +266,7 @@ Among these three, anonymous existence is the weakest notion.
 A value of type `¬ ¬ (Σ[ x ∈ A ] B x)` is just a witness that it is
 impossible that no `x` with `B x` exists. Such a witness promises
 that such an element exists (somewhere, in the platonic heaven?)
-without disclosing any way to find it.
+without revealing any way to find it.
 
 ```
 ∥∥→¬¬ : {A : Set} → ∥ A ∥ → ¬ ¬ A
