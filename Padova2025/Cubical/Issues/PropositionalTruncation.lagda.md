@@ -31,10 +31,9 @@ specified element `x : A` and a witness `p : B x`. So a witness does
 not only attest the fact that there merely is an element `x` such that
 `B x`. Instead, it also explicitly specifies one possible such
 element `x`. This is in contrast to the notion of existence from
-blackboard mathematics, which is less informative and does not
-disclose suitable elements.
+blackboard mathematics, which does not disclose a specified element.
 
-This makes a difference when using an existential assumption to
+This makes a difference when we use an existential assumption to
 construct mathematical objects. If the hypothesis is specified
 existence, the result of our construction may depend on `x`.
 If the hypothesis is mere existence, it may not.
@@ -182,29 +181,48 @@ proposition. Function extensionality would be required for
 `isProp (∥ A ∥)`.
 
 
-<!--
-
 ## Specified existence from mere existence
 
 ```
-open import Padova2025.Cubical.Issues.FunctionExtensionality
 open import Padova2025.ProgrammingBasics.Booleans
 open import Padova2025.ProgrammingBasics.Operators
+open import Padova2025.ProvingBasics.Connectives.More
+open import Padova2025.ProvingBasics.Connectives.Disjunction
+open import Padova2025.ProvingBasics.Negation
 ```
 
 In general, we cannot deduce specified existence of an element `x : A`
 such that `B x` from mere existence of such an element; specified
 existence is much stronger. But there are exceptional situations where
 we can explicitly reconstruct a suitable element `x` from the mere
-knowledge of the existence such an element. One such situation is
-the following.
+knowledge of the existence such an element. Let us explore one
+such situation here.
 
-Let `A` be the type of natural numbers and let `B : ℕ → Set`
-be a decidable proposition. Then from mere existence of a number `x`
-such that `B x` we can find, by checking each number up to `x`
-in turn, the minimal such number. Unlike an arbitrary witness,
-the minimum is unique; this is what allows us to go from mere
-existence to specified existence.
+
+### The decidable case
+
+As a warmup, let us show `∥ A ∥ → A` in case that `A` is decidable.
+
+```
+decidable-escape : {A : Set} → Dec A → ∥ A ∥ → A
+-- Holify
+decidable-escape A? f with A?
+... | yes p  = p
+... | no  ¬p = ⊥-elim (∥∥-elim (λ ()) ¬p f)
+```
+
+
+### Roots of functions
+
+A *root* of a function `f : ℕ → Bool` is a number `n` such that `f n ≡ false`.
+From mere existence of a root `x` we can find, by checking each number
+`x` in turn, the minimal root. Unlike an arbitrary root, the minimal
+root is unique; this is what allows us to go from mere existence to
+specified existence.
+
+TODO
+
+<!--
 
 ```
 falseUpTo? : (B? : ℕ → Bool) → ℕ → Bool
@@ -240,4 +258,19 @@ mere-implies-specified B? p with ∥∥-elim (ΣMin-isProp B?) (find-min B?) p
 
 ## Anonymous existence
 
-TODO
+In addition to specified existence and mere existence, there is also
+*doubly negated existence*, sometimes dubbed *anonymous existence* or
+*classical existence*. (But be aware that "anonymous existence" also
+sometimes refers to mere existence.)
+
+Among these three, anonymous existence is the weakest notion.
+A value of type `¬ ¬ (Σ[ x ∈ A ] B x)` is just a witness that it is
+impossible that no `x` with `B x` exists. Such a witness promises
+that such an element exists (somewhere, in the platonic heaven?)
+without disclosing any way to find it.
+
+```
+∥∥→¬¬ : {A : Set} → ∥ A ∥ → ¬ ¬ A
+-- Holify
+∥∥→¬¬ f p = ∥∥-elim (λ ()) p f
+```
