@@ -12,5 +12,6 @@ import Padova2025.VerifiedAlgorithms
 import Padova2025.Cubical  -- local people: comment this out if you don't have the cubical library
 import Padova2025.Explorations
 import Padova2025.ComputationalContent
+import Padova2025.Recreational
 ```
 -->

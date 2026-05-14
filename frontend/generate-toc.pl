@@ -68,19 +68,6 @@ sub visit {
   die "--$module--" unless $print_title;
   $print_title->(0);
 
-  if($level == 0) {
-    print <<EOF;
-      <li>
-        <input id="nav-recreational" type="checkbox">
-        <label for="nav-recreational">Recreational mathematics</label>
-        <ol>
-          <li>Fun with the axiom of choice</li>
-          <li>The final digit of Graham's number</li>
-        </ol>
-      </li>
-EOF
-  }
-
   if($childs) {
     print "  " x $level, "</ol>";
   }
