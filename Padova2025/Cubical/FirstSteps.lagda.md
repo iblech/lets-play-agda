@@ -64,7 +64,9 @@ inductively-defined type we have been using all along:
 
 ```
 open import Padova2025.ProvingBasics.Equality.Base renaming (_≡_ to _≡ᵢ_)
+```
 
+```
 ≡ᵢ→≡ : {X : Set} {a b : X} → a ≡ᵢ b → a ≡ b
 -- Holify
 ≡ᵢ→≡ refl = refl'
