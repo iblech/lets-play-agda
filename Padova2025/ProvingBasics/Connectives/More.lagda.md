@@ -92,6 +92,23 @@ _++ᴬ_ : {A : Set} {P : A → Set} {xs ys : List A} → All P xs → All P ys �
 ```
 
 
+## Any distributes over append
+
+```
+Any-++-left : {A : Set} {P : A → Set} {xs : List A} {ys : List A} → Any P xs → Any P (xs ++ ys)
+-- Holify
+Any-++-left (here  p) = here p
+Any-++-left (there v) = there (Any-++-left v)
+```
+
+```
+Any-++-right : {A : Set} {P : A → Set} {xs : List A} {ys : List A} → Any P ys → Any P (xs ++ ys)
+-- Holify
+Any-++-right {xs = []}     any = any
+Any-++-right {xs = x ∷ xs} any = there (Any-++-right any)
+```
+
+
 ## Exercise: De Morgan's laws
 
 Related to the exercise [on De Morgan's
