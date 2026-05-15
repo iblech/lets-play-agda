@@ -68,6 +68,30 @@ tabulate (x ∷ xs) f = f (here refl) ∷ tabulate xs (λ in-xs → f (there in-
 ```
 
 
+## All distributes over append
+
+```
+All-++-left : {A : Set} {P : A → Set} {ys : List A} (xs : List A) → All P (xs ++ ys) → All P xs
+-- Holify
+All-++-left []       _        = []
+All-++-left (_ ∷ xs) (p ∷ ps) = p ∷ All-++-left xs ps
+```
+
+```
+All-++-right : {A : Set} {P : A → Set} {ys : List A} (xs : List A) → All P (xs ++ ys) → All P ys
+-- Holify
+All-++-right []       ps       = ps
+All-++-right (_ ∷ xs) (_ ∷ ps) = All-++-right xs ps
+```
+
+```
+infixr 5 _++ᴬ_
+_++ᴬ_ : {A : Set} {P : A → Set} {xs ys : List A} → All P xs → All P ys → All P (xs ++ ys)
+[]       ++ᴬ ps' = {--}ps'{--}
+(p ∷ ps) ++ᴬ ps' = {--}p ∷ (ps ++ᴬ ps'){--}
+```
+
+
 ## Exercise: De Morgan's laws
 
 Related to the exercise [on De Morgan's
