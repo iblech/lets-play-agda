@@ -100,6 +100,7 @@ __DATA__
 ∙ .
 ∶ :
 ⊝ o-
+⊤ top
 ⊥ bot
 ⋰ rddots
 ⋱ ddots
@@ -107,6 +108,7 @@ __DATA__
 │ vbar
 ╱ ---
 ╲ ---
+▷ rhd
 ◂ t
 ⟨ <
 ⟩ >

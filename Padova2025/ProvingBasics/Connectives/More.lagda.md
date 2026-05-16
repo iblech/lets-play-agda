@@ -110,6 +110,15 @@ Any-++-right {xs = []}     any = any
 Any-++-right {xs = x ∷ xs} any = there (Any-++-right any)
 ```
 
+```
+∈-concat
+  : {A : Set} {x : A} {xs : List A} {xss : List (List A)}
+  → x ∈ xs → xs ∈ xss → x ∈ concat xss
+-- Holify
+∈-concat x∈xs (here  refl) = Any-++-left  x∈xs
+∈-concat x∈xs (there xs∈)  = Any-++-right (∈-concat x∈xs xs∈)
+```
+
 
 ## Exercise: De Morgan's laws
 

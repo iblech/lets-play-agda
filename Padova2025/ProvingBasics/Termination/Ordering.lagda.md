@@ -164,6 +164,32 @@ max-inflationaryᵣ (succ a) (succ b) = s≤s (max-inflationaryᵣ a b)
 +-monotone (s≤s p) q       = succ-monotone (+-monotone p q)
 ```
 
+```
++-inflationaryₗ : (a b : ℕ) → a ≤ a + b
+-- Holify
++-inflationaryₗ zero     b = z≤n
++-inflationaryₗ (succ a) b = s≤s (+-inflationaryₗ a b)
+```
+
+```
++-inflationaryᵣ : (a b : ℕ) → b ≤ a + b
+-- Holify
++-inflationaryᵣ a b = +-monotone {zero} {b} {a} {b} z≤n ≤-refl
+```
+
+
+## Exercise: Maximum of a list
+
+```
+maximum : List ℕ → ℕ
+maximum []       = zero
+maximum (x ∷ xs) = max x (maximum xs)
+
+maximum-≥ : (k : ℕ) (xs : List ℕ) → k ∈ xs → k ≤ maximum xs
+maximum-≥ k (x ∷ xs) (here  refl) = max-inflationaryₗ x (maximum xs)
+maximum-≥ k (x ∷ xs) (there p)    = ≤-trans (maximum-≥ k xs p) (max-inflationaryᵣ x (maximum xs))
+```
+
 
 ## Exercise: Halving
 

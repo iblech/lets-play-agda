@@ -111,6 +111,22 @@ _++_ (x ∷ xs) ys = x ∷ (xs ++ ys)
 ```
 
 
+## Exercise: Flattening
+
+Define a function which flattens a list of lists into a single list:
+
+```
+concat : {A : Set} → List (List A) → List A
+-- Holify
+concat []         = []
+concat (xs ∷ xss) = xs ++ concat xss
+
+-- Tests
+-- EX: concat ((zero ∷ []) ∷ []) ≡ zero ∷ []
+-- EX: concat ((zero ∷ one ∷ []) ∷ (two ∷ three ∷ []) ∷ []) ≡ zero ∷ one ∷ two ∷ three ∷ []
+```
+
+
 ## Exercise: Dropping initial elements
 
 For instance, `drop one (a ∷ b ∷ c ∷ [])` should evaluate to `b ∷ c ∷ []`.
