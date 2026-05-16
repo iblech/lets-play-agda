@@ -154,16 +154,19 @@ module Stage2 (R : Normalizer ℕ ℝ) (p : Player) (their-box-contents : Stage1
   open Normalizer R
   open Stage1 p
 
-  lane : (q : Player) → q ≢ p → Config
-  lane q q≢p x = their-box-contents (q , q≢p , x)
-
   known-bad-lane-indices : (q : Player) → List ℕ
   known-bad-lane-indices q with q ≡? p
   ... | yes _   = []
-  ... | no  q≢p = fst (rep≗* (lane q q≢p))
+  ... | no  q≢p = fst (rep≗* lane)
+    where
+    lane : Config
+    lane i = their-box-contents (q , q≢p , i)
+
+  total-known-bad-lane-indices : List ℕ
+  total-known-bad-lane-indices = concat (tabulate-Fin known-bad-lane-indices)
 
   M : ℕ
-  M = maximum (concat (tabulate-Fin known-bad-lane-indices))
+  M = maximum total-known-bad-lane-indices
 
   J : Set
   J = Σ[ m ∈ ℕ ] m ≢ succ M
@@ -211,67 +214,56 @@ assemble R p =
   in  guess (pack p (succ M)) not-opened our-guess
 ```
 
+
+## Correctness
+
 ```
 module Correctness (R : Normalizer ℕ ℝ) (c : Config) where
   open Normalizer R
 
   module PlayerView (p : Player) where
     open Stage1 p public
+    their-box-contents : I → ℝ
     their-box-contents = c ∘ their-box-indices
 
-    open Stage2 R p their-box-contents hiding (lane) public
+    open Stage2 R p their-box-contents public
+    our-box-contents : J → ℝ
     our-box-contents = c ∘ our-box-indices
 
     open Stage3 R p their-box-contents our-box-contents public
 
   lane : Player → Config
-  lane q m = c (pack q m)
+  lane p = c ∘ pack p
 
-  bad-lane-indices : Player → List ℕ
-  bad-lane-indices q = fst (rep≗* (lane q))
-
-  loses : Player → Set
-  loses p = succ M ∈ bad-lane-indices p
+  rep-is-truthful : Player → Set
+  rep-is-truthful p = rep (lane p) (succ M) ≡ (lane p) (succ M)
     where open PlayerView p
 
-  bad-list-≢ : (p q : Player) → q ≢ p → PlayerView.known-bad-lane-indices p q ≡ bad-lane-indices q
-  bad-list-≢ p q q≢p with q ≡? p
-  ... | yes q≡p = ⊥-elim (q≢p q≡p)
-  ... | no  _   = refl
+  truthful-causes-win : (p : Player) → rep-is-truthful p → guessesCorrectly (assemble R p) c
+  truthful-causes-win p eq = trans (respects (insert-≗* (succ M) (lane p) dummy) (succ M)) eq
+    where open PlayerView p
 
   in-bad-list
-    : (p p' : Player) → p ≢ p' → (x : ℕ) → x ∈ bad-lane-indices p
+    : (p p' : Player) → p ≢ p' → (x : ℕ) → rep (lane p) x ≢ lane p x
     → x ∈ PlayerView.known-bad-lane-indices p' p
-  in-bad-list p p' p≢p' x x∈bad =
-    subst (x ∈_) (sym (bad-list-≢ p' p p≢p')) x∈bad
+  in-bad-list p p' p≢p' x neq with p ≡? p'
+  ... | yes p≡p' = ⊥-elim (p≢p' p≡p')
+  ... | no _     = ∨-not₂ (∨-comm (snd (rep≗* (lane p)) x)) neq
 
-  bound : (p p' : Player) → p ≢ p' → loses p → succ (PlayerView.M p) ≤ PlayerView.M p'
-  bound p p' p≢p' p-l =
-    maximum-≥ _ _
-      (∈-concat (in-bad-list p p' p≢p' _ p-l)
-                (∈-tabulate-Fin _ p))
+  bound : (p p' : Player) → p ≢ p' → ¬ rep-is-truthful p → succ (PlayerView.M p) ≤ PlayerView.M p'
+  bound p p' p≢p' p-l = maximum-≥ _ _ (∈-concat (in-bad-list p p' p≢p' (succ (PlayerView.M p)) p-l) (∈-tabulate-Fin _ p))
 
-  one-loser : (p p' : Player) → loses p → loses p' → p ≡ p'
+  one-loser : (p p' : Player) → ¬ rep-is-truthful p → ¬ rep-is-truthful p' → p ≡ p'
   one-loser p p' p-l p'-l with p ≡? p'
   ... | yes p≡p' = p≡p'
   ... | no  p≢p' = ⊥-elim (<-irreflexive'' (bound p p' p≢p' p-l) (bound p' p (p≢p' ∘ sym) p'-l))
 
-  incorrect-loses : (q : Player) → ¬ guessesCorrectly (assemble R q) c → loses q
-  incorrect-loses q ¬gc with snd (rep≗* (lane q)) (succ (PlayerView.M q))
-  ... | right ∈  = ∈
-  ... | left  eq = ⊥-elim (¬gc goal)
-    where
-    open PlayerView q
+  correct : (p p' : Player) → ¬ guessesCorrectly (assemble R p) c → ¬ guessesCorrectly (assemble R p') c → p ≡ p'
+  correct p p' ¬gc-p ¬gc-p' =
+    one-loser p p' (contraposition (truthful-causes-win p) ¬gc-p) (contraposition (truthful-causes-win p') ¬gc-p')
 
-    mostly-identical : mostly-our-lane ≗* lane q
-    mostly-identical = insert-≗* (succ M) (lane q) dummy
-
-    goal : rep mostly-our-lane (succ M) ≡ c (pack q (succ M))
-    goal = trans (respects mostly-identical (succ M)) eq
-
-  correct : (q q' : Player) → ¬ guessesCorrectly (assemble R q) c → ¬ guessesCorrectly (assemble R q') c → q ≡ q'
-  correct q q' ¬gc-q ¬gc-q' =
-    one-loser q q' (incorrect-loses q ¬gc-q) (incorrect-loses q' ¬gc-q')
+theorem : (R : Normalizer ℕ ℝ) → isSuccessful (assemble R)
+theorem R c = Correctness.correct R c
 ```
 
 TODO
