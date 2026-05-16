@@ -9,6 +9,8 @@ module Padova2025.ProvingBasics.Connectives.More where
 open import Padova2025.ProgrammingBasics.Lists
 open import Padova2025.ProvingBasics.Negation
 open import Padova2025.ProvingBasics.Equality.Base
+open import Padova2025.ProvingBasics.Equality.General
+open import Padova2025.ProvingBasics.Connectives.Existential
 ```
 
 The predicate `All P xs` expresses that `P` holds for all elements of the list
@@ -232,3 +234,69 @@ find P? (x ∷ xs) with P? x | find P? xs
 ... | no ¬px  | left  q = left  (there q)
 ... | no ¬px  | right q = right (¬px ∷ q)
 ```
+
+
+## Almost everywhere equal functions
+
+Two functions are deemed *almost everywhere equal* iff they differ only on
+finitely many inputs
+
+```
+_≗*_ : {X Y : Set} → (X → Y) → (X → Y) → Set
+f ≗* g = Σ[ xs ∈ List _ ] ((x : _) → f x ≡ g x ⊎ x ∈ xs)
+```
+
+Pointwise equal functions are equal almost everywhere:
+
+```
+≗→≗* : {X Y : Set} {f g : X → Y} → f ≗ g → f ≗* g
+-- Holify
+≗→≗* p = [] , λ x → left (p x)
+```
+
+The relation `_≗*_` is indeed an equivalence relation by the following lemmas.
+
+```
+≗*-refl : {X Y : Set} {f : X → Y} → f ≗* f
+-- Holify
+≗*-refl = [] , λ x → left refl
+```
+
+```
+≗*-sym : {X Y : Set} {f g : X → Y} → f ≗* g → g ≗* f
+-- Holify
+≗*-sym (xs , p) = xs , λ x → ∨-map sym (λ z → z) (p x)
+```
+
+```
+≗*-trans : {X Y : Set} {f g h : X → Y} → f ≗* g → g ≗* h → f ≗* h
+-- Holify
+≗*-trans {X} {Y} {f} {g} {h} (xs , p) (xs' , p') = xs ++ xs' , go
+  where
+  go : (x : X) → f x ≡ h x ⊎ x ∈ xs ++ xs'
+  go x with p x | p' x
+  ... | left eq    | left eq'    = left (trans eq eq')
+  ... | left _     | right x∈xs' = right (Any-++-right x∈xs')
+  ... | right x∈xs | _           = right (Any-++-left  x∈xs)
+```
+
+We will also use the occasion to define the notion of a *normalizer*
+for functions `X → Y`. A normalizer picks for each `_≗*_`-equivalence class
+a representative. Such normalizers exist by the axiom of choice
+(which we will occasionally assume, to explore its consequences).
+
+TODO explain records
+
+```
+record Normalizer (X Y : Set) : Set where
+  field
+    rep      : (X → Y) → (X → Y)
+    rep≗*    : (f : X → Y) → rep f ≗* f
+    respects : {f g : X → Y} → f ≗* g → rep f ≗ rep g
+```
+
+Unpacking: `rep` is the representative-picking function; `rep≗*`
+says that what `rep` picks always lies in the same
+equivalence class as its input; and `respects` is the
+defining property of a choice function, stating that `rep` returns the
+same representative for any two `_≗*_`-equivalent configurations.

@@ -62,14 +62,6 @@ Config : Set
 Config = Player → Color
 ```
 
-Two configurations are deemed *almost identical* iff they differ only on
-finitely many players:
-
-```
-_≈_ : Config → Config → Set
-c ≈  c' = Σ[ ps ∈ List Player ] ((p : Player) → c p ≡ c' p ⊎ p ∈ ps)
-```
-
 A *blinded configuration* (for a specific player `p`) is a function
 which maps every player, with the exception of `p`, to a color:
 
@@ -109,22 +101,17 @@ run s c p = s p (blind p c)
 ```
 
 Finally, we can formalize the notion of a *successful team strategy*.
+The relation `_≗*_` used in the following definition is defined in
+[Padova2025.ProvingBasics.Connectives.More](Padova2025.ProvingBasics.Connectives.More.html#_≗*_)
+and expresses that two configurations differ only on finitely many players.
 
 ```
 isSuccessful : TeamStrategy → Set
-isSuccessful s = (c : Config) → run s c ≈ c
+isSuccessful s = (c : Config) → run s c ≗* c
 ```
 
 
 ## Some observations
-
-Pointwise equal configurations are almost identical:
-
-```
-≗→≈ : {c c' : Config} → c ≗ c' → c ≈ c'
--- Holify
-≗→≈ f = [] , λ p → left (f p)
-```
 
 Given a blinded configuration and a color, we obtain a full configuration:
 
@@ -139,7 +126,7 @@ Unblinding a blinded configuration with an arbitrary color will result in an alm
 identical configuration:
 
 ```
-unblind-blind : (c : Config) (x : Color) (p : Player) → unblind p (blind p c) x ≈ c
+unblind-blind : (c : Config) (x : Color) (p : Player) → unblind p (blind p c) x ≗* c
 -- Holify
 unblind-blind c x p = p ∷ [] , go
   where
@@ -149,54 +136,17 @@ unblind-blind c x p = p ∷ [] , go
   ... | right q≢p = left  refl
 ```
 
-The relation `_≈_` is indeed an equivalence relation by the following lemmas.
-
-```
-≈-refl : {c : Config} → c ≈ c
--- Holify
-≈-refl = [] , λ p → left refl
-```
-
-```
-≈-sym : {c c' : Config} → c ≈ c' → c' ≈ c
--- Holify
-≈-sym (ps , f) = ps , λ p → ∨-map sym (λ z → z) (f p)
-```
-
-```
-≈-trans : {c c' c'' : Config} → c ≈ c' → c' ≈ c'' → c ≈ c''
--- Holify
-≈-trans {c} {c'} {c''} (ps , f) (ps' , f') = ps ++ ps' , go
-  where
-  go : (p : Player) → c p ≡ c'' p ⊎ p ∈ ps ++ ps'
-  go p with f p | f' p
-  ... | left eq    | left eq'    = left (trans eq eq')
-  ... | left _     | right p∈ps' = right (Any-++-right p∈ps')
-  ... | right p∈ps | _           = right (Any-++-left  p∈ps)
-```
-
 
 ## A successful strategy
 
 Spoiler alert.
 
 ::: More :::
-Let us partition the type of configurations into equivalence classes according to `_≈_`.
+Let us partition the type of configurations into equivalence classes according to `_≗*_`.
 By the axiom of choice, there is a choice function picking representatives for
 each class. Reformulating this without explicitly referring to equivalence classes,
-the axiom of choice concocts a value of the following type.
-
-```
-Normalizer : Set
-Normalizer = Σ[ rep ∈ (Config → Config) ]
-  ((c : Config) → rep c ≈ c) × ({c c' : Config} → c ≈ c' → rep c ≗ rep c')
-```
-
-Unpacking: `rep` is the representative-picking function; the first
-conjunct says that what `rep` picks always lies in the same
-equivalence class as its input; and the second conjunct is the
-defining property of a choice function, stating that `rep` returns the
-same representative for any two `_≈_`-equivalent configurations.
+the axiom of choice concocts a value of the type
+[`Normalizer Player Color`](Padova2025.ProvingBasics.Connectives.More.html#Normalizer).
 
 ::: More :::
 With a shared such choice function at hand, we can assemble a
@@ -219,10 +169,11 @@ assembleStrategy r p bc = r (unblind p bc dummy) p
 ```
 
 ```
-correct : (r : Normalizer) → isSuccessful (assembleStrategy (fst r))
+correct : (r : Normalizer Player Color) → isSuccessful (assembleStrategy (Normalizer.rep r))
 -- Holify
-correct (rep , rep≈ , respects) c = ≈-trans (≗→≈ run≗r) (rep≈ c)
+correct r c = ≗*-trans (≗→≗* run≗r) (rep≗* c)
   where
+  open Normalizer r
   run≗r : run (assembleStrategy rep) c ≗ rep c
   run≗r p = respects (unblind-blind c dummy p) p
 ```
