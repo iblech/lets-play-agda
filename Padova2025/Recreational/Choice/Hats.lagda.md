@@ -18,7 +18,7 @@ module Padova2025.Recreational.Choice.Hats
   where
 ```
 
-# The infinite hat problem
+# The infinite hats problem
 
 An evil monster puts hats of various colors on infinitely many
 dwarves. Each dwarf can see (and cognitively process) the hat colors
