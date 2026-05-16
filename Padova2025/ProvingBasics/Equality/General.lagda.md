@@ -73,6 +73,7 @@ equal→pwequal : {A B : Set} {f g : A → B} {x : A} → f ≡ g → f x ≡ g 
 equal→pwequal refl = refl
 ```
 
+
 ## Exercise: Identity of indiscernibles
 
 Identical values have all their properties in common: If `F : A → Set` is a
