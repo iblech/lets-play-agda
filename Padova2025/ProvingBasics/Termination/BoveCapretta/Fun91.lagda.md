@@ -75,15 +75,9 @@ observe-termination (succ gas) n with ≤-<-connex n 20
   just (le20 n≤20 p q)
 ```
 
-```
-collect : {P : ℕ → Set} → ((n : ℕ) → Maybe (P n)) → (n : ℕ) → Maybe (All P (downFrom n))
--- Holify
-collect observe zero     = just []
-collect observe (succ n) = do
-  xs ← collect observe n
-  p  ← observe n
-  just (p ∷ xs)
-```
+For the following hole, the [`collect` function from
+Padova2025.ProvingBasics.Termination.Gas](Padova2025.ProvingBasics.Termination.Gas.html#collect)
+is useful.
 
 ```
 empirical-fact : All Def (downFrom 21)

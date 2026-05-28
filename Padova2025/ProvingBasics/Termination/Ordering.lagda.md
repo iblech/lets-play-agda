@@ -117,6 +117,22 @@ call.
 ... | right (right a>b) = right (right (s≤s a>b))
 ```
 
+```
+dec-≤ : (a b : ℕ) → Dec (a ≤ b)
+-- Holify
+dec-≤ zero     b = yes z≤n
+dec-≤ (succ a) zero = no λ ()
+dec-≤ (succ a) (succ b) with dec-≤ a b
+... | yes a≤b  = yes (s≤s a≤b)
+... | no  ¬a≤b = no λ { (s≤s a≤b) → ¬a≤b a≤b }
+```
+
+```
+dec-< : (a b : ℕ) → Dec (a < b)
+-- Holify
+dec-< a b = dec-≤ (succ a) b
+```
+
 
 ## Exercise: Ordering properties of several functions
 

@@ -43,6 +43,16 @@ x ∉ xs = ¬ (x ∈ xs)
 ```
 
 
+## Exercise:
+
+```
+satisfied : {A : Set} {P : A → Set} {xs : List A} → Any P xs → Σ[ x ∈ A ] P x
+-- Holify
+satisfied (here  px)  = _ , px
+satisfied (there pxs) = satisfied pxs
+```
+
+
 ## Exercise: All and Any as functors
 
 ```
@@ -242,6 +252,19 @@ find P? (x ∷ xs) with P? x | find P? xs
 ... | yes px  | _       = left  (here px)
 ... | no ¬px  | left  q = left  (there q)
 ... | no ¬px  | right q = right (¬px ∷ q)
+```
+
+
+### Decidability of `All`
+
+```
+dec-All : {A : Set} {P : A → Set} → ((x : A) → Dec (P x)) → (xs : List A) → Dec (All P xs)
+-- Holify
+dec-All P? [] = yes []
+dec-All P? (x ∷ xs) with P? x | dec-All P? xs
+... | yes px  | yes pxs  = yes (px ∷ pxs)
+... | yes px  | no  ¬pxs = no λ { (_  ∷ pxs) → ¬pxs pxs }
+... | no  ¬px | _        = no λ { (px ∷ _)   → ¬px px   }
 ```
 
 

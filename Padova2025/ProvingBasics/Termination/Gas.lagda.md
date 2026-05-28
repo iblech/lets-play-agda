@@ -179,6 +179,41 @@ example-digits-computation = from-just (digits₃' five)
 Put `from-just (digits₃' five)` in the hole;
 then observe, using `C-c C-v`, that `example-digits-computation` is `three`.
 
+This `from-just` mechanism is more than a convenience: We can use it to turns a partial
+decision procedure into a fully verified statement at type-checking time.
+Fun applications of `from-just` (and of `collect` below) are given in our explorations of
+[the 91 function](Padova2025.ProvingBasics.Termination.BoveCapretta.Fun91.html)
+and [Bertrand's postulate](Padova2025.Explorations.Bertrand.html),
+where we verify certain claims purely empirically.
+
+
+
+### Extracting finitely many results at once
+
+```
+open import Padova2025.ProvingBasics.Connectives.More
+```
+
+```
+collect : {P : ℕ → Set} → ((n : ℕ) → Maybe (P n)) → (n : ℕ) → Maybe (All P (downFrom n))
+-- Holify
+collect observe zero     = just []
+collect observe (succ n) = do
+  xs ← collect observe n
+  p  ← observe n
+  just (p ∷ xs)
+```
+
+
+### From decidability to partial decidability
+
+```
+Dec→Maybe : {A : Set} → Dec A → Maybe A
+-- Holify
+Dec→Maybe (yes x) = just x
+Dec→Maybe (no  _) = nothing
+```
+
 
 ## Exercise: Division and modulo
 

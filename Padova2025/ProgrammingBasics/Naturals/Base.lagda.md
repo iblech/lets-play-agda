@@ -46,6 +46,9 @@ four = succ three
 
 five : ℕ
 five = succ four
+
+ten : ℕ
+ten = succ (succ (succ (succ (succ (succ (succ (succ (succ (succ zero)))))))))
 ```
 
 ::: Aside :::
