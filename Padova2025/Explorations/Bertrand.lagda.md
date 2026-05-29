@@ -118,8 +118,21 @@ bertrand? n with n ≟ zero | find' (bertrand₀? n) (downFrom (succ (twice n)))
 
 ## Empirically observing the claim
 
-With the partial decision procedure `bertrand?` at hand, we can collect all
-the positive verdicts into an `All` structure.
+We would like to prove the following result.
+
+```code
+claim : (n : ℕ) → n < 427 → BertrandClaim n
+```
+
+The function `bertrand?` computes for an arbitrary input `n` a value
+of type `Maybe (BertrandClaim n)`, and -- by Bertrand's postulate --
+these values will in fact all be of the form `just _`. Agda can verify
+this fact for each particular number `n`, by blithely evaluating
+`bertrand? n`, but we can neither strip away the `just` constructor in
+the general case of a variable `n : ℕ`.
+
+To proceed, we first collect all the positive verdicts of the partical
+decision procedure for the first 427 numbers into an `All` structure.
 
 ```
 claim? : Maybe (All BertrandClaim (downFrom ten))
@@ -128,12 +141,19 @@ claim? = collect bertrand? ten
 ```
 
 We don't supply a reason that `claim?` is of the form `just _`.
-But it is, and Agda will verify this (by blithely evaluating it) when
+But it is, and Agda will verify this single fact when
 we put `claim?` in the following hole:
 
 ```
 empirical-fact : All BertrandClaim (downFrom ten)
 empirical-fact = from-just {--}claim?{--}
+```
+
+We can then use this structure to prove the claim.
+
+```
+claim : (n : ℕ) → n < ten → BertrandClaim n
+claim n n<10 = lookup empirical-fact n<10
 ```
 
 To explore this further, put your favorite number below ten
@@ -146,7 +166,7 @@ fav : ℕ
 fav = {--}four{--}
 
 example : BertrandClaim fav
-example = lookup empirical-fact fav<ten
+example = claim fav fav<ten
   where
   fav<ten = {--}from-just (Dec→Maybe (dec-< fav ten)){--}
 ```
