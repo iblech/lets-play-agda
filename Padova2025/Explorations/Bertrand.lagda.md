@@ -33,6 +33,7 @@ but hard to read [full proof](https://github.com/Deducteam/matita_lib_in_agda/bl
 was offered by Thiago Felicissimo and Frédéric Blanqui, as a [case
 study in mechanically translating proofs in the impredicative Matita
 system to predicative Agda](https://arxiv.org/abs/2308.15465).)
+
 First, let's formalize the claim.
 
 
@@ -43,16 +44,16 @@ First, let's formalize the claim.
 _∣_ : ℕ → ℕ → Set
 a ∣ b = b % a ≡ zero
 -- An alternative (and perhaps better) formulation would be:
--- dec-∣ a b = Σ[ k ∈ ℕ ] b ≡ k · a
+-- a | b = Σ[ k ∈ ℕ ] b ≡ k · a
 
 -- `IsPrime p` expresses that `p` is a prime number.
 IsPrime : ℕ → Set
-IsPrime p = p ≥ two × All (λ k → k > zero → k ∣ p → k ≡ one) (downFrom p)
+IsPrime p = (p ≥ two) × All (λ k → k > zero → k ∣ p → k ≡ one) (downFrom p)
 
 -- `BertrandClaim n` expresses that there is a prime number which is
--- more than `n` and at most `2 · n` (or alternatively that `n` is zero).
+-- greater than `n` and at most `2 · n` (or alternatively that `n` is zero).
 BertrandClaim : ℕ → Set
-BertrandClaim n = n ≡ zero ⊎ ∃[ p ] n < p × p ≤ twice n × IsPrime p
+BertrandClaim n = (n ≡ zero) ⊎ ∃[ p ] (n < p × p ≤ twice n × IsPrime p)
 ```
 
 
@@ -65,7 +66,7 @@ these are all decidable. But in the following, we sometimes settle
 for *partial decision procedures*, functions which either
 return a witness or leave the matter undecided. We do this both
 to cut down on the number of proof obligations and for fun,
-to explore this approximative version of decidability.
+to explore this approximation of decidability.
 
 ```
 dec-∣ : (a b : ℕ) → Dec (a ∣ b)
@@ -128,11 +129,13 @@ The function `bertrand?` computes for an arbitrary input `n` a value
 of type `Maybe (BertrandClaim n)`, and -- by Bertrand's postulate --
 these values will in fact all be of the form `just _`. Agda can verify
 this fact for each particular number `n`, by blithely evaluating
-`bertrand? n`, but we can neither strip away the `just` constructor in
-the general case of a variable `n : ℕ`.
+`bertrand? n`, but (in Agda with `--safe`) we cannot strip away the `just`
+constructor in the general case of a variable `n : ℕ`, there is no function
+`unsafeFromJust : {A : Set} → Maybe A → A`.
 
-To proceed, we first collect all the positive verdicts of the partical
-decision procedure for the first 427 numbers into an `All` structure.
+To proceed, we first [collect](Padova2025.ProvingBasics.Termination.Gas.html#collect)
+all the positive verdicts of the partial decision procedure for the first 427
+numbers into an `All` structure.
 
 ```
 claim? : Maybe (All BertrandClaim (downFrom ten))
@@ -158,7 +161,7 @@ claim n n<10 = lookup empirical-fact n<10
 
 To explore this further, put your favorite number below ten
 into the hole below and then press `C-c C-v` to run `example`,
-obtaining a printout of a prime number which is more than your
+obtaining a printout of a prime number which is greater than your
 number and at most twice your number.
 
 ```
