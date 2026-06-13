@@ -86,7 +86,7 @@ outrageous = ?
 It is instructive to understand why this is the case. At the end of the day,
 for constructing an inhabitant of the type `one ≡ zero`, we will need to use a
 constructor of this type. But the only constructor is `refl`. This constructor
-only provides us with elements of types of the for `x ≡ x`, where the two sides
+only provides us with elements of types for `x ≡ x`, where the two sides
 are literally the same. But `succ zero` is (by definition) a freshly-minted new
 natural number, distint from `zero`.
 

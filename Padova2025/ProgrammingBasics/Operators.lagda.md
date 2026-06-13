@@ -34,7 +34,7 @@ and true  true  = true
 From blackboard mathematics, we might have expected the type signature to read
 `and : Bool × Bool → Bool`. For now, let us not worry about this issue and just
 accept the displayed syntax as Agda's way of introducing functions with two
-parameters. We will later meet a a [satisfying
+parameters. We will later meet a [satisfying
 explanation](https://en.wikipedia.org/wiki/Currying).
 :::
 
