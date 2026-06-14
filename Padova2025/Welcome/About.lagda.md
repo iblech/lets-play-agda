@@ -40,7 +40,9 @@ and later [Matthias Ritter](https://mathoverflow.net/users/166281/matthias-hutzl
 
 Pull requests were contributed by:
 
+- Taylor Belcher
 - Matteo Cusin
+- @joha2
 - Maja Kądziołka
 
 These helped to substantially improve the presentation of this course.
