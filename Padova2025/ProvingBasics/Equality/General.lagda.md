@@ -38,8 +38,8 @@ sym refl = refl
 
 ## Exercise: Congruence
 
-In blackboard mathematics, we have the basic result that an equation remain true
-if the same operation is applied to its two sides: If $x = y$, then also $f(x) = f(x)$.
+In blackboard mathematics, we have the basic result that an equation remains true
+if the same operation is applied to its two sides: If $x = y$, then also $f(x) = f(y)$.
 In Agda, we have a function which transformed values of type `x ≡ y` into
 values of type `f x ≡ f y`:
 
