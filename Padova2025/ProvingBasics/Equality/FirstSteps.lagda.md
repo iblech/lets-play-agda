@@ -88,7 +88,7 @@ for constructing an inhabitant of the type `one ≡ zero`, we will need to use a
 constructor of this type. But the only constructor is `refl`. This constructor
 only provides us with elements of types for `x ≡ x`, where the two sides
 are literally the same. But `succ zero` is (by definition) a freshly-minted new
-natural number, distint from `zero`.
+natural number, distinct from `zero`.
 
 The only way to fill in this hole would be to change the definition of `≡`. For
 instance, we could add a constructor `bailout`:
