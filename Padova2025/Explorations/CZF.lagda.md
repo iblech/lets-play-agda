@@ -362,7 +362,7 @@ Make this explorable in a submodule
 
 ## Set-theoretic ordinal numbers
 
-A set `x` is called *transitive** iff `a ∈ b ∈ x` implies `a ∈ x`:
+A set `x` is called *transitive* iff `a ∈ b ∈ x` implies `a ∈ x`:
 
 ```
 Transitive : V → Set₁
