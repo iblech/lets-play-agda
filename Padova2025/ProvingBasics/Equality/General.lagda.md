@@ -130,8 +130,70 @@ _≗_ : {A B : Set} → (A → B) → (A → B) → Set
 f ≗ g = (x : _) → f x ≡ g x
 ```
 
-
 # TODO: with in exercise
+
+## With abstraction
+
+In some cases one needs to pattern match over a variable which its depends on the inputs
+a function. The [Agda documentation](https://agda.readthedocs.io/en/stable/language/with-abstraction.html)
+shows `filter` as an example.
+```
+module WithAbstraction where
+  open import Padova2025.ProgrammingBasics.Booleans
+  open import Padova2025.ProgrammingBasics.Lists
+  open import Padova2025.ProgrammingBasics.Naturals.Base
+
+  filter : {A : Set} → (A → Bool) → List A → List A
+  filter f [] = []
+  filter f (x ∷ xs) with f x
+  ... | false = filter f xs
+  ... | true  = x ∷ filter f xs
+```
+This `filter` implementation is very compact. The `with` removes the necessity of
+introducing an auxiliary function which has only the task to pattern match the
+`f x`. Now compare it to the implementation using an auxiliary function `aux`:
+```
+  filter' : {A : Set} → (A → Bool) → List A → List A
+  filter' f [] = []
+  filter' {A} f (x ∷ xs) = aux (f x)
+    where
+      aux : Bool → List A
+      aux false = filter f xs
+      aux true  = x ∷ filter f xs
+```
+It is much more boiler plate code.
+The following function demonstrates the `with` abstraction
+in a slightly trivial case:
+```
+  eq-to-bool : {A : Set} → (x y : A) → x ≡ y → Bool
+  eq-to-bool x y refl = true
+```
+The same could be done via `with` an pattern matching over `p`.
+The difference is, that after the `with` also a function of `p`
+would be possible. So it is more general than the original definition:
+```
+  eq-to-bool' : {A : Set} → (x y : A) → x ≡ y → Bool
+  eq-to-bool' x y p with p
+  ... | refl = true
+```
+The `aux` function has the same purpose as the `with`:
+```
+  eq-to-bool'' : {A : Set} → (x y : A) → x ≡ y → Bool
+  eq-to-bool'' x y p = aux p
+    where
+      aux : x ≡ y → Bool
+      aux refl = true
+```
+Also nested `with`s are possible
+```
+  show-with-nested : {A : Set} → (x y : List A) → Bool
+  show-with-nested x y with length x | length y
+  ... | succ (succ zero)  | succ zero  = true
+  ... | _                 | _          = false
+```
+Notice, that the order of the `with` abstractions matter and also notice that an overall nested
+`with` is different to an additional `with` in one of the cases. `with` is particularily useful
+for constructing counter examples in negations.
 
 ::: Aside :::
 Let us switch the [`with ... in ...` syntactic
@@ -140,4 +202,5 @@ on.
 ```
 {-# BUILTIN EQUALITY _≡_ #-}
 ```
+
 :::
