@@ -138,6 +138,10 @@ In some cases one needs to pattern match over a variable which its depends on th
 a function. The [Agda documentation](https://agda.readthedocs.io/en/stable/language/with-abstraction.html)
 shows `filter` as an example.
 ```
+{-# BUILTIN EQUALITY _≡_ #-}
+```
+
+```
 module WithAbstraction where
   open import Padova2025.ProgrammingBasics.Booleans
   open import Padova2025.ProgrammingBasics.Lists
@@ -195,12 +199,36 @@ Notice, that the order of the `with` abstractions matter and also notice that an
 `with` is different to an additional `with` in one of the cases. `with` is particularily useful
 for constructing counter examples in negations.
 
+A with abstraction in a function definition makes a with abstraction in a proof about this
+function necessary. The type in the step-case is `filter f (filter f (x ∷ xs) | f x) ≡ (filter f (x ∷ xs) | f x)` which means that we need a with abstraction over `f x` in this case.
+
+The following example is also shown in the documentation and it is slightly more complicated
+than anticipated:
+```
+  filter-idem : {A : Set} →
+                (p : A → Bool) → (xs : List A) → (filter p (filter p xs)) ≡ (filter p xs)
+  filter-idem f [] = refl
+  filter-idem f (x ∷ xs) with f x in eq
+  ... | false = filter-idem f xs
+```
+The documentation shows that the second part could simply be proven by using a `rewrite`
+```
+--  ... | true rewrite eq = {!!} -- trivial
+```
+but the `rewrite` has to be explained: With `in` after the `f x` we generate an equation `eq`
+in every `with` clause, in our case `eq : f x ≡ false` or `eq : f x ≡ true`. For this we needed
+the compiler pragma `{-# BUILTIN EQUALITY ≡ #-}` above. In the `false` case `eq` is not needed,
+because we can trivially use the induction hypothesis as the element `x` is removed. The `true`
+case is more complicated: The inner expression in `(filter f (...) | f x)` is now
+`x ∷ filter f xs`. But to complete the proof, we need `x ∷_` outside of it. We are in the `true`
+case of the `with` abstraction but have to re-establish the `f x` is still true. Therefore, we
+have to perform another `with`. The documentation tells that (TODO: P(b + a) → P(a + b) example).
+```
+  ... | true with f x  | eq
+  ... |          .true | refl = cong (x ∷_) (filter-idem f xs)
+```
 ::: Aside :::
 Let us switch the [`with ... in ...` syntactic
 sugar](https://agda.readthedocs.io/en/stable/language/with-abstraction.html#with-abstraction-equality)
 on.
-```
-{-# BUILTIN EQUALITY _≡_ #-}
-```
-
 :::
