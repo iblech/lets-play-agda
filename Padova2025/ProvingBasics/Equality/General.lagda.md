@@ -213,20 +213,28 @@ than anticipated:
 ```
 The documentation shows that the second part could simply be proven by using a `rewrite`
 ```
---  ... | true rewrite eq = {!!} -- trivial
+--  ... | true rewrite eq = cong (x ∷_) (filter-idem f xs)
 ```
 but the `rewrite` has to be explained: With `in` after the `f x` we generate an equation `eq`
-in every `with` clause, in our case `eq : f x ≡ false` or `eq : f x ≡ true`. For this we needed
+in every `with` clause, in our case `eq : f x ≡ false` and `eq : f x ≡ true`. For this we needed
 the compiler pragma `{-# BUILTIN EQUALITY ≡ #-}` above. In the `false` case `eq` is not needed,
 because we can trivially use the induction hypothesis as the element `x` is removed. The `true`
 case is more complicated: The inner expression in `(filter f (...) | f x)` is now
 `x ∷ filter f xs`. But to complete the proof, we need `x ∷_` outside of it. We are in the `true`
 case of the `with` abstraction but have to re-establish the `f x` is still true. Therefore, we
-have to perform another `with`. The documentation tells that (TODO: P(b + a) → P(a + b) example).
+have to perform another `with`. This is due to the fact that the outer `f x` is only seen after
+we have established that the inner `f x` is true. `f x` cannot be generalized over (which means
+substituted by a variable where we may case split), since it already has the value `true`.
+Therefore, we need to use a dot pattern `.true`. But from this alone, Agda is not convinced
+that this is actually true. We have to with-abstract over `eq` with the case `refl`
+simultaneously.
 ```
   ... | true with f x  | eq
   ... |          .true | refl = cong (x ∷_) (filter-idem f xs)
 ```
+This construction appears quite often in proofs and therefore is abbreviated by
+`rewrite` above.
+
 ::: Aside :::
 Let us switch the [`with ... in ...` syntactic
 sugar](https://agda.readthedocs.io/en/stable/language/with-abstraction.html#with-abstraction-equality)
