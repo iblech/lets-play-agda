@@ -130,14 +130,113 @@ _≗_ : {A B : Set} → (A → B) → (A → B) → Set
 f ≗ g = (x : _) → f x ≡ g x
 ```
 
-
 # TODO: with in exercise
+
+## With abstraction
+
+In some cases one needs to pattern match over a variable which its depends on the inputs
+a function. The [Agda documentation](https://agda.readthedocs.io/en/stable/language/with-abstraction.html)
+shows `filter` as an example.
+```
+{-# BUILTIN EQUALITY _≡_ #-}
+```
+
+```
+module WithAbstraction where
+  open import Padova2025.ProgrammingBasics.Booleans
+  open import Padova2025.ProgrammingBasics.Lists
+  open import Padova2025.ProgrammingBasics.Naturals.Base
+
+  filter : {A : Set} → (A → Bool) → List A → List A
+  filter f [] = []
+  filter f (x ∷ xs) with f x
+  ... | false = filter f xs
+  ... | true  = x ∷ filter f xs
+```
+This `filter` implementation is very compact. The `with` removes the necessity of
+introducing an auxiliary function which has only the task to pattern match the
+`f x`. Now compare it to the implementation using an auxiliary function `aux`:
+```
+  filter' : {A : Set} → (A → Bool) → List A → List A
+  filter' f [] = []
+  filter' {A} f (x ∷ xs) = aux (f x)
+    where
+      aux : Bool → List A
+      aux false = filter f xs
+      aux true  = x ∷ filter f xs
+```
+It is much more boiler plate code.
+The following function demonstrates the `with` abstraction
+in a slightly trivial case:
+```
+  eq-to-bool : {A : Set} → (x y : A) → x ≡ y → Bool
+  eq-to-bool x y refl = true
+```
+The same could be done via `with` an pattern matching over `p`.
+The difference is, that after the `with` also a function of `p`
+would be possible. So it is more general than the original definition:
+```
+  eq-to-bool' : {A : Set} → (x y : A) → x ≡ y → Bool
+  eq-to-bool' x y p with p
+  ... | refl = true
+```
+The `aux` function has the same purpose as the `with`:
+```
+  eq-to-bool'' : {A : Set} → (x y : A) → x ≡ y → Bool
+  eq-to-bool'' x y p = aux p
+    where
+      aux : x ≡ y → Bool
+      aux refl = true
+```
+Also nested `with`s are possible
+```
+  show-with-nested : {A : Set} → (x y : List A) → Bool
+  show-with-nested x y with length x | length y
+  ... | succ (succ zero)  | succ zero  = true
+  ... | _                 | _          = false
+```
+Notice, that the order of the `with` abstractions matter and also notice that an overall nested
+`with` is different to an additional `with` in one of the cases. `with` is particularily useful
+for constructing counter examples in negations.
+
+A with abstraction in a function definition makes a with abstraction in a proof about this
+function necessary. The type in the step-case is `filter f (filter f (x ∷ xs) | f x) ≡ (filter f (x ∷ xs) | f x)` which means that we need a with abstraction over `f x` in this case.
+
+The following example is also shown in the documentation and it is slightly more complicated
+than anticipated:
+```
+  filter-idem : {A : Set} →
+                (p : A → Bool) → (xs : List A) → (filter p (filter p xs)) ≡ (filter p xs)
+  filter-idem f [] = refl
+  filter-idem f (x ∷ xs) with f x in eq
+  ... | false = filter-idem f xs
+```
+The documentation shows that the second part could simply be proven by using a `rewrite`
+```
+--  ... | true rewrite eq = cong (x ∷_) (filter-idem f xs)
+```
+but the `rewrite` has to be explained: With `in` after the `f x` we generate an equation `eq`
+in every `with` clause, in our case `eq : f x ≡ false` and `eq : f x ≡ true`. For this we needed
+the compiler pragma `{-# BUILTIN EQUALITY ≡ #-}` above. In the `false` case `eq` is not needed,
+because we can trivially use the induction hypothesis as the element `x` is removed. The `true`
+case is more complicated: The inner expression in `(filter f (...) | f x)` is now
+`x ∷ filter f xs`. But to complete the proof, we need `x ∷_` outside of it. We are in the `true`
+case of the `with` abstraction but have to re-establish the `f x` is still true. Therefore, we
+have to perform another `with`. This is due to the fact that the outer `f x` is only seen after
+we have established that the inner `f x` is true. `f x` cannot be generalized over (which means
+substituted by a variable where we may case split), since it already has the value `true`.
+Therefore, we need to use a dot pattern `.true`. But from this alone, Agda is not convinced
+that this is actually true. We have to with-abstract over `eq` with the case `refl`
+simultaneously.
+```
+  ... | true with f x  | eq
+  ... |          .true | refl = cong (x ∷_) (filter-idem f xs)
+```
+This construction appears quite often in proofs and therefore is abbreviated by
+`rewrite` above.
 
 ::: Aside :::
 Let us switch the [`with ... in ...` syntactic
 sugar](https://agda.readthedocs.io/en/stable/language/with-abstraction.html#with-abstraction-equality)
 on.
-```
-{-# BUILTIN EQUALITY _≡_ #-}
-```
 :::
