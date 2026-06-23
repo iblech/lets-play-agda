@@ -116,6 +116,14 @@ _≢_ : {X : Set} → X → X → Set
 a ≢ b = ¬ (a ≡ b)
 ```
 
+Inequality is symmetric:
+
+```
+≢-sym : {X : Set} {a b : X} → a ≢ b → b ≢ a
+-- Holify
+≢-sym p = λ eq → p (sym eq)
+```
+
 
 ## Pointwise equality
 

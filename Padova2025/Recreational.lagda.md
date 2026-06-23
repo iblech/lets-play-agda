@@ -8,4 +8,5 @@ module Padova2025.Recreational where
 ```
 import Padova2025.Recreational.Choice
 import Padova2025.Recreational.Graham
+import Padova2025.Recreational.Hanoi
 ```
