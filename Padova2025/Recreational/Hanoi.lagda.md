@@ -45,7 +45,6 @@ unified into a single artefact.
 For a vector `xs` and a predicate `P`, the type `All P xs` expresses that every
 element of the vector `xs` satisfies `P`. An inhabitant of `All P xs` is a list
 of suitable witnesses.
-
 The following definition is lifted straight from
 [Padova2025.ProvingBasics.Connectives.More](Padova2025.ProvingBasics.Connectives.More.html#All),
 where we discussed the same notion but for lists instead of vectors.
@@ -74,8 +73,8 @@ data Peg : Set where
   C : Peg
 ```
 
-A configuration of $n$ disks is a vector of pegs of length $n$, with the $i$'th
-entry telling us on which peg the $i$'th disk is placed. We don't need to
+A configuration of $n$ disks is a vector of pegs of length $n$, with the $i$-th
+entry telling us on which peg the $i$-th disk is placed. We don't need to
 record the disk's position within its peg, as it is uniquely determined by the
 size requirement anyway. (But we will need to impose a size-related restriction
 when formalizing the notion of a valid move.)
@@ -107,7 +106,7 @@ data Move : {n : ℕ} → Config n → Config n → Set where
     → Move (p ∷ c) (p ∷ c')
 ```
 
-A (valid) play is a sequence of (valid) moves. We track the start and end
+A (valid) play is a sequence of (valid) moves. We track the starting and ending
 configuration directly in the type signature.
 
 ```
@@ -146,8 +145,9 @@ We can concatenate sequences of moves.
 ```
 infixr 5 _◅◅_
 _◅◅_ : {X : Set} {P : X → X → Set} {a b c : X} → Star P a b → Star P b c → Star P a c
-ε        ◅◅ ys = ys
-(x ◅ xs) ◅◅ ys = x ◅ (xs ◅◅ ys)
+-- Holify
+_◅◅_ ε        ys = ys
+_◅◅_ (x ◅ xs) ys = x ◅ (xs ◅◅ ys)
 ```
 
 We can translate a play in the $n$-disk subgame without the largest disk to a
@@ -158,6 +158,7 @@ the whole, leaving everything else untouched.
 
 ```
 frame : {n : ℕ} (p : Peg) {c c' : Config n} → Play c c' → Play (p ∷ c) (p ∷ c')
+-- Holify
 frame p ε        = ε
 frame p (m ◅ ms) = there m ◅ frame p ms
 ```
@@ -181,6 +182,13 @@ third C C p≢p' = ⊥-elim (p≢p' refl)
 
 ## Formalization of the solution
 
+Given distinct pegs `source`, `target` and `auxiliary`, the following
+function produces a play which, starting from the configuration that all disks
+are on `source`, moves them to `target`. No separate correctness proof is
+needed -- correctness is already established by the types.
+(The strategy outlined in the comments is optimal, though this is neither
+stated nor proven.)
+
 ```
 solve₀
   : {n : ℕ} → (source target auxiliary : Peg)
@@ -202,6 +210,9 @@ solve₀ {succ n} source target auxiliary s≢t s≢a t≢a =
   t≢s = ≢-sym s≢t
 ```
 
+With just a bit more work, we can show that every (valid) configuration is
+reachable from any other:
+
 ```
 solve : {n : ℕ} → (c c' : Config n) → Play c c'
 solve []      []        = {--}ε{--}
@@ -213,12 +224,25 @@ solve (p ∷ c) (p' ∷ c') with p ≡? p'
   in
   -- Step 1: Move the topmost n disks to the auxiliary peg.
   {--}frame p (solve c mid){--} ◅◅
-  -- Step 2: Move the now-exposed (n + 1)'th disk to where it belongs.
+  -- Step 2: Move the now-exposed (n + 1)-th disk to where it belongs.
   {--}here p p' p≢p' (all-replicateV q≢p,p'){--} ◅
   -- Step 3: Move the parked disks to where they belong.
   {--}frame p' (solve mid c'){--}
 ```
 
+Again, correctness is ensured by the types. (But unlike `solve₀`, the function
+`solve` does not always compute optimal plays.)
+
+Time to run our proofs! Put, for instance, `replicateV three A` and `replicateV
+three C` in the two holes in the type signature and `solve _ _` into the
+remaining hole below. Then use `C-c C-v` to run `example` and observe the
+resulting sequence of moves. (The output will be a bit littered by inequality
+witnesses.)
+
+```
+example : Play {--}(replicateV three A){--} {--}(replicateV three C){--}
+example = {--}solve _ _{--}
+```
 
 <!--
 ## Pretty-printing plays
