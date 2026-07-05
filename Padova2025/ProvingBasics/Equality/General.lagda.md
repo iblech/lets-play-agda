@@ -137,7 +137,7 @@ f ≗ g = (x : _) → f x ≡ g x
 In some cases one needs to pattern match over a variable which depends
 on the inputs of a function. To do this, one can either introduce an
 auxiliary function with `where` or `let` and do another pattern matching
-there or one case use the `with` syntactic sugar. The latter is subject
+there or one can use the `with` syntactic sugar. The latter is subject
 of the following section.
 ```
 {-# BUILTIN EQUALITY _≡_ #-}
@@ -163,7 +163,10 @@ the predicate is `false`. Let's first do that by avoiding syntactic sugar:
 The induction case needs the function `aux` to pattern match over `f x`.
 This is very much boiler plate code, i.e. the function type and the
 function definition with its case splitting, which's only purpose is to
-pattern match `f x`. Now we will introduce the `with` keyword to avoid this stuff.
+pattern match `f x`. We also have to make the implicit argument `A : Set`
+visible to be able to write down the type signature of `aux`.
+
+Now we will introduce the `with` keyword to avoid this stuff.
 ```
   filter : {A : Set} → (A → Bool) → List A → List A
   filter f [] = []
