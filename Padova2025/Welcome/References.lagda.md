@@ -8,6 +8,10 @@
 * [A practical Agda tutorial](https://people.inf.elte.hu/divip/AgdaTutorial/Index.html) -- by Péter Diviánszky and Ambrus Kaposi
 * [Correct-by-construction programming in Agda](https://jespercockx.github.io/ohrid19-agda/) -- by Jesper Cockx
 * [More on the double-negation translation](https://www.speicherleck.de/iblech/stuff/slides-fischbachau2022.pdf)
+* [Interactive Theorem Proving](https://p8.cs.fau.de/itp/) -- by Thorsten Wißmann
+* [1Lab](https://1lab.dev/) -- by Amélia Liao and collaborators
+* [TypeTopology](https://martinescardo.github.io/TypeTopology/) -- by Martín Escardó and collaborators
+
 
 <!--
 ```
