@@ -237,8 +237,8 @@ The necessary type in the induction case is
 which means that we need a `with` abstraction over `f x`.
 Notice, that on the left-hand side only the inner `filter` has an additional
 `| f x` part. This means Agda is stuck here and does not know whether the
-inner `filter`ed list is `[]` or `x ∷ xs`, because only in the `x ∷ xs`
-case the `with` abstraction is necessary.
+inner `filter`ed list is `filter f xs` or `x ∷ (filter f xs)`, because only
+in the `x ∷ (filter f xs)` case the `with` abstraction is necessary.
 ```
   filter-idem f (x ∷ xs) with f x in eq
 ```
