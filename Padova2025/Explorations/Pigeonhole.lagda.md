@@ -12,7 +12,7 @@ open import Padova2025.ProvingBasics.Equality.Base
 open import Padova2025.ProvingBasics.Equality.General
 open import Padova2025.ProvingBasics.Equality.NaturalNumbers
 open import Padova2025.ProvingBasics.Connectives.More
-open import Padova2025.ProvingBasics.Termination.Ordering
+open import Padova2025.ProvingBasics.Termination.Ordering hiding (lookup)
 ```
 
 The primary goal of this module is to state and give a direct proof of
@@ -71,12 +71,25 @@ We can collect the image of a function `Fin n → A` into a list:
 
 ```
 tabulate-Fin : {A : Set} {n : ℕ} → (Fin n → A) → List A
+-- Holify
 tabulate-Fin {n = zero}   f = []
 tabulate-Fin {n = succ n} f = f fzero ∷ tabulate-Fin (λ x → f (fsucc x))
+```
 
+```
 ∈-tabulate-Fin : {A : Set} {n : ℕ} (f : Fin n → A) (x : Fin n) → f x ∈ tabulate-Fin f
+-- Holify
 ∈-tabulate-Fin f fzero     = here refl
 ∈-tabulate-Fin f (fsucc x) = there (∈-tabulate-Fin (λ y → f (fsucc y)) x)
+```
+
+And we can use elements of `Fin n` for indexing elements of lists of length `n`:
+
+```
+lookup : {A : Set} → (xs : List A) → Fin (length xs) → A
+-- Holify
+lookup (x ∷ xs) fzero     = x
+lookup (x ∷ xs) (fsucc i) = lookup xs i
 ```
 
 TODO finish, incorporating the work of Jacopo Piccione
