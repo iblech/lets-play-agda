@@ -7,10 +7,10 @@ let
 in
 
 {
-  services.journald.extraConfig = ''
-    Storage=volatile
-    RuntimeMaxUse=20M
-  '';
+  services.journald.settings.Journal = {
+    Storage = "volatile";
+    RuntimeMaxUse = "1M";
+  };
 
   time.hardwareClockInLocalTime = true;
   networking.firewall.enable = false;
