@@ -4,7 +4,6 @@ set -e
 
 export quick="$1"
 export commit_id="$(cat COMMIT_ID || echo main)"
-export AGDA_DIR=$PWD/backend/config-agda
 
 mkdir -p cache
 

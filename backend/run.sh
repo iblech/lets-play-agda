@@ -37,7 +37,6 @@ exec bwrap \
   --ro-bind "$1"/_build /home/user/_build.orig \
   --ro-bind "$1"/padova2025.agda-lib /home/user/padova2025.agda-lib \
   --ro-bind "$1"/backend/site-start.el /home/user/.emacs \
-  --ro-bind "$1"/backend/config-agda /home/user/.config/agda \
   --ro-bind "$1"/backend/hello.txt /home/user/.hello.txt \
   --ro-bind "$1"/backend/extract-block.pl /home/user/.extract-block.pl \
   bash -c '

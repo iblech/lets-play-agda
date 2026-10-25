@@ -11,7 +11,7 @@ stdenvNoCC.mkDerivation rec {
   installPhase = ''
     mkdir -p $out/bin
     ls -laR $out
-    agdabin=$(< ${agdaWithPackages}/bin/agda cut -d'"' -f2 | grep agda)
+    agdabin=$(< ${agdaWithPackages}/bin/agda cut -d'"' -f2 | grep bin/agda)
     cp $agdabin $out/bin/.agda-bin
     cp ${agdaWithPackages}/bin/agda $out/bin
     sed -i -e "s+$agdabin+$out/bin/.agda-bin+" -e "s+--with-compiler=[^ ]*++" $out/bin/agda

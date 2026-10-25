@@ -13,7 +13,7 @@ stdenv.mkDerivation rec {
     echo ${lib.escapeShellArg commit-id} > COMMIT_ID
     # no --safe or --cubical-compatible here, as we want people to be
     # able to play around with unsafe features
-    AGDA_DIR=backend/config-agda agda Padova2025/Index.lagda.md
+    agda Padova2025/Index.lagda.md
   '';
   patchPhase = ''
     patchShebangs .
